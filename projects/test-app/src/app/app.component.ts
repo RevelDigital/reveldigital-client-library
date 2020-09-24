@@ -20,6 +20,9 @@ export class AppComponent implements OnInit {
 
   constructor(public client: PlayerClientService) {
 
+    this.client.onCommand$.subscribe((cmd) => {
+      console.log(`Got command: ${cmd.name}, ${cmd.arg}`);
+    });
   }
 
   ngOnInit(): void {
@@ -59,6 +62,7 @@ export class AppComponent implements OnInit {
     this.client.getRevelRoot().then((res) => {
       this.revelRoot = res;
     })
+
   }
 
   sendCommand() {
@@ -69,5 +73,10 @@ export class AppComponent implements OnInit {
   trackEvent() {
 
     this.client.track("test", { "a": "b" });
+  }
+
+  callback() {
+
+    this.client.callback('test');
   }
 }

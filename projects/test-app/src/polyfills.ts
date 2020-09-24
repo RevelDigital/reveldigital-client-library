@@ -73,3 +73,17 @@ import 'zone.js/dist/zone';  // Included with Angular CLI.
  * APPLICATION IMPORTS
  */
 (window as any).global = window;
+
+interface IController {
+    onCommand(name: string, arg: string): void;
+}
+
+interface IRevelDigital {
+    Controller: IController;
+}
+
+declare global {
+    interface Window {
+        RevelDigital: IRevelDigital;
+    }
+}

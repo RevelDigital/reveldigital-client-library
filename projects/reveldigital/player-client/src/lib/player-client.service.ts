@@ -1,4 +1,5 @@
 import { Injectable, OptionalDecorator } from '@angular/core';
+import { Subject } from 'rxjs';
 
 
 // So that TypeScript doesn't complain, we're going to augment the GLOBAL / WINDOW 
@@ -40,6 +41,10 @@ export interface EventProperties {
   [key: string]: any;
 }
 
+export interface Command {
+  name: string;
+  arg: string;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -48,7 +53,19 @@ export class PlayerClientService {
 
   private clientPromise: Promise<Client> | null;
 
+  public onCommand$ = new Subject<Command>();
+  
   constructor() {
+
+    let self = this;
+    (window as any).RevelDigital = {
+      Controller: {
+        onCommand: function (name: string, arg: string) {
+          self.onCommand$.next({ name: name, arg: arg});
+        }
+      }
+    }
+
     this.clientPromise = null;
   }
 
