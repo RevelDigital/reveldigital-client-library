@@ -21,7 +21,16 @@ registerLocaleData(localeRu);
     PlayerClientModule
   ],
   providers: [
-    { provide: LOCALE_ID, useValue: "fr" },
+    {
+      provide: LOCALE_ID,
+      useFactory: () => {
+        try {
+          return new gadgets.Prefs().getLang();
+        } catch {
+          return 'en';
+        }
+      }
+    },
     { provide: APP_BASE_HREF, useValue: '/gadgets/ifr' }
   ],
   bootstrap: [AppComponent]
