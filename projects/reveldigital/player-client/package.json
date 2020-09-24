@@ -1,0 +1,16 @@
+{
+  "name": "@reveldigital/player-client",
+  "version": "0.0.1",
+  "description": "Helper library for interfacing with the Revel Digital player",
+  "author": {
+    "name": "Mike Tinnes"
+  },
+  "license": "",
+  "peerDependencies": {
+    "@angular/common": "^10.0.14",
+    "@angular/core": "^10.0.14"
+  },
+  "dependencies": {
+    "tslib": "^2.0.0"
+  }
+}
