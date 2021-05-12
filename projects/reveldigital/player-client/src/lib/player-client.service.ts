@@ -28,6 +28,8 @@ export interface Client {
 
   sendCommand(name: string, arg: string): void;
 
+  sendRemoteCommand(deviceKeys: string[], name: string, arg: string): void;
+
   track(eventName: string, properties?: string): void;
 
   timeEvent(eventName: string): void;
@@ -146,6 +148,13 @@ export class PlayerClientService {
     this.getClient().then((client) => {
       client.sendCommand(name, arg);
     })
+  }
+
+  public sendRemoteCommand(deviceKeys: string[], name: string, arg: string): void {
+  
+    this.getClient().then((client) => {
+      client.sendRemoteCommand(deviceKeys, name, arg);
+    });
   }
 
   public track(eventName: string, properties?: EventProperties): void {
@@ -289,6 +298,11 @@ class NoopClient implements Client {
   }
 
   public sendCommand(name: string, arg: string): void {
+
+    // NOOP implement, nothing to do....
+  }
+
+  public sendRemoteCommand(deviceKeys: string[], name: string, arg: string) {
 
     // NOOP implement, nothing to do....
   }

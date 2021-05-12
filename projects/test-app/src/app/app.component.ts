@@ -17,6 +17,8 @@ export class AppComponent implements OnInit {
   langCode: any;
   deviceKey: any;
   revelRoot: any;
+  remoteDeviceKey: any;
+
 
   constructor(public client: PlayerClientService) {
 
@@ -68,6 +70,11 @@ export class AppComponent implements OnInit {
   sendCommand() {
 
     this.client.sendCommand("test", "it");
+  }
+
+  sendRemoteCommand() {
+
+    this.client.sendRemoteCommand([this.remoteDeviceKey], "test", "it");
   }
 
   trackEvent() {
