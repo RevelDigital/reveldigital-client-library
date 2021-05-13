@@ -1,4 +1,4 @@
-import { Injectable, OptionalDecorator } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 
 
@@ -56,14 +56,14 @@ export class PlayerClientService {
   private clientPromise: Promise<Client> | null;
 
   public onCommand$ = new Subject<Command>();
-  
+
   constructor() {
 
     let self = this;
     (window as any).RevelDigital = {
       Controller: {
         onCommand: function (name: string, arg: string) {
-          self.onCommand$.next({ name: name, arg: arg});
+          self.onCommand$.next({ name: name, arg: arg });
         }
       }
     }
@@ -151,7 +151,7 @@ export class PlayerClientService {
   }
 
   public sendRemoteCommand(deviceKeys: string[], name: string, arg: string): void {
-  
+
     this.getClient().then((client) => {
       client.sendRemoteCommand(deviceKeys, name, arg);
     });
