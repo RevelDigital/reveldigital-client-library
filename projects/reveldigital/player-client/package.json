@@ -1,6 +1,6 @@
 {
   "name": "@reveldigital/player-client",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Helper library for interfacing with the Revel Digital player",
   "repository": {
     "url": "https://github.com/RevelDigital/reveldigital-client-library"

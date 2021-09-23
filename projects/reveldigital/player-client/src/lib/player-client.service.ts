@@ -37,6 +37,8 @@ export interface Client {
   newEventSession(id?: string): void;
 
   getRevelRoot(): Promise<string>;
+
+  getCommandMap(): Promise<string>;
 }
 
 export interface EventProperties {
@@ -189,6 +191,21 @@ export class PlayerClientService {
     return client.getRevelRoot();
   }
 
+  public async getCommandMap(): Promise<any> {
+
+    const client = await this.getClient();
+
+    // return JSON.parse(await client.getCommandMap());
+
+    // let map = new Map<string, any>();
+
+    // let obj = JSON.parse(await client.getCommandMap());
+    // for (let key in obj) {
+    //   map.set(key, obj[key]);
+    // }
+    // return map;
+  }
+
   // ---
   // PRIVATE METHODS.
   // ---
@@ -325,5 +342,10 @@ class NoopClient implements Client {
   public async getRevelRoot(): Promise<string> {
 
     return Promise.resolve(null);
+  }
+
+  public async getCommandMap(): Promise<string> {
+
+    return Promise.resolve('{}');
   }
 }
