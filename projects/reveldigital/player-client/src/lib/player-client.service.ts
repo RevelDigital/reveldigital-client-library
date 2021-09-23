@@ -195,7 +195,7 @@ export class PlayerClientService {
 
     const client = await this.getClient();
 
-    // return JSON.parse(await client.getCommandMap());
+    return JSON.parse(await client.getCommandMap());
 
     // let map = new Map<string, any>();
 
