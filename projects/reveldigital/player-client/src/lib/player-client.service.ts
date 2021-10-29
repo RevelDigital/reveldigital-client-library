@@ -58,6 +58,8 @@ export class PlayerClientService {
   private clientPromise: Promise<Client> | null;
 
   public onCommand$ = new Subject<Command>();
+  public onStart$ = new Subject();
+  public onStop$ = new Subject();
 
   constructor() {
 
@@ -66,6 +68,12 @@ export class PlayerClientService {
       Controller: {
         onCommand: function (name: string, arg: string) {
           self.onCommand$.next({ name: name, arg: arg });
+        },
+        onStart: function () {
+          self.onStart$.next();
+        },
+        onStop: function() {
+          self.onStop$.next();
         }
       }
     }

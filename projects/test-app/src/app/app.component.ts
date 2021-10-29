@@ -24,7 +24,15 @@ export class AppComponent implements OnInit {
   constructor(public client: PlayerClientService) {
 
     this.client.onCommand$.subscribe((cmd) => {
-      console.log(`Got command: ${cmd.name}, ${cmd.arg}`);
+      console.log(`onCommand: ${cmd.name}, ${cmd.arg}`);
+    });
+
+    this.client.onStart$.subscribe(() => {
+      console.log("onStart");
+    });
+
+    this.client.onStop$.subscribe(() => {
+      console.log("onStop");
     });
   }
 
