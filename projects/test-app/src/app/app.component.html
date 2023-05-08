@@ -1,12 +1,13 @@
-<h2>Local Time: {{ localTime  | date:'medium' }}</h2>
-<h2>Device Time: {{ deviceTime  | date:'medium' }}</h2>
+<h2>State: {{ state }}</h2>
+<h2>Local Time: {{ localTime | date:'medium' }}</h2>
+<h2>Device Time: {{ deviceTime | date:'medium' }}</h2>
 <h2>Device TZ Name: {{ TZName }}</h2>
 <h2>Device TZ ID: {{ TZId }}</h2>
 <h2>Device TZ Offset: {{ TZOffset }}</h2>
 <h2>Device Language Code: {{ langCode }}</h2>
 <h2>Device Key: {{ deviceKey }}</h2>
 <h2>Revel Root: {{ revelRoot }}</h2>
-<h2>Command Map: {{ commandMap }}</h2>
+<h2>Command Map: {{ commandMap | json }}</h2>
 
 <button (click)="sendCommand()">Send Command</button>
 <button (click)="trackEvent()">Track Event</button>

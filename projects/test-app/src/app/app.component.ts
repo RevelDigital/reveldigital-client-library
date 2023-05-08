@@ -9,6 +9,7 @@ import { PlayerClientService } from '@reveldigital/player-client';
 export class AppComponent implements OnInit {
 
   title = 'test-app';
+  state = 'Not ready';
   localTime: any;
   deviceTime: any;
   TZName: any;
@@ -23,16 +24,23 @@ export class AppComponent implements OnInit {
 
   constructor(public client: PlayerClientService) {
 
+    this.client.onReady$.subscribe((val) => {
+      console.log(val ? 'Ready' : 'Not ready');
+      this.state = val ? 'Ready' : 'Not ready';
+    });
+
     this.client.onCommand$.subscribe((cmd) => {
       console.log(`onCommand: ${cmd.name}, ${cmd.arg}`);
     });
 
     this.client.onStart$.subscribe(() => {
       console.log("onStart");
+      this.state = 'Started';
     });
 
     this.client.onStop$.subscribe(() => {
       console.log("onStop");
+      this.state = 'Stopped';
     });
   }
 

@@ -1,5 +1,6 @@
-import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Injectable, NgZone, OnDestroy, OnInit } from '@angular/core';
+import { BehaviorSubject, fromEvent, Subject, Subscription } from 'rxjs';
+import { map, share, tap } from 'rxjs/operators';
 
 
 // So that TypeScript doesn't complain, we're going to augment the GLOBAL / WINDOW 
@@ -53,32 +54,82 @@ export interface Command {
 @Injectable({
   providedIn: 'root'
 })
-export class PlayerClientService {
+export class PlayerClientService implements OnDestroy {
 
   private clientPromise: Promise<Client> | null;
 
   public onCommand$ = new Subject<Command>();
+  public onReady$ = new BehaviorSubject(false);
   public onStart$ = new Subject();
   public onStop$ = new Subject();
 
-  constructor() {
+  //
+  // Two methods available for calling into the library:
+  //
+  // 1) Using dispatchEvent() with the following custom events
+  // 2) Using the window scoped RevelDigital object as defined in the constructor
+  //
+  private onStartSub: Subscription;
+  private onStartEvt$ = fromEvent(document, 'RevelDigital.Start').pipe(
+    share(),
+    tap(this.onStart$)
+  );
+  private onStopSub: Subscription;
+  private onStopEvt$ = fromEvent(document, 'RevelDigital.Stop').pipe(
+    share(),
+    tap(this.onStop$)
+  );
+  private onCommandSub: Subscription;
+  private onCommandEvt$ = fromEvent<Command>(document, 'RevelDigital.Command').pipe(
+    map((e: any) => { return { name: e.detail.name, arg: e.detail.arg } as Command }),
+    share(),
+    tap(this.onCommand$)
+  );
+
+  constructor(zone: NgZone) {
 
     let self = this;
     (window as any).RevelDigital = {
       Controller: {
         onCommand: function (name: string, arg: string) {
-          self.onCommand$.next({ name: name, arg: arg });
+          zone.run(() => {
+            self.onCommand$.next({ name: name, arg: arg });
+          });
         },
         onStart: function () {
-          self.onStart$.next();
+          zone.run(() => {
+            self.onStart$.next();
+          });
         },
-        onStop: function() {
-          self.onStop$.next();
+        onStop: function () {
+          zone.run(() => {
+            self.onStop$.next();
+          });
         }
       }
     }
 
+    this.onStartSub = this.onStartEvt$.subscribe(() => { });
+    this.onStopSub = this.onStopEvt$.subscribe(() => { });
+    this.onCommandSub = this.onCommandEvt$.subscribe(() => { });
+
     this.clientPromise = null;
+
+    this.onReady$.next(true);
+  }
+
+  ngOnDestroy(): void {
+
+    this.onStartSub?.unsubscribe();
+    this.onStopSub?.unsubscribe();
+    this.onCommandSub?.unsubscribe();
+
+    this.onReady$.next(false);
+  }
+
+  public static init(data: any) {
+
+    console.log("init()");
   }
 
   public callback(...args: any[]): void {
@@ -218,8 +269,6 @@ export class PlayerClientService {
   // PRIVATE METHODS.
   // ---
 
-  // I return a Promise that resolves with a Tracker API (which may be the 3rd-party
-  // library or a mock API representation).
   private getClient(): Promise<Client> {
 
     if (this.clientPromise) {
@@ -260,7 +309,6 @@ export class PlayerClientService {
             // present on the global scope, we're going to fall-back to using
             // a mock API.
             resolve(window.Client || new NoopClient());
-
           }
         );
 
