@@ -1,6 +1,6 @@
 import { Injectable, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { BehaviorSubject, fromEvent, Subject, Subscription } from 'rxjs';
-import { map, share, tap } from 'rxjs/operators';
+import { filter, map, share, tap } from 'rxjs/operators';
 
 
 // So that TypeScript doesn't complain, we're going to augment the GLOBAL / WINDOW 
@@ -40,6 +40,8 @@ export interface Client {
   getRevelRoot(): Promise<string>;
 
   getCommandMap(): Promise<string>;
+
+  finish(): void;
 }
 
 export interface EventProperties {
@@ -86,6 +88,18 @@ export class PlayerClientService implements OnDestroy {
     tap(this.onCommand$)
   );
 
+  // private onPostMessageSub: Subscription;
+  // private onPostMessageEvt$ = fromEvent(window, 'message').pipe(
+  //   filter((messageEvent: MessageEvent) =>
+  //     messageEvent.source !== window.parent &&
+  //     typeof messageEvent.data === 'string' &&
+  //     messageEvent.data.startsWith('reveldigital:')),
+  //   map((e: any) => { return JSON.parse(e.substring(13)) as Command }),
+  //   share(),
+  //   tap(this.onCommand$)
+  // );
+
+
   constructor(zone: NgZone) {
 
     let self = this;
@@ -129,7 +143,10 @@ export class PlayerClientService implements OnDestroy {
 
   public static init(data: any) {
 
-    console.log("init()");
+    console.log(
+      '%cInitializing Revel Digital client library',
+      'background-color: yellow; color:red;'
+    );
   }
 
   public callback(...args: any[]): void {
@@ -265,6 +282,13 @@ export class PlayerClientService implements OnDestroy {
     // return map;
   }
 
+  public finish(): void {
+
+    this.getClient().then((client) => {
+      client.finish();
+    })
+  }
+
   // ---
   // PRIVATE METHODS.
   // ---
@@ -332,7 +356,10 @@ class NoopClient implements Client {
 
   constructor() {
 
-    console.warn("Client API not available, falling back to mock API.");
+    console.log(
+      '%cClient API not available, falling back to mock API',
+      'background-color: yellow; color:red;'
+    );
   }
 
   public callback(...args: any[]): void {
@@ -342,7 +369,7 @@ class NoopClient implements Client {
 
   public getDeviceTime(date?: Date): Promise<string> {
 
-    return Promise.resolve(null);
+    return Promise.resolve(new Date().toISOString());
   }
 
   public async getDeviceTimeZoneName(): Promise<string> {
@@ -403,5 +430,10 @@ class NoopClient implements Client {
   public async getCommandMap(): Promise<string> {
 
     return Promise.resolve('{}');
+  }
+
+  public finish(): void {
+
+    // NOOP implement, nothing to do....
   }
 }

@@ -1,7 +1,7 @@
 {
   "name": "@reveldigital/player-client",
-  "version": "0.0.15",
-  "description": "Helper library for interfacing with the Revel Digital player",
+  "version": "0.0.16-beta.4",
+  "description": "Helper library for interfacing Angular apps with the Revel Digital player",
   "repository": {
     "url": "https://github.com/RevelDigital/reveldigital-client-library"
   },
@@ -11,7 +11,8 @@
   "license": "",
   "peerDependencies": {
     "@angular/common": "^13.0.0",
-    "@angular/core": "^13.0.0"
+    "@angular/core": "^13.0.0",
+    "js-yaml": "^4.1.0"
   },
   "dependencies": {
     "tslib": "^2.4.1"

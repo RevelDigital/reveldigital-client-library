@@ -20,6 +20,7 @@ export class AppComponent implements OnInit {
   revelRoot: any;
   remoteDeviceKey: any;
   commandMap: any;
+  prefs = new gadgets.Prefs();
 
 
   constructor(public client: PlayerClientService) {
@@ -105,5 +106,10 @@ export class AppComponent implements OnInit {
   callback() {
 
     this.client.callback('test');
+  }
+
+  finish() {
+
+    this.client.finish();
   }
 }
