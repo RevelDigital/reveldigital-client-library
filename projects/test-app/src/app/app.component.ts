@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PlayerClientService } from '@reveldigital/player-client';
 
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -20,11 +21,18 @@ export class AppComponent implements OnInit {
   revelRoot: any;
   remoteDeviceKey: any;
   commandMap: any;
-  prefs = new gadgets.Prefs();
+  prefs: any;
+  style: any;
+
+  //prefs = new gadgets.Prefs();
 
 
   constructor(public client: PlayerClientService) {
 
+    this.prefs = client.getPrefs();
+    
+    this.style = this.prefs.getString('myStylePref');
+    
     this.client.onReady$.subscribe((val) => {
       console.log(val ? 'Ready' : 'Not ready');
       this.state = val ? 'Ready' : 'Not ready';

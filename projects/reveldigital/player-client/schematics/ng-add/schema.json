@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "$id": "RevelDigitalSchematicsNgAdd",
+  "title": "Revel Digital client library schematic",
+  "type": "object",
+  "additionalProperties": false,
+  "description": "Creates Revel Digital client library config files and adds dependencies.",
+  "properties": {
+    "project": {
+      "type": "string",
+      "description": "The name of the project.",
+      "$default": {
+        "$source": "projectName"
+      }
+    },
+    "useGithubPages": {
+        "type": "boolean",
+        "x-prompt": "Publishing this gadget to GitHub pages?"
+    }
+  },
+  "required": [
+    "project"
+  ]
+}

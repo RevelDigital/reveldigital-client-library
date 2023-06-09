@@ -1,6 +1,7 @@
-import { Injectable, NgZone, OnDestroy, OnInit } from '@angular/core';
+import { Injectable, NgZone, OnDestroy } from '@angular/core';
 import { BehaviorSubject, fromEvent, Subject, Subscription } from 'rxjs';
-import { filter, map, share, tap } from 'rxjs/operators';
+import { map, share, tap } from 'rxjs/operators';
+import { gadgets } from '@reveldigital/gadget-types';
 
 
 // So that TypeScript doesn't complain, we're going to augment the GLOBAL / WINDOW 
@@ -112,12 +113,12 @@ export class PlayerClientService implements OnDestroy {
         },
         onStart: function () {
           zone.run(() => {
-            self.onStart$.next();
+            self.onStart$.next(null);
           });
         },
         onStop: function () {
           zone.run(() => {
-            self.onStop$.next();
+            self.onStop$.next(null);
           });
         }
       }
@@ -144,8 +145,8 @@ export class PlayerClientService implements OnDestroy {
   public static init(data: any) {
 
     console.log(
-      '%cInitializing Revel Digital client library',
-      'background-color: yellow; color:red;'
+      '%c⚙️ Initializing Revel Digital client library',
+      'background-color:blue; color:yellow;'
     );
   }
 
@@ -174,6 +175,11 @@ export class PlayerClientService implements OnDestroy {
           break;
       }
     })
+  }
+
+  public getPrefs(): gadgets.Prefs {
+
+    return new window['gadgets']['Prefs']();
   }
 
   public async getDeviceTime(date?: Date): Promise<string> {
@@ -285,6 +291,7 @@ export class PlayerClientService implements OnDestroy {
   public finish(): void {
 
     this.getClient().then((client) => {
+
       client.finish();
     })
   }
@@ -358,7 +365,7 @@ class NoopClient implements Client {
 
     console.log(
       '%cClient API not available, falling back to mock API',
-      'background-color: yellow; color:red;'
+      'background-color:blue; color:yellow;'
     );
   }
 

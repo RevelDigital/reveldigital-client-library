@@ -1,0 +1,16 @@
+{
+  "$schema": "../../../../node_modules/@angular-devkit/schematics/collection-schema.json",
+  "schematics": {
+    "ng-add": {
+      "description": "Add the Revel Digital client library to your project.",
+      "factory": "./ng-add/index#dependencies",
+      "schema": "./ng-add/schema.json"
+    },
+    "after-dependencies": {
+      "description": "Add the Revel Digital client library to your project.",
+      "factory": "./ng-add/index#ngAdd",
+      "schema": "./ng-add/schema.json",
+      "private": true
+    }
+  }
+}

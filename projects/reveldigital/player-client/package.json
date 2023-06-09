@@ -1,7 +1,20 @@
 {
   "name": "@reveldigital/player-client",
-  "version": "0.0.16-beta.4",
+  "version": "0.0.16-beta.24",
   "description": "Helper library for interfacing Angular apps with the Revel Digital player",
+  "scripts": {
+    "build": "tsc -p tsconfig.schematics.json",
+    "postbuild": "copyfiles schematics/*/schema.json schematics/*/assets/** schematics/*/utils/** schematics/*/templates/** schematics/collection.json ../../../dist/reveldigital/player-client/"
+  },
+  "schematics": "./schematics/collection.json",
+  "ng-add": {
+    "save": "dependencies"
+  },
+  "keywords": [
+    "schematics",
+    "angular",
+    "library"
+  ],
   "repository": {
     "url": "https://github.com/RevelDigital/reveldigital-client-library"
   },
@@ -10,11 +23,17 @@
   },
   "license": "",
   "peerDependencies": {
-    "@angular/common": "^13.0.0",
-    "@angular/core": "^13.0.0",
+    "@angular/common": ">= 13.0.0",
+    "@angular/core": ">= 13.0.0",
+    "@reveldigital/gadget-types": "1.0.0",
+    "webfontloader": "1.6.28",
     "js-yaml": "^4.1.0"
   },
   "dependencies": {
     "tslib": "^2.4.1"
+  },
+  "devDependencies": {
+    "copyfiles": "file:../../../node_modules/copyfiles",
+    "typescript": "file:../../../node_modules/typescript"
   }
 }

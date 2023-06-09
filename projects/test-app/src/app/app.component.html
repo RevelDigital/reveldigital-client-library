@@ -8,7 +8,7 @@
 <h2>Device Key: {{ deviceKey }}</h2>
 <h2>Revel Root: {{ revelRoot }}</h2>
 <h2>Command Map: {{ commandMap | json }}</h2>
-<h2>Sample Pref: {{ prefs.getString('myStringPref') }}</h2>
+<h2 [style]="style | safeStyle">Sample Pref: {{ prefs.getString('myStringPref') }}</h2>
 <button (click)="sendCommand()">Send Command</button>
 <button (click)="trackEvent()">Track Event</button>
 <button (click)="callback()">Callback</button>

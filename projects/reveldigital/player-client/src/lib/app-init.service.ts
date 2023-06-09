@@ -2,6 +2,7 @@ import { Injectable, isDevMode } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { ActivatedRoute, Router } from "@angular/router";
 import * as yaml from "js-yaml";
+import * as WebFont from 'webfontloader';
 
 
 @Injectable({
@@ -18,10 +19,13 @@ export class AppInitService {
   init(): Promise<any> {
 
     return new Promise<void>(async (resolve) => {
+
+      this.loadFonts();
+
       if (isDevMode()) {
         console.log(
           '%cRunning in development mode',
-          'background-color: yellow; color:red;'
+          'background-color:blue; color:yellow;'
         );
 
         /**
@@ -46,15 +50,12 @@ export class AppInitService {
 
             getParameterByName(name: string, search = window.location.href): string {
 
-              const urlParams = new URLSearchParams(search);
-              return urlParams.has(name) ? urlParams.get(name) : '';
-
-              // name = name.replace(/[\[\]]/g, '\\$&');
-              // let regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
-              //   results = regex.exec(search);
-              // if (!results) return '';
-              // if (!results[2]) return '';
-              // return decodeURIComponent(results[2].replace(/\+/g, ' '));
+              name = name.replace(/[\[\]]/g, '\\$&');
+              let regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+                results = regex.exec(search);
+              if (!results) return '';
+              if (!results[2]) return '';
+              return decodeURIComponent(results[2].replace(/\+/g, ' '));
             }
           }
         };
@@ -75,12 +76,12 @@ export class AppInitService {
 
           console.log(
             `%cUser prefs loaded successfully`,
-            'background-color:yellow; color:red;'
+            'background-color:blue; color:yellow;'
           );
         }, (err) => {
           console.log(
             `%cUnable to load user preferences YAML definition file: ${err}`,
-            'background-color:red; color:yellow;'
+            'background-color:blue; color:yellow;'
           );
           console.log(
             `%cPlease see our developer documentation for help with your app configuration: https://developer.reveldigital.com`,
@@ -89,6 +90,47 @@ export class AppInitService {
         })
       }
       resolve();
+    });
+  }
+
+
+  private getFamilyName(css) {
+
+    let FONT_FAMILY_REGEX = /font-family:\s*(?:[&#39;&#34;])*['"]*(.+?)['"]*(?:[&#39;&#34;])*\s*;/i;
+    if (FONT_FAMILY_REGEX.test(css)) {
+      var matches = css.match(FONT_FAMILY_REGEX);
+      return matches[1].split(',')[0];
+    } else {
+      return '';
+    }
+  }
+
+  /**
+   * Loads the given font from Google Web Fonts.
+   */
+  private loadFonts(): void {
+
+    const parameters = new URLSearchParams(window.location.search);
+    parameters.forEach((val, key) => {
+      try {
+        let fontFamily = this.getFamilyName(val);
+        if (fontFamily !== '') {
+          WebFont.load({
+            google: {
+              families: [fontFamily]
+            },
+            fontactive: (familyName) => {
+              console.log(`%cActivating font: ${familyName}`,
+                'background-color:blue; color:yellow;');
+            },
+            fontinactive: (familyName) => {
+              console.log(`%cFont inactive: ${familyName}`,
+                'background-color:red; color:yellow;');
+            }
+          });
+        }
+      } catch (e) {
+      }
     });
   }
 }
