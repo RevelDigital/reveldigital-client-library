@@ -17,7 +17,7 @@ Create a new repository on [GitHub.com](https://github.com/). For more informati
 
 Copy your remote repository URL
 
-![Alt text](./documentation/images/copy-remote-repository-url-quick-setup.jpg)
+![Alt text](./docs/images/copy-remote-repository-url-quick-setup.jpg)
 
 ```sh
 git remote add origin <REMOTE_URL>
