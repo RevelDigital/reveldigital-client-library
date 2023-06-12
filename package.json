@@ -22,9 +22,9 @@
     "build:gadget": "npm run change-path && ng build && node utils/yml2xml.js src/assets/user-prefs.yml dist",
     "deploy:gadget": "npm run build:gadget && ng deploy --no-build",
     "change-path": "node utils/changeBasePath.js",
-    "compodoc:build": "compodoc -p tsconfig.doc.json",
-    "compodoc:build-and-serve": "compodoc -p tsconfig.doc.json -s",
-    "compodoc:serve": "compodoc -s"
+    "compodoc:build": "compodoc -d ./docs -p tsconfig.doc.json",
+    "compodoc:build-and-serve": "compodoc -d ./docs -p tsconfig.doc.json -s",
+    "compodoc:serve": "compodoc -d ./docs -s"
   },
   "private": true,
   "dependencies": {
