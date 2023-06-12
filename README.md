@@ -63,3 +63,9 @@ Assuming your working folder is associated with your GitHub repository, simply r
 npm run deploy:gagdet
 # Deploy to GitHub Pages
 ```
+
+# Documentation
+
+Library documentation is available here: https://reveldigital.github.io/reveldigital-client-library/
+
+A sample Angular app is available in this repo under [projects/test-app](/projects/test-app).
