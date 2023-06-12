@@ -8,10 +8,13 @@ import { gadgets } from '@reveldigital/gadget-types';
 // name-space definition to include the Tracker API. This also provides us with a place
 // to actually DOCUMENT the API so that our developers aren't guessing about what's
 // available on the library.
+
+/** @ignore */
 declare global {
   var Client: Client;
 }
 
+/** @ignore */
 export interface Client {
 
   callback(...args: any[]): void;
@@ -59,11 +62,24 @@ export interface Command {
 })
 export class PlayerClientService implements OnDestroy {
 
+  /** @ignore */
   private clientPromise: Promise<Client> | null;
 
+  /**
+   * Commands sent to this player.
+   */
   public onCommand$ = new Subject<Command>();
+  /**
+   * Signals the gadget has been loaded and is ready to start.
+   */
   public onReady$ = new BehaviorSubject(false);
+  /**
+   * Signals the gadget has been started by the player.
+   */
   public onStart$ = new Subject();
+  /**
+   * Signals the gadgets has been stopped by the player.
+   */
   public onStop$ = new Subject();
 
   //
@@ -72,17 +88,23 @@ export class PlayerClientService implements OnDestroy {
   // 1) Using dispatchEvent() with the following custom events
   // 2) Using the window scoped RevelDigital object as defined in the constructor
   //
+  /** @ignore */
   private onStartSub: Subscription;
+  /** @ignore */
   private onStartEvt$ = fromEvent(document, 'RevelDigital.Start').pipe(
     share(),
     tap(this.onStart$)
   );
+  /** @ignore */
   private onStopSub: Subscription;
+  /** @ignore */
   private onStopEvt$ = fromEvent(document, 'RevelDigital.Stop').pipe(
     share(),
     tap(this.onStop$)
   );
+  /** @ignore */
   private onCommandSub: Subscription;
+  /** @ignore */
   private onCommandEvt$ = fromEvent<Command>(document, 'RevelDigital.Command').pipe(
     map((e: any) => { return { name: e.detail.name, arg: e.detail.arg } as Command }),
     share(),
@@ -100,7 +122,7 @@ export class PlayerClientService implements OnDestroy {
   //   tap(this.onCommand$)
   // );
 
-
+  /** @ignore */
   constructor(zone: NgZone) {
 
     let self = this;
@@ -133,6 +155,7 @@ export class PlayerClientService implements OnDestroy {
     this.onReady$.next(true);
   }
 
+  /** @ignore */
   ngOnDestroy(): void {
 
     this.onStartSub?.unsubscribe();
@@ -142,6 +165,7 @@ export class PlayerClientService implements OnDestroy {
     this.onReady$.next(false);
   }
 
+  /** @ignore */
   public static init(data: any) {
 
     console.log(
@@ -150,6 +174,16 @@ export class PlayerClientService implements OnDestroy {
     );
   }
 
+  /**
+   * This method allows the gadget to communicate with player scripting.
+   * If the appropriate scripting is in place in the currently running template, calling this method
+   * will initiate a callback which can be acted upon in player script.
+   * 
+   * @example
+   * client.callback('test', 'this');
+   * 
+   * @param args variable number of arguments
+   */
   public callback(...args: any[]): void {
 
     this.getClient().then((client) => {
@@ -177,11 +211,30 @@ export class PlayerClientService implements OnDestroy {
     })
   }
 
+  /**
+   * Accessor method for the user preferences interface exposed by the Gadgets API.
+   * 
+   * See {@link https://developers.google.com/gadgets/docs/basic} for more details on the Gadgets API.
+   * 
+   * @example
+   * constructor(public client: PlayerClientService) {
+   *            let prefs = client.getPrefs();
+   *            let myString = prefs.getString('myStringPref');
+   * }
+   * @returns {gadgets.Prefs} Gadget API Prefs object
+   */
   public getPrefs(): gadgets.Prefs {
 
     return new window['gadgets']['Prefs']();
   }
 
+  /**
+   * Returns the current device time in ISO8601 format.
+   * Current device time is determined by the device timezone assigned to the device in the CMS.
+   * 
+   * @param date Optional. If supplied will translate the supplied date/time to device time based on respective timezones.
+   * @returns Date/time in ISO8601 format
+   */
   public async getDeviceTime(date?: Date): Promise<string> {
 
     const client = await this.getClient();
@@ -192,6 +245,11 @@ export class PlayerClientService implements OnDestroy {
     return client.getDeviceTime();
   }
 
+  /**
+   * Returns the timezone name currently assigned to the device.
+   * 
+   * @returns Timezone Name
+   */
   public async getDeviceTimeZoneName(): Promise<string> {
 
     const client = await this.getClient();
@@ -199,6 +257,11 @@ export class PlayerClientService implements OnDestroy {
     return client.getDeviceTimeZoneName();
   }
 
+  /**
+   * Returns the timezone ID currently assigned to the device.
+   * 
+   * @returns Timezone ID
+   */
   public async getDeviceTimeZoneID(): Promise<string> {
 
     const client = await this.getClient();
@@ -206,6 +269,11 @@ export class PlayerClientService implements OnDestroy {
     return client.getDeviceTimeZoneID();
   }
 
+  /**
+   * Returns the numerical offset from GMT of the timezone currently assigned to the device.
+   * 
+   * @returns Timezone offset
+   */
   public async getDeviceTimeZoneOffset(): Promise<number> {
 
     const client = await this.getClient();
@@ -213,6 +281,11 @@ export class PlayerClientService implements OnDestroy {
     return client.getDeviceTimeZoneOffset();
   }
 
+  /**
+   * Returns the language code of the language currently assigned to the device.
+   * 
+   * @returns Language code
+   */
   public async getLanguageCode(): Promise<string> {
 
     const client = await this.getClient();
@@ -220,6 +293,11 @@ export class PlayerClientService implements OnDestroy {
     return client.getLanguageCode();
   }
 
+  /**
+   * Returns the unique Revel Digital device key associated with the device.
+   * 
+   * @returns Device key
+   */
   public async getDeviceKey(): Promise<string> {
 
     const client = await this.getClient();
@@ -227,6 +305,12 @@ export class PlayerClientService implements OnDestroy {
     return client.getDeviceKey();
   }
 
+  /**
+   * Send a command to the player device.
+   * 
+   * @param name Command name
+   * @param arg Command argument
+   */
   public sendCommand(name: string, arg: string): void {
 
     this.getClient().then((client) => {
@@ -234,6 +318,14 @@ export class PlayerClientService implements OnDestroy {
     })
   }
 
+  /**
+   * Send a command to any remote player with the supplied device key(s).
+   * Note: Remote commands can only be delivered to devices within the same account as the sender device.
+   * 
+   * @param deviceKeys Array of remote device keys
+   * @param name Command name
+   * @param arg Command arg
+   */
   public sendRemoteCommand(deviceKeys: string[], name: string, arg: string): void {
 
     this.getClient().then((client) => {
@@ -241,6 +333,13 @@ export class PlayerClientService implements OnDestroy {
     });
   }
 
+  /**
+   * Log an event for use with AdHawk analytics.
+   * Events are used for tracking various metrics including usage statistics, player condition, state changes, etc.
+   * 
+   * @param eventName Unique name for this event
+   * @param properties A map of user defined properties to associate with this event
+   */
   public track(eventName: string, properties?: EventProperties): void {
 
     this.getClient().then((client) => {
@@ -248,6 +347,15 @@ export class PlayerClientService implements OnDestroy {
     })
   }
 
+  /**
+   * Method for initiating a timed event.
+   * Timed events are useful for tracking the duration of an event and must be proceeded with a call to track().
+   * 
+   * @example
+   * client.timeEvent('testEvent');
+   * client.track("test", { "a": "b" });
+   * @param eventName Unique name for this event
+   */
   public timeEvent(eventName: string): void {
 
     this.getClient().then((client) => {
@@ -255,6 +363,13 @@ export class PlayerClientService implements OnDestroy {
     })
   }
 
+  /**
+   * A session is a way of grouping events together. Each event has an associated session ID.
+   * Session ID's are randomly generated and reset by subsequent calls to newEventSession().
+   * 
+   * Each call to track() will utilize the same session ID, until another call to newEventSession().
+   * @param id Optional. User supplied session ID. If not supplied a random session ID will be generated.
+   */
   public newEventSession(id?: string): void {
 
     this.getClient().then((client) => {
@@ -266,6 +381,11 @@ export class PlayerClientService implements OnDestroy {
     })
   }
 
+  /**
+   * Returns the root folder utilized by this player device.
+   * 
+   * @returns Path to the root folder
+   */
   public async getRevelRoot(): Promise<string> {
 
     const client = await this.getClient();
@@ -273,21 +393,22 @@ export class PlayerClientService implements OnDestroy {
     return client.getRevelRoot();
   }
 
+  /**
+   * Returns a map of commands currently active for this device.
+   * 
+   * @returns Map of commands currently active for this device.
+   */
   public async getCommandMap(): Promise<any> {
 
     const client = await this.getClient();
 
     return JSON.parse(await client.getCommandMap());
-
-    // let map = new Map<string, any>();
-
-    // let obj = JSON.parse(await client.getCommandMap());
-    // for (let key in obj) {
-    //   map.set(key, obj[key]);
-    // }
-    // return map;
   }
 
+  /**
+   * Indicate to the player that this gadget has finished it's visualization.
+   * This allows the player to proceed with the next item in a playlist if applicable.
+   */
   public finish(): void {
 
     this.getClient().then((client) => {
@@ -299,7 +420,7 @@ export class PlayerClientService implements OnDestroy {
   // ---
   // PRIVATE METHODS.
   // ---
-
+  /** @ignore */
   private getClient(): Promise<Client> {
 
     if (this.clientPromise) {
@@ -359,6 +480,8 @@ export class PlayerClientService implements OnDestroy {
 // I provide a mock API for the 3rd-party script. This just allows the consuming code to
 // act as though the library is available even if it failed to load (example, it was
 // blocked by an ad-blocker).
+
+/** @ignore */
 class NoopClient implements Client {
 
   constructor() {

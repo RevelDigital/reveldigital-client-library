@@ -1,0 +1,8 @@
+{
+    "include": [
+        "projects/reveldigital/player-client/src/**/*.ts"
+    ],
+    "exclude": [
+        "projects/reveldigital/player-client/src/**/*.spec.ts"
+    ]
+}

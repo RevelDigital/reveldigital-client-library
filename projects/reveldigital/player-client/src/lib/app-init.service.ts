@@ -5,6 +5,7 @@ import * as yaml from "js-yaml";
 import * as WebFont from 'webfontloader';
 
 
+/** @ignore */
 @Injectable({
   providedIn: 'root'
 })
