@@ -17,7 +17,7 @@ Create a new repository on [GitHub.com](https://github.com/). For more informati
 
 Copy your remote repository URL
 
-![Alt text](/images/copy-remote-repository-url-quick-setup.jpg)
+![Alt text](https://reveldigital.github.io/reveldigital-client-library/images/copy-remote-repository-url-quick-setup.jpg)
 
 ```sh
 git remote add origin <REMOTE_URL>

@@ -40,7 +40,7 @@ to build full featured gadgets utilizing the Angular framework.</p>
 <p><strong>Not hosting your app on Github? Skip to step #2.</strong></p>
 <p>Create a new repository on <a href="https://github.com/">GitHub.com</a>. For more information, see &quot;<a href="https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-new-repository">Creating a new repository</a>.&quot;</p>
 <p>Copy your remote repository URL</p>
-<p><img src="./documentation/images/copy-remote-repository-url-quick-setup.jpg" alt="Alt text" class="img-responsive"></p>
+<p><img src="https://reveldigital.github.io/reveldigital-client-library/images/copy-remote-repository-url-quick-setup.jpg" alt="Alt text" class="img-responsive"></p>
 <div><pre class="line-numbers"><code class="language-sh">git remote add origin &lt;REMOTE_URL&gt;
 # Sets the new remote
 git remote -v
@@ -57,7 +57,34 @@ git remote -v
 <p>The app can be hosted using any number of hosting services, however the provided schematic includes a simplified option for publishing to <a href="https://pages.github.com/">GitHub Pages</a>.</p>
 <p>Assuming your working folder is associated with your GitHub repository, simply run the following command to deploy the app to the <code>gh-pages</code> branch. The gadget app and associated XML file will be publicly visibile and available for use in your signage.</p>
 <div><pre class="line-numbers"><code class="language-sh">npm run deploy:gagdet
-# Deploy to GitHub Pages</code></pre></div>
+# Deploy to GitHub Pages</code></pre></div><h1>Sample usage</h1>
+<p>The majority of the functionality is contained within the <a href="https://reveldigital.github.io/reveldigital-client-library/injectables/PlayerClientService.html">PlayerClientService</a>.
+Simply inject this service in order to access the player client interface.</p>
+<div><pre class="line-numbers"><code class="language-ts">  constructor(public client: PlayerClientService) {
+
+    this.prefs = client.getPrefs();
+    
+    this.style = this.prefs.getString(&#39;myStylePref&#39;);
+    
+    this.client.onReady$.subscribe((val) =&gt; {
+      console.log(val ? &#39;Ready&#39; : &#39;Not ready&#39;);
+    });
+
+    this.client.onCommand$.subscribe((cmd) =&gt; {
+      console.log(`onCommand: ${cmd.name}, ${cmd.arg}`);
+    });
+
+    this.client.onStart$.subscribe(() =&gt; {
+      console.log(&quot;onStart&quot;);
+    });
+
+    this.client.onStop$.subscribe(() =&gt; {
+      console.log(&quot;onStop&quot;);
+    });
+  }</code></pre></div><h1>Documentation</h1>
+<p>Library documentation is available here: <a href="https://reveldigital.github.io/reveldigital-client-library/">https://reveldigital.github.io/reveldigital-client-library/</a></p>
+<p>A sample Angular app is available in this repo under <a href="/projects/test-app">projects/test-app</a>.</p>
+
 
 
 
