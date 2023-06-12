@@ -64,6 +64,36 @@ npm run deploy:gagdet
 # Deploy to GitHub Pages
 ```
 
+# Sample usage
+
+The majority of the functionality is contained within the [PlayerClientService](https://reveldigital.github.io/reveldigital-client-library/injectables/PlayerClientService.html).
+Simply inject this service in order to access the player client interface.
+
+```ts
+  constructor(public client: PlayerClientService) {
+
+    this.prefs = client.getPrefs();
+    
+    this.style = this.prefs.getString('myStylePref');
+    
+    this.client.onReady$.subscribe((val) => {
+      console.log(val ? 'Ready' : 'Not ready');
+    });
+
+    this.client.onCommand$.subscribe((cmd) => {
+      console.log(`onCommand: ${cmd.name}, ${cmd.arg}`);
+    });
+
+    this.client.onStart$.subscribe(() => {
+      console.log("onStart");
+    });
+
+    this.client.onStop$.subscribe(() => {
+      console.log("onStop");
+    });
+  }
+```
+
 # Documentation
 
 Library documentation is available here: https://reveldigital.github.io/reveldigital-client-library/
