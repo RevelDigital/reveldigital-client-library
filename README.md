@@ -64,7 +64,7 @@ npm run deploy:gagdet
 # Deploy to GitHub Pages
 ```
 
-# Sample usage
+## Sample usage
 
 The majority of the functionality is contained within the [PlayerClientService](https://reveldigital.github.io/reveldigital-client-library/injectables/PlayerClientService.html).
 Simply inject this service in order to access the player client interface.
