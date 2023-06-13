@@ -94,7 +94,7 @@ Simply inject this service in order to access the player client interface.
   }
 ```
 
-# Documentation
+## Documentation
 
 Library documentation is available here: https://reveldigital.github.io/reveldigital-client-library/
 
