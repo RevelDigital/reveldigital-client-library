@@ -27,7 +27,11 @@ prefs:
     datatype: bool
     default_value: true
     required: true
-
+    depends:
+      - name: myEnumPref
+        any_of:
+          - fast
+          
   - name: myStylePref
     display_name: Sample style preference
     datatype: style

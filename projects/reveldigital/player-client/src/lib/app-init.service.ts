@@ -1,8 +1,11 @@
-import { Injectable, isDevMode } from '@angular/core';
+import { Injectable, enableProdMode, isDevMode } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { ActivatedRoute, Router } from "@angular/router";
 import * as yaml from "js-yaml";
 import * as WebFont from 'webfontloader';
+
+const isLocal: boolean = /localhost/.test(document.location.host);
+!isLocal && enableProdMode();
 
 
 /** @ignore */
