@@ -66,8 +66,15 @@ npm run deploy:gagdet
 
 ## Sample usage
 
-The majority of the functionality is contained within the [PlayerClientService](https://reveldigital.github.io/reveldigital-client-library/injectables/PlayerClientService.html).
-Simply inject this service in order to access the player client interface.
+The majority of the functionality is contained within the [PlayerClientService](https://reveldigital.github.io/reveldigital-client-library/injectables/PlayerClientService.html). The service and supporting library exposes the following functionality:
+
+- Methods for obtaining player details such as device time, locale, etc
+- Methods for interfacting with the player including sending commands and calling into player scripting
+- Player lifecycle methods (ready/start/stop)
+- Gadget property accessors such as user preferences
+- Miscellaneous helpers such as the SafeStyle pipe
+
+Simply inject this service in your Angular component constructor in order to access the player client interface.
 
 ```ts
   constructor(public client: PlayerClientService) {
@@ -92,6 +99,82 @@ Simply inject this service in order to access the player client interface.
       console.log("onStop");
     });
   }
+```
+
+## Gadget Definition & Preferences
+
+The `assets/gadget.yaml` file is the definition file for your gadget, responsible for defining the basic properties and features of the gadget as presented to the user. These properties include the gadget name, description, support URL, and preferences. A sample `gadgets.yaml` file is included in your project after running the schematic.
+
+Preferences are the primary method for providing customization options of your gadget. They allow signage designers to change and preview gadget properties at design time within the Revel Digital CMS.
+
+The following is the sample `gadgets.yaml` included with the schematic:
+
+```yaml
+title: My Gadget
+title_url: https://mysupporturl.org
+description: Describe the purpose of your gadget here
+author: My Organization
+background: transparent
+
+requirements:
+  - reveldigital
+  - offline
+  - webfont
+
+locales:
+  - messages: https://reveldigital.github.io/reveldigital-gadgets/ALL_ALL.xml
+
+  - lang: ru
+    messages: https://reveldigital.github.io/reveldigital-gadgets/ALL_ALL.xml
+
+prefs:
+  - name: myStringPref
+    display_name: Sample string preference
+    datatype: string
+    default_value: test string
+    required: true
+
+  - name: myBoolPref
+    display_name: Sample boolean preference
+    datatype: bool
+    default_value: true
+    required: true
+    depends:
+      - name: myEnumPref
+        any_of:
+          - fast
+          
+  - name: myStylePref
+    display_name: Sample style preference
+    datatype: style
+    default_value: font-family:Verdana;color:rgb(255, 255, 255);font-size:18px;
+    required: true
+
+  - name: myEnumPref
+    display_name: Sample enum preference
+    datatype: enum
+    default_value: fast
+    required: true
+    options:
+      - value: fastest
+        display_value: Fastest
+      - value: fast
+        display_value: Fast
+      - value: medium
+        display_value: Medium
+```
+
+This definition file results in the following user experience when designing your gadget in a template:
+
+![Alt text](https://reveldigital.github.io/reveldigital-client-library/images/sample-gadget-editor.png)
+
+You will see the properties exposed in the editor which can then be modified at design time.
+
+Individual preferences are able to be accessed in your gadget code like so:
+
+```ts
+this.prefs = client.getPrefs();
+this.prefs.getString('myStringPref');
 ```
 
 ## Documentation

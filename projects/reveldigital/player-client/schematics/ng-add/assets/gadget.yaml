@@ -31,7 +31,7 @@ prefs:
       - name: myEnumPref
         any_of:
           - fast
-          
+
   - name: myStylePref
     display_name: Sample style preference
     datatype: style
@@ -46,9 +46,7 @@ prefs:
     options:
       - value: fastest
         display_value: Fastest
-
       - value: fast
         display_value: Fast
-
       - value: medium
         display_value: Medium

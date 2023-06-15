@@ -64,7 +64,7 @@ export class AppInitService {
           }
         };
 
-        this.http.get('assets/user-prefs.yml', {
+        this.http.get('assets/gadget.yaml', {
           responseType: 'text'
         }).subscribe(data => {
           const doc: any = yaml.load(data);

@@ -19,7 +19,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "build:gadget": "ng build --project test-app && node ./projects/test-app/utils/yml2xml.js ./projects/test-app/src/assets/user-prefs.yml dist",
+    "build:gadget": "ng build --project test-app && node ./projects/test-app/utils/yml2xml.js ./projects/test-app/src/assets/gadget.yaml dist",
     "deploy:gadget": "npm run build:gadget && ng deploy --no-build",
     "change-path": "cd projects/test-app && node utils/changeBasePath.js",
     "compodoc:build": "compodoc -d ./docs -p tsconfig.doc.json",

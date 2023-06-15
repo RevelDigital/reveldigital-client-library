@@ -30,8 +30,7 @@ prefs:
     depends:
       - name: myEnumPref
         any_of:
-          - values:
-              - fast
+          - fast
 
   - name: myStylePref
     display_name: Sample style preference
@@ -47,9 +46,7 @@ prefs:
     options:
       - value: fastest
         display_value: Fastest
-
       - value: fast
         display_value: Fast
-
       - value: medium
         display_value: Medium

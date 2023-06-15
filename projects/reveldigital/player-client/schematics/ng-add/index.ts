@@ -262,7 +262,7 @@ function updateScripts(path: string, config: any, tree: Tree, _options: any, _co
   //   config.scripts[`build:${_options.project}:externals`] = `ng build --extra-webpack-config ${path}webpack.externals.js --prod --project ${_options.project} ${additionalFlags}`;
   // }
 
-  config.scripts['build:gadget'] = 'npm run change-path && ng build && node utils/yml2xml.js src/assets/user-prefs.yml dist';
+  config.scripts['build:gadget'] = 'npm run change-path && ng build && node utils/yml2xml.js src/assets/gadget.yaml dist';
   config.scripts['deploy:gadget'] = 'npm run build:gadget && ng deploy --no-build';
   config.scripts['change-path'] = 'node utils/changeBasePath.js';
 }
