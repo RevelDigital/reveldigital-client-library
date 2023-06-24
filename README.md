@@ -110,23 +110,57 @@ Preferences are the primary method for providing customization options of your g
 The following is the sample `gadgets.yaml` included with the schematic:
 
 ```yaml
+# Basic properties of the gadget must include the following:
+#   title: Title of the gadget as it will appear in the Revel Digital CMS UX
+#   title_url: Optional support URL for the gadget
+#   description: Details of the gadget. Will appear within the Revel Digital CMS
+#   author: Name of author or organization credited with developing the gadget
+#   background: (Deprecated) should always be transparent for most gadgets
+#
 title: My Gadget
 title_url: https://mysupporturl.org
 description: Describe the purpose of your gadget here
 author: My Organization
 background: transparent
 
+# Requirements enable certain features of the gadget. Available options include:
+#   reveldigital (core Revel Digital features)
+#   offline (Enable service worker caching for offline support)
+#   webfont (Enable Google WebFonts for dynamic font loading)
+#   moment (Enable the moment library for localized date/time, initialized with device timezone)
+#   jquery (Enable the jQuery libary)
+#
 requirements:
   - reveldigital
   - offline
   - webfont
+  - moment
+  - jquery
 
+# Locales are use for localization within the gadget definition (XML) itself.
+#  Docs for using the Gadget API for i18n are available here: https://developers.google.com/gadgets/docs/i18n
+#
+# Angular applications should use the i18n support provided by the Angular framework:
+#  https://angular.io/guide/i18n-overview
+#
 locales:
   - messages: https://reveldigital.github.io/reveldigital-gadgets/ALL_ALL.xml
 
-  - lang: ru
+  - lang: fr
     messages: https://reveldigital.github.io/reveldigital-gadgets/ALL_ALL.xml
 
+# Preferences provide customization options for the gadget and are accessible at both design time and runtime.
+#
+# Propreties of a preference include:
+#   name: Unique name or ID for the preference
+#   display_name: Name as shown in the UX
+#   datatype: string, enum, hidden, bool, style, list
+#   default_value: Default value
+#   required: Make this prefence mandatory, must have a value
+#   depends: The visibility of this preference depends on other preferences. This requires the name
+#     of the dependent preference along with a list of values. Condition types can include
+#     any_of, all_of, none_of. Nested depends conditions are also possible.
+#
 prefs:
   - name: myStringPref
     display_name: Sample string preference
@@ -162,23 +196,34 @@ prefs:
         display_value: Fast
       - value: medium
         display_value: Medium
+
+  - name: myListPref
+    display_name: Sample list preference
+    datatype: list
+    default_value: dog|cat
+    required: false
 ```
 
 This definition file results in the following user experience when designing your gadget in a template:
 
 ![Alt text](https://reveldigital.github.io/reveldigital-client-library/images/sample-gadget-editor.png)
 
-You will see the properties exposed in the editor which can then be modified at design time.
+You will see the preferences exposed in the editor which can then be modified at design time.
 
 Individual preferences are able to be accessed in your gadget code like so:
 
 ```ts
 this.prefs = client.getPrefs();
+
 this.prefs.getString('myStringPref');
+this.prefs.getBool('myBoolPref');
+this.prefs.getFloat('myFloatPref');
+this.prefs.getInt('myIntPref');
+this.prefs.getArray('myListPref');
 ```
 
-## Documentation
+## Angular Library Documentation
 
-Library documentation is available here: https://reveldigital.github.io/reveldigital-client-library/
+Library documentation is available here: [https://reveldigital.github.io/reveldigital-client-library/](https://reveldigital.github.io/reveldigital-client-library/)
 
-A sample Angular app is available in this repo under [projects/test-app](/projects/test-app).
+A sample Angular app is available in this repo under [https://github.com/RevelDigital/reveldigital-client-library/tree/master/projects/test-app](https://github.com/RevelDigital/reveldigital-client-library/tree/master/projects/test-app).
