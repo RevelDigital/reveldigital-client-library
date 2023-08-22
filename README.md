@@ -159,7 +159,7 @@ locales:
 #   required: Make this prefence mandatory, must have a value
 #   depends: The visibility of this preference depends on other preferences. This requires the name
 #     of the dependent preference along with a list of values. Condition types can include
-#     any_of, all_of, none_of. Nested depends conditions are also possible.
+#     any_of, all_of, none_of. Nested depends conditions are also supported.
 #
 prefs:
   - name: myStringPref

@@ -42,7 +42,7 @@ export class AppInitService {
 
             getArray(key: string) { return this.getParameterByName(key).split(',') }
 
-            getBool(key: string) { return !!this.getParameterByName(key) }
+            getBool(key: string) { return this.getParameterByName(key) === 'true' }
 
             getCountry() { }
 
