@@ -60,7 +60,7 @@ The app can be hosted using any number of hosting services, however the provided
 Assuming your working folder is associated with your GitHub repository, simply run the following command to deploy the app to the `gh-pages` branch. The gadget app and associated XML file will be publicly visibile and available for use in your signage.
 
 ```sh
-npm run deploy:gagdet
+npm run deploy:gadget
 # Deploy to GitHub Pages
 ```
 
@@ -176,7 +176,8 @@ prefs:
     depends:
       - name: myEnumPref
         any_of:
-          - fast
+          - values:
+            - fast
           
   - name: myStylePref
     display_name: Sample style preference
@@ -189,6 +190,7 @@ prefs:
     datatype: enum
     default_value: fast
     required: true
+    multiple: false
     options:
       - value: fastest
         display_value: Fastest
