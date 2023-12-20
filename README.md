@@ -40,7 +40,7 @@ ng new my-app --directory ./
 Run the Revel Digital angular schematic which will configure your app for use as a Revel Digital gadget.
 
 ```sh
-ng add @reveldigital/player-client
+ng add @reveldigital/player-client@latest
 # Run the Revel Digital Angular schematic
 ```
 
