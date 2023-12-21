@@ -101,7 +101,7 @@ function processYML(json, html) {
   module.ele('Content', { type: 'html' }).ele({
     '$':
       htmlRoot.querySelector('style').toString() +
-      htmlRoot.querySelector('link').toString() +
+      htmlRoot.querySelectorAll('head > link[rel=stylesheet]').join('').toString() +
       htmlRoot.querySelector('body').toString()
   });
 

@@ -52,7 +52,8 @@ function processYML(json, html) {
         display_name: val.display_name,
         datatype: val.datatype,
         default_value: val.default_value,
-        required: !!val.required
+        required: !!val.required,
+        multiple: !!val.multiple
       });
       if (val.datatype === 'enum') {
         for (let option of val.options) {
@@ -99,7 +100,7 @@ function processYML(json, html) {
   module.ele('Content', { type: 'html' }).ele({
     '$':
       htmlRoot.querySelector('style').toString() +
-      htmlRoot.querySelector('link').toString() +
+      htmlRoot.querySelectorAll('head > link[rel=stylesheet]').join('').toString() +
       htmlRoot.querySelector('body').toString()
   });
 
