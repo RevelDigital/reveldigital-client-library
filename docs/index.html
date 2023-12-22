@@ -49,17 +49,24 @@ git remote -v
 <div><pre class="line-numbers"><code class="language-sh">ng new my-app --directory ./
 # Generates the boilerplate code for a new Angular app</code></pre></div><h3><strong>Step 3.</strong> Add the Revel Digital libaries</h3>
 <p>Run the Revel Digital angular schematic which will configure your app for use as a Revel Digital gadget.</p>
-<div><pre class="line-numbers"><code class="language-sh">ng add &#64;reveldigital/player-client
+<div><pre class="line-numbers"><code class="language-sh">ng add &#64;reveldigital/player-client&#64;latest
 # Run the Revel Digital Angular schematic</code></pre></div><h3><strong>Step 4.</strong> Build</h3>
 <p>The build script will generate the Angular app along with a the gadget XML definition file.</p>
 <div><pre class="line-numbers"><code class="language-sh">npm run build:gadget
 # Run the gadget build script</code></pre></div><h3><strong>Step 5.</strong> Deploy</h3>
 <p>The app can be hosted using any number of hosting services, however the provided schematic includes a simplified option for publishing to <a href="https://pages.github.com/">GitHub Pages</a>.</p>
 <p>Assuming your working folder is associated with your GitHub repository, simply run the following command to deploy the app to the <code>gh-pages</code> branch. The gadget app and associated XML file will be publicly visibile and available for use in your signage.</p>
-<div><pre class="line-numbers"><code class="language-sh">npm run deploy:gagdet
-# Deploy to GitHub Pages</code></pre></div><h1>Sample usage</h1>
-<p>The majority of the functionality is contained within the <a href="https://reveldigital.github.io/reveldigital-client-library/injectables/PlayerClientService.html">PlayerClientService</a>.
-Simply inject this service in order to access the player client interface.</p>
+<div><pre class="line-numbers"><code class="language-sh">npm run deploy:gadget
+# Deploy to GitHub Pages</code></pre></div><h2>Sample usage</h2>
+<p>The majority of the functionality is contained within the <a href="https://reveldigital.github.io/reveldigital-client-library/injectables/PlayerClientService.html">PlayerClientService</a>. The service and supporting library exposes the following functionality:</p>
+<ul>
+<li>Methods for obtaining player details such as device time, locale, etc</li>
+<li>Methods for interfacting with the player including sending commands and calling into player scripting</li>
+<li>Player lifecycle methods (ready/start/stop)</li>
+<li>Gadget property accessors such as user preferences</li>
+<li>Miscellaneous helpers such as the SafeStyle pipe</li>
+</ul>
+<p>Simply inject this service in your Angular component constructor in order to access the player client interface.</p>
 <div><pre class="line-numbers"><code class="language-ts">  constructor(public client: PlayerClientService) {
 
     this.prefs = client.getPrefs();
@@ -81,9 +88,116 @@ Simply inject this service in order to access the player client interface.</p>
     this.client.onStop$.subscribe(() =&gt; {
       console.log(&quot;onStop&quot;);
     });
-  }</code></pre></div><h1>Documentation</h1>
+  }</code></pre></div><h2>Gadget Definition &amp; Preferences</h2>
+<p>The <code>assets/gadget.yaml</code> file is the definition file for your gadget, responsible for defining the basic properties and features of the gadget as presented to the user. These properties include the gadget name, description, support URL, and preferences. A sample <code>gadgets.yaml</code> file is included in your project after running the schematic.</p>
+<p>Preferences are the primary method for providing customization options of your gadget. They allow signage designers to change and preview gadget properties at design time within the Revel Digital CMS.</p>
+<p>The following is the sample <code>gadgets.yaml</code> included with the schematic:</p>
+<div><pre class="line-numbers"><code class="language-yaml"># Basic properties of the gadget must include the following:
+#   title: Title of the gadget as it will appear in the Revel Digital CMS UX
+#   title_url: Optional support URL for the gadget
+#   description: Details of the gadget. Will appear within the Revel Digital CMS
+#   author: Name of author or organization credited with developing the gadget
+#   background: (Deprecated) should always be transparent for most gadgets
+#
+title: My Gadget
+title_url: https://mysupporturl.org
+description: Describe the purpose of your gadget here
+author: My Organization
+background: transparent
+
+# Requirements enable certain features of the gadget. Available options include:
+#   reveldigital (core Revel Digital features)
+#   offline (Enable service worker caching for offline support)
+#   webfont (Enable Google WebFonts for dynamic font loading)
+#   moment (Enable the moment library for localized date/time, initialized with device timezone)
+#   jquery (Enable the jQuery libary)
+#
+requirements:
+  - reveldigital
+  - offline
+  - webfont
+  - moment
+  - jquery
+
+# Locales are use for localization within the gadget definition (XML) itself.
+#  Docs for using the Gadget API for i18n are available here: https://developers.google.com/gadgets/docs/i18n
+#
+# Angular applications should use the i18n support provided by the Angular framework:
+#  https://angular.io/guide/i18n-overview
+#
+locales:
+  - messages: https://reveldigital.github.io/reveldigital-gadgets/ALL_ALL.xml
+
+  - lang: fr
+    messages: https://reveldigital.github.io/reveldigital-gadgets/ALL_ALL.xml
+
+# Preferences provide customization options for the gadget and are accessible at both design time and runtime.
+#
+# Propreties of a preference include:
+#   name: Unique name or ID for the preference
+#   display_name: Name as shown in the UX
+#   datatype: string, enum, hidden, bool, style, list
+#   default_value: Default value
+#   required: Make this prefence mandatory, must have a value
+#   depends: The visibility of this preference depends on other preferences. This requires the name
+#     of the dependent preference along with a list of values. Condition types can include
+#     any_of, all_of, none_of. Nested depends conditions are also supported.
+#
+prefs:
+  - name: myStringPref
+    display_name: Sample string preference
+    datatype: string
+    default_value: test string
+    required: true
+
+  - name: myBoolPref
+    display_name: Sample boolean preference
+    datatype: bool
+    default_value: true
+    required: true
+    depends:
+      - name: myEnumPref
+        any_of:
+          - values:
+            - fast
+          
+  - name: myStylePref
+    display_name: Sample style preference
+    datatype: style
+    default_value: font-family:Verdana;color:rgb(255, 255, 255);font-size:18px;
+    required: true
+
+  - name: myEnumPref
+    display_name: Sample enum preference
+    datatype: enum
+    default_value: fast
+    required: true
+    multiple: false
+    options:
+      - value: fastest
+        display_value: Fastest
+      - value: fast
+        display_value: Fast
+      - value: medium
+        display_value: Medium
+
+  - name: myListPref
+    display_name: Sample list preference
+    datatype: list
+    default_value: dog|cat
+    required: false</code></pre></div><p>This definition file results in the following user experience when designing your gadget in a template:</p>
+<p><img src="https://reveldigital.github.io/reveldigital-client-library/images/sample-gadget-editor.png" alt="Alt text" class="img-responsive"></p>
+<p>You will see the preferences exposed in the editor which can then be modified at design time.</p>
+<p>Individual preferences are able to be accessed in your gadget code like so:</p>
+<div><pre class="line-numbers"><code class="language-ts">this.prefs = client.getPrefs();
+
+this.prefs.getString(&#39;myStringPref&#39;);
+this.prefs.getBool(&#39;myBoolPref&#39;);
+this.prefs.getFloat(&#39;myFloatPref&#39;);
+this.prefs.getInt(&#39;myIntPref&#39;);
+this.prefs.getArray(&#39;myListPref&#39;);</code></pre></div><h2>Angular Library Documentation</h2>
 <p>Library documentation is available here: <a href="https://reveldigital.github.io/reveldigital-client-library/">https://reveldigital.github.io/reveldigital-client-library/</a></p>
-<p>A sample Angular app is available in this repo under <a href="/projects/test-app">projects/test-app</a>.</p>
+<p>A sample Angular app is available in this repo under <a href="https://github.com/RevelDigital/reveldigital-client-library/tree/master/projects/test-app">https://github.com/RevelDigital/reveldigital-client-library/tree/master/projects/test-app</a>.</p>
 
 
 

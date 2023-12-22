@@ -417,6 +417,20 @@ export class PlayerClientService implements OnDestroy {
     })
   }
 
+  /**
+   * Check is the gadget is running in preview mode. Preview mode is enabled when the gadget is
+   * being edited in the CMS, or otherwise not running in a normal player environment.
+   * 
+   * @returns True if the gadget is running in preview mode, false otherwise.
+   */
+  public async isPreviewMode(): Promise<boolean> {
+
+    const client = await this.getClient();
+
+    return client instanceof NoopClient;
+  }
+
+    
   // ---
   // PRIVATE METHODS.
   // ---

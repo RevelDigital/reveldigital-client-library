@@ -165,6 +165,11 @@
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
+                                    <span class="modifier">Async</span>
+                                <a href="#isPreviewMode" >isPreviewMode</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
                                 <a href="#newEventSession" >newEventSession</a>
                             </li>
                             <li>
@@ -796,6 +801,55 @@ Current device time is determined by the device timezone assigned to the device 
                     </div>
                     <div class="io-description">
                         <p>Path to the root folder</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isPreviewMode"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span class="modifier">Async</span>
+                        <span ><b>isPreviewMode</b></span>
+                        <a href="#isPreviewMode"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>isPreviewMode()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="426"
+                            class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:426</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Check is the gadget is running in preview mode. Preview mode is enabled when the gadget is
+being edited in the CMS, or otherwise not running in a normal player environment.</p>
+</div>
+
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;boolean&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>True if the gadget is running in preview mode, false otherwise.</p>
 
                     </div>
                 </td>
@@ -1826,6 +1880,20 @@ export class PlayerClientService implements OnDestroy {
     })
   }
 
+  /**
+   * Check is the gadget is running in preview mode. Preview mode is enabled when the gadget is
+   * being edited in the CMS, or otherwise not running in a normal player environment.
+   * 
+   * @returns True if the gadget is running in preview mode, false otherwise.
+   */
+  public async isPreviewMode(): Promise&lt;boolean&gt; {
+
+    const client &#x3D; await this.getClient();
+
+    return client instanceof NoopClient;
+  }
+
+    
   // ---
   // PRIVATE METHODS.
   // ---

@@ -13,7 +13,7 @@
     "build:lib": "ng build @reveldigital/player-client",
     "build:schematics": "npm run build --prefix projects/reveldigital/player-client",
     "build:all": "npm run build:lib && npm run build:schematics",
-    "lib:all": "npm run build:all && npm run pack:lib",
+    "lib:all": "npm run build:all",
     "publish:all": "npm run lib:all && npm publish dist/reveldigital/player-client",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
