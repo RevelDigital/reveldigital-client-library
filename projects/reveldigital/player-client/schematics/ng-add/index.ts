@@ -140,12 +140,12 @@ function addPackageJsonDependencies(): Rule {
       {
         type: NodeDependencyType.Dev,
         name: 'node-html-parser',
-        version: '6.1.5',
+        version: '6.1.12',
       },
       {
         type: NodeDependencyType.Dev,
         name: 'angular-cli-ghpages',
-        version: '1.0.6',
+        version: '1.0.7',
       },
       {
         type: NodeDependencyType.Dev,
