@@ -1,7 +1,10 @@
 import { Injectable, NgZone, OnDestroy } from '@angular/core';
+import { gadgets } from '@reveldigital/gadget-types';
 import { BehaviorSubject, fromEvent, Subject, Subscription } from 'rxjs';
 import { map, share, tap } from 'rxjs/operators';
-import { gadgets } from '@reveldigital/gadget-types';
+import { ICommand } from './interfaces/command.interface';
+import { IDevice } from './interfaces/device.interface';
+import { IEventProperties } from './interfaces/event-properties.interface';
 
 
 // So that TypeScript doesn't complain, we're going to augment the GLOBAL / WINDOW 
@@ -11,11 +14,11 @@ import { gadgets } from '@reveldigital/gadget-types';
 
 /** @ignore */
 declare global {
-  var Client: Client;
+  var Client: IClient;
 }
 
 /** @ignore */
-export interface Client {
+export interface IClient {
 
   callback(...args: any[]): void;
 
@@ -45,17 +48,12 @@ export interface Client {
 
   getCommandMap(): Promise<string>;
 
+  getDevice(): Promise<string>;
+
   finish(): void;
 }
 
-export interface EventProperties {
-  [key: string]: any;
-}
 
-export interface Command {
-  name: string;
-  arg: string;
-}
 
 @Injectable({
   providedIn: 'root'
@@ -63,12 +61,12 @@ export interface Command {
 export class PlayerClientService implements OnDestroy {
 
   /** @ignore */
-  private clientPromise: Promise<Client> | null;
+  private clientPromise: Promise<IClient> | null;
 
   /**
    * Commands sent to this player.
    */
-  public onCommand$ = new Subject<Command>();
+  public onCommand$ = new Subject<ICommand>();
   /**
    * Signals the gadget has been loaded and is ready to start.
    */
@@ -105,8 +103,8 @@ export class PlayerClientService implements OnDestroy {
   /** @ignore */
   private onCommandSub: Subscription;
   /** @ignore */
-  private onCommandEvt$ = fromEvent<Command>(document, 'RevelDigital.Command').pipe(
-    map((e: any) => { return { name: e.detail.name, arg: e.detail.arg } as Command }),
+  private onCommandEvt$ = fromEvent<ICommand>(document, 'RevelDigital.Command').pipe(
+    map((e: any) => { return { name: e.detail.name, arg: e.detail.arg } as ICommand }),
     share(),
     tap(this.onCommand$)
   );
@@ -340,7 +338,7 @@ export class PlayerClientService implements OnDestroy {
    * @param eventName Unique name for this event
    * @param properties A map of user defined properties to associate with this event
    */
-  public track(eventName: string, properties?: EventProperties): void {
+  public track(eventName: string, properties?: IEventProperties): void {
 
     this.getClient().then((client) => {
       client.track(eventName, JSON.stringify(properties));
@@ -430,12 +428,46 @@ export class PlayerClientService implements OnDestroy {
     return client instanceof NoopClient;
   }
 
-    
+  /**
+ * Returns the device details associated with the player running the gadget or web app.
+ * 
+ * @returns Device details.
+ */
+  public async getDevice(): Promise<IDevice | null> {
+
+    const client = await this.getClient();
+
+    let obj: any = JSON.parse(<string>await client.getDevice());
+
+    const device: IDevice[] = [obj].map((device: any) => {
+
+      return {
+        name: device.name,
+        registrationKey: device.key,
+        deviceType: device.devicetype,
+        enteredService: new Date(device.enteredservice),
+        langCode: device.langcode,
+        timeZone: device.timezone,
+        tags: device.description?.split('\n'),
+        location: {
+          city: device.location?.city,
+          state: device.location?.state,
+          country: device.location?.country,
+          postalCode: device.location?.postalcode,
+          address: device.location?.address,
+          latitude: device.location?.latitude,
+          longitude: device.location?.longitude
+        }
+      }
+    });
+    return device[0];
+  }
+
   // ---
   // PRIVATE METHODS.
   // ---
   /** @ignore */
-  private getClient(): Promise<Client> {
+  private getClient(): Promise<IClient> {
 
     if (this.clientPromise) {
 
@@ -463,7 +495,7 @@ export class PlayerClientService implements OnDestroy {
     // may be in an "interactive" state which is when I believe that the Angular app
     // gets bootstrapped). As such, we need bind to the LOAD event to wait for our
     // third-party scripts to load (or fail to load, or be blocked).
-    this.clientPromise = new Promise<Client>(
+    this.clientPromise = new Promise<IClient>(
       (resolve) => {
 
         window.addEventListener(
@@ -496,7 +528,7 @@ export class PlayerClientService implements OnDestroy {
 // blocked by an ad-blocker).
 
 /** @ignore */
-class NoopClient implements Client {
+class NoopClient implements IClient {
 
   constructor() {
 
@@ -574,6 +606,11 @@ class NoopClient implements Client {
   public async getCommandMap(): Promise<string> {
 
     return Promise.resolve('{}');
+  }
+
+  public async getDevice(): Promise<string | null> {
+
+    return Promise.resolve(null);
   }
 
   public finish(): void {
