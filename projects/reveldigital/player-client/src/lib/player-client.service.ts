@@ -5,6 +5,7 @@ import { map, share, tap } from 'rxjs/operators';
 import { ICommand } from './interfaces/command.interface';
 import { IDevice } from './interfaces/device.interface';
 import { IEventProperties } from './interfaces/event-properties.interface';
+import { IClient } from './interfaces/client.interface';
 
 
 // So that TypeScript doesn't complain, we're going to augment the GLOBAL / WINDOW 
@@ -16,44 +17,6 @@ import { IEventProperties } from './interfaces/event-properties.interface';
 declare global {
   var Client: IClient;
 }
-
-/** @ignore */
-export interface IClient {
-
-  callback(...args: any[]): void;
-
-  getDeviceTime(date?: Date): Promise<string>;
-
-  getDeviceTimeZoneName(): Promise<string>;
-
-  getDeviceTimeZoneID(): Promise<string>;
-
-  getDeviceTimeZoneOffset(): Promise<number>;
-
-  getLanguageCode(): Promise<string>;
-
-  getDeviceKey(): Promise<string>;
-
-  sendCommand(name: string, arg: string): void;
-
-  sendRemoteCommand(deviceKeys: string[], name: string, arg: string): void;
-
-  track(eventName: string, properties?: string): void;
-
-  timeEvent(eventName: string): void;
-
-  newEventSession(id?: string): void;
-
-  getRevelRoot(): Promise<string>;
-
-  getCommandMap(): Promise<string>;
-
-  getDevice(): Promise<string>;
-
-  finish(): void;
-}
-
-
 
 @Injectable({
   providedIn: 'root'
