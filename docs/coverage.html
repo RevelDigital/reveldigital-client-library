@@ -12,10 +12,61 @@
         <link rel="stylesheet" href="./styles/dark.css">
     </head>
     <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
 
-        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
-            <a href="./" class="navbar-brand">reveldigital-client-library documentation</a>
-            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="./" class="navbar-brand">reveldigital-client-library documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
         </div>
 
         <div class="xs-menu menu" id="mobile-menu">
@@ -24,7 +75,7 @@
 
         <div class="container-fluid main">
            <div class="row main">
-               <div class="hidden-xs menu">
+               <div class="d-none d-md-block menu">
                    <compodoc-menu mode="normal"></compodoc-menu>
                </div>
                <!-- START CONTENT -->
@@ -79,6 +130,54 @@
                 <span class="coverage-count">(0/1)</span>
             </td>
         </tr>
+        <tr class="good">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./interfaces/ICommand.html">projects/reveldigital/player-client/src/lib/interfaces/command.interface.ts</a>
+            </td>
+            <td>interface</td>
+            <td>ICommand</td>
+            <td align="right" data-sort="66">
+                <span class="coverage-percent">66 %</span>
+                <span class="coverage-count">(2/3)</span>
+            </td>
+        </tr>
+        <tr class="very-good">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./interfaces/IDevice.html">projects/reveldigital/player-client/src/lib/interfaces/device.interface.ts</a>
+            </td>
+            <td>interface</td>
+            <td>IDevice</td>
+            <td align="right" data-sort="88">
+                <span class="coverage-percent">88 %</span>
+                <span class="coverage-count">(8/9)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./interfaces/IEventProperties.html">projects/reveldigital/player-client/src/lib/interfaces/event-properties.interface.ts</a>
+            </td>
+            <td>interface</td>
+            <td>IEventProperties</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="very-good">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./interfaces/ILocation.html">projects/reveldigital/player-client/src/lib/interfaces/location.interface.ts</a>
+            </td>
+            <td>interface</td>
+            <td>ILocation</td>
+            <td align="right" data-sort="87">
+                <span class="coverage-percent">87 %</span>
+                <span class="coverage-count">(7/8)</span>
+            </td>
+        </tr>
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
@@ -110,33 +209,9 @@
             </td>
             <td>injectable</td>
             <td>PlayerClientService</td>
-            <td align="right" data-sort="95">
-                <span class="coverage-percent">95 %</span>
-                <span class="coverage-count">(21/22)</span>
-            </td>
-        </tr>
-        <tr class="low">
-            <td>
-                <!-- miscellaneous -->
-                <a href="./interfaces/Command.html">projects/reveldigital/player-client/src/lib/player-client.service.ts</a>
-            </td>
-            <td>interface</td>
-            <td>Command</td>
-            <td align="right" data-sort="0">
-                <span class="coverage-percent">0 %</span>
-                <span class="coverage-count">(0/3)</span>
-            </td>
-        </tr>
-        <tr class="low">
-            <td>
-                <!-- miscellaneous -->
-                <a href="./interfaces/EventProperties.html">projects/reveldigital/player-client/src/lib/player-client.service.ts</a>
-            </td>
-            <td>interface</td>
-            <td>EventProperties</td>
-            <td align="right" data-sort="0">
-                <span class="coverage-percent">0 %</span>
-                <span class="coverage-count">(0/1)</span>
+            <td align="right" data-sort="96">
+                <span class="coverage-percent">96 %</span>
+                <span class="coverage-count">(26/27)</span>
             </td>
         </tr>
         <tr class="low">
@@ -161,6 +236,18 @@
             <td align="right" data-sort="100">
                 <span class="coverage-percent">100 %</span>
                 <span class="coverage-count">(1/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./miscellaneous/variables.html#version">projects/reveldigital/player-client/src/lib/version.ts</a>
+            </td>
+            <td>variable</td>
+            <td>version</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
             </td>
         </tr>
         <tr class="low">
@@ -225,6 +312,19 @@
             var COMPODOC_CURRENT_PAGE_URL = 'coverage.html';
             var MAX_SEARCH_RESULTS = 15;
        </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
 
        <script src="./js/libs/custom-elements.min.js"></script>
        <script src="./js/libs/lit-html.js"></script>

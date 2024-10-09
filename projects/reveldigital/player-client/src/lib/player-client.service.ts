@@ -6,7 +6,9 @@ import { ICommand } from './interfaces/command.interface';
 import { IDevice } from './interfaces/device.interface';
 import { IEventProperties } from './interfaces/event-properties.interface';
 import { IClient } from './interfaces/client.interface';
+import { version } from './version';
 
+//import { version } from './version.js';
 
 // So that TypeScript doesn't complain, we're going to augment the GLOBAL / WINDOW 
 // name-space definition to include the Tracker API. This also provides us with a place
@@ -426,6 +428,54 @@ export class PlayerClientService implements OnDestroy {
     return device[0];
   }
 
+  /**
+   * Returns the width of the visualization area.
+   * 
+   * @returns Width of the visualization area
+   */
+  public async getWidth(): Promise<number | null> {
+
+    const client = await this.getClient();
+
+    return client.getWidth();
+  }
+
+  /**
+   * Returns the height of the visualization area.
+   * 
+   * @returns Height of the visualization area
+   */
+  public async getHeight(): Promise<number | null> {
+
+    const client = await this.getClient();
+
+    return client.getHeight();
+  }
+
+  /**
+   * Returns the duration of the currently playing source.
+   * (only applicable when associated with a playlist)
+   * 
+   * @returns Duration of the current item in milliseconds
+   */
+  public async getDuration(): Promise<number | null> {
+
+    const client = await this.getClient();
+
+    return client.getDuration();
+  }
+
+  /**
+   * Returns the current SDK version.
+   * 
+   * @returns SDK version
+   */
+  public async getSdkVersion(): Promise<string> {
+
+    return Promise.resolve(version);
+  }
+
+
   // ---
   // PRIVATE METHODS.
   // ---
@@ -478,7 +528,6 @@ export class PlayerClientService implements OnDestroy {
 
     return (this.clientPromise);
   }
-
 }
 
 
@@ -571,13 +620,33 @@ class NoopClient implements IClient {
     return Promise.resolve('{}');
   }
 
+  public finish(): void {
+
+    // NOOP implement, nothing to do....
+  }
+
   public async getDevice(): Promise<string | null> {
 
     return Promise.resolve(null);
   }
 
-  public finish(): void {
+  public async getWidth(): Promise<number | null> {
 
-    // NOOP implement, nothing to do....
+    return Promise.resolve(null);
+  }
+
+  public async getHeight(): Promise<number | null> {
+
+    return Promise.resolve(null);
+  }
+
+  public async getDuration(): Promise<number | null> {
+
+    return Promise.resolve(null);
+  }
+
+  public async getSdkVersion(): Promise<string> {
+
+    return Promise.resolve(version);
   }
 }

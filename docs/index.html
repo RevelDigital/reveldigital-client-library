@@ -12,10 +12,61 @@
         <link rel="stylesheet" href="./styles/dark.css">
     </head>
     <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
 
-        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
-            <a href="./" class="navbar-brand">reveldigital-client-library documentation</a>
-            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="./" class="navbar-brand">reveldigital-client-library documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
         </div>
 
         <div class="xs-menu menu" id="mobile-menu">
@@ -24,7 +75,7 @@
 
         <div class="container-fluid main">
            <div class="row main">
-               <div class="hidden-xs menu">
+               <div class="d-none d-md-block menu">
                    <compodoc-menu mode="normal"></compodoc-menu>
                </div>
                <!-- START CONTENT -->
@@ -41,22 +92,22 @@ to build full featured gadgets utilizing the Angular framework.</p>
 <p>Create a new repository on <a href="https://github.com/">GitHub.com</a>. For more information, see &quot;<a href="https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-new-repository">Creating a new repository</a>.&quot;</p>
 <p>Copy your remote repository URL</p>
 <p><img src="https://reveldigital.github.io/reveldigital-client-library/images/copy-remote-repository-url-quick-setup.jpg" alt="Alt text" class="img-responsive"></p>
-<div><pre class="line-numbers"><code class="language-sh">git remote add origin &lt;REMOTE_URL&gt;
+<b>Example :</b><div><pre class="line-numbers"><code class="language-sh">git remote add origin &lt;REMOTE_URL&gt;
 # Sets the new remote
 git remote -v
 # Verifies the new remote URL</code></pre></div><h3><strong>Step 2.</strong> Create a new Angular app</h3>
 <p>From within your working folder, run the following Angular CLI command using the name of your app.</p>
-<div><pre class="line-numbers"><code class="language-sh">ng new my-app --directory ./
+<b>Example :</b><div><pre class="line-numbers"><code class="language-sh">ng new my-app --directory ./
 # Generates the boilerplate code for a new Angular app</code></pre></div><h3><strong>Step 3.</strong> Add the Revel Digital libaries</h3>
 <p>Run the Revel Digital angular schematic which will configure your app for use as a Revel Digital gadget.</p>
-<div><pre class="line-numbers"><code class="language-sh">ng add &#64;reveldigital/player-client&#64;latest
+<b>Example :</b><div><pre class="line-numbers"><code class="language-sh">ng add &#64;reveldigital/player-client&#64;latest
 # Run the Revel Digital Angular schematic</code></pre></div><h3><strong>Step 4.</strong> Build</h3>
 <p>The build script will generate the Angular app along with a the gadget XML definition file.</p>
-<div><pre class="line-numbers"><code class="language-sh">npm run build:gadget
+<b>Example :</b><div><pre class="line-numbers"><code class="language-sh">npm run build:gadget
 # Run the gadget build script</code></pre></div><h3><strong>Step 5.</strong> Deploy</h3>
 <p>The app can be hosted using any number of hosting services, however the provided schematic includes a simplified option for publishing to <a href="https://pages.github.com/">GitHub Pages</a>.</p>
 <p>Assuming your working folder is associated with your GitHub repository, simply run the following command to deploy the app to the <code>gh-pages</code> branch. The gadget app and associated XML file will be publicly visibile and available for use in your signage.</p>
-<div><pre class="line-numbers"><code class="language-sh">npm run deploy:gadget
+<b>Example :</b><div><pre class="line-numbers"><code class="language-sh">npm run deploy:gadget
 # Deploy to GitHub Pages</code></pre></div><h2>Sample usage</h2>
 <p>The majority of the functionality is contained within the <a href="https://reveldigital.github.io/reveldigital-client-library/injectables/PlayerClientService.html">PlayerClientService</a>. The service and supporting library exposes the following functionality:</p>
 <ul>
@@ -67,7 +118,7 @@ git remote -v
 <li>Miscellaneous helpers such as the SafeStyle pipe</li>
 </ul>
 <p>Simply inject this service in your Angular component constructor in order to access the player client interface.</p>
-<div><pre class="line-numbers"><code class="language-ts">  constructor(public client: PlayerClientService) {
+<b>Example :</b><div><pre class="line-numbers"><code class="language-ts">  constructor(public client: PlayerClientService) {
 
     this.prefs = client.getPrefs();
     
@@ -92,7 +143,7 @@ git remote -v
 <p>The <code>assets/gadget.yaml</code> file is the definition file for your gadget, responsible for defining the basic properties and features of the gadget as presented to the user. These properties include the gadget name, description, support URL, and preferences. A sample <code>gadgets.yaml</code> file is included in your project after running the schematic.</p>
 <p>Preferences are the primary method for providing customization options of your gadget. They allow signage designers to change and preview gadget properties at design time within the Revel Digital CMS.</p>
 <p>The following is the sample <code>gadgets.yaml</code> included with the schematic:</p>
-<div><pre class="line-numbers"><code class="language-yaml"># Basic properties of the gadget must include the following:
+<b>Example :</b><div><pre class="line-numbers"><code class="language-yaml"># Basic properties of the gadget must include the following:
 #   title: Title of the gadget as it will appear in the Revel Digital CMS UX
 #   title_url: Optional support URL for the gadget
 #   description: Details of the gadget. Will appear within the Revel Digital CMS
@@ -189,7 +240,7 @@ prefs:
 <p><img src="https://reveldigital.github.io/reveldigital-client-library/images/sample-gadget-editor.png" alt="Alt text" class="img-responsive"></p>
 <p>You will see the preferences exposed in the editor which can then be modified at design time.</p>
 <p>Individual preferences are able to be accessed in your gadget code like so:</p>
-<div><pre class="line-numbers"><code class="language-ts">this.prefs = client.getPrefs();
+<b>Example :</b><div><pre class="line-numbers"><code class="language-ts">this.prefs = client.getPrefs();
 
 this.prefs.getString(&#39;myStringPref&#39;);
 this.prefs.getBool(&#39;myBoolPref&#39;);
@@ -248,6 +299,19 @@ this.prefs.getArray(&#39;myListPref&#39;);</code></pre></div><h2>Angular Library
             var COMPODOC_CURRENT_PAGE_URL = 'index.html';
             var MAX_SEARCH_RESULTS = 15;
        </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
 
        <script src="./js/libs/custom-elements.min.js"></script>
        <script src="./js/libs/lit-html.js"></script>
