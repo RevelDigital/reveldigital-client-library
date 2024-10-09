@@ -1,3 +1,4 @@
+<!-- 
 <h2>State: {{ state }}</h2>
 <h2>Local Time: {{ localTime | date:'medium' }}</h2>
 <h2>Device Time: {{ deviceTime | date:'medium' }}</h2>
@@ -8,9 +9,164 @@
 <h2>Device Key: {{ deviceKey }}</h2>
 <h2>Revel Root: {{ revelRoot }}</h2>
 <h2>Command Map: {{ commandMap | json }}</h2>
+<h2>Width: {{ width }}</h2>
+<h2>Height: {{ height }}</h2>
+<h2>Duration: {{ duration }}</h2>
+<h2>SDK Version: {{ version }}</h2>
 <h2 [style]="style | safeStyle">Sample Pref: {{ prefs.getString('myStringPref') }}</h2>
 <button (click)="sendCommand()">Send Command</button>
 <button (click)="trackEvent()">Track Event</button>
 <button (click)="callback()">Callback</button>
 <button (click)="finish()">Finish</button>
-<button (click)="sendRemoteCommand()">Send Remote Command</button><input type="text" [(ngModel)]="remoteDeviceKey">
+<button (click)="sendRemoteCommand()">Send Remote Command</button><input type="text" [(ngModel)]="remoteDeviceKey"> -->
+
+
+<div
+    class="w-screen h-screen flex flex-col items-center justify-center bg-gradient-to-br from-violet-600 to-indigo-600">
+    <div class="not-prose relative mt-10 rounded-xl">
+        <div class="shadow-sm overflow-hidden my-8 rounded-xl">
+            <table class="border-collapse table-auto text-sm">
+                <tbody class="bg-white dark:bg-slate-800">
+                    <tr>
+                        <td
+                            class="border-b border-slate-100 dark:border-slate-600 p-4 pl-8 text-slate-500 dark:text-slate-400">
+                            Player state</td>
+                        <td
+                            class="border-b border-slate-100 dark:border-slate-600 p-4 text-slate-500 dark:text-slate-400 font-bold text-center">
+                            {{
+                            state }}</td>
+                    </tr>
+                    <tr>
+                        <td
+                            class="border-b border-slate-100 dark:border-slate-600 p-4 pl-8 text-slate-500 dark:text-slate-400">
+                            Local time</td>
+                        <td
+                            class="border-b border-slate-100 dark:border-slate-600 p-4 text-slate-500 dark:text-slate-400 font-bold text-center">
+                            {{ localTime | date:'medium' }}</td>
+                    </tr>
+                    <tr>
+                        <td
+                            class="border-b border-slate-100 dark:border-slate-600 p-4 pl-8 text-slate-500 dark:text-slate-400">
+                            Device time</td>
+                        <td
+                            class="border-b border-slate-100 dark:border-slate-600 p-4 text-slate-500 dark:text-slate-400 font-bold text-center">
+                            {{
+                            deviceTime | date:'medium' }}</td>
+                    </tr>
+                    <tr>
+                        <td
+                            class="border-b border-slate-100 dark:border-slate-600 p-4 pl-8 text-slate-500 dark:text-slate-400">
+                            Device TZ Name</td>
+                        <td
+                            class="border-b border-slate-100 dark:border-slate-600 p-4 text-slate-500 dark:text-slate-400 font-bold text-center">
+                            {{ TZName }}</td>
+                    </tr>
+                    <tr>
+                        <td
+                            class="border-b border-slate-100 dark:border-slate-600 p-4 pl-8 text-slate-500 dark:text-slate-400">
+                            Device TZ ID</td>
+                        <td
+                            class="border-b border-slate-100 dark:border-slate-600 p-4 text-slate-500 dark:text-slate-400 font-bold text-center">
+                            {{ TZId }}</td>
+                    </tr>
+                    <tr>
+                        <td
+                            class="border-b border-slate-100 dark:border-slate-600 p-4 pl-8 text-slate-500 dark:text-slate-400">
+                            Device TZ Offset</td>
+                        <td
+                            class="border-b border-slate-100 dark:border-slate-600 p-4 text-slate-500 dark:text-slate-400 font-bold text-center">
+                            {{ TZOffset }}</td>
+                    </tr>
+                    <tr>
+                        <td
+                            class="border-b border-slate-100 dark:border-slate-600 p-4 pl-8 text-slate-500 dark:text-slate-400">
+                            Device Language Code</td>
+                        <td
+                            class="border-b border-slate-100 dark:border-slate-600 p-4 text-slate-500 dark:text-slate-400 font-bold text-center">
+                            {{ langCode }}</td>
+                    </tr>
+                    <tr>
+                        <td
+                            class="border-b border-slate-100 dark:border-slate-600 p-4 pl-8 text-slate-500 dark:text-slate-400">
+                            Device Key</td>
+                        <td
+                            class="border-b border-slate-100 dark:border-slate-600 p-4 text-slate-500 dark:text-slate-400 font-bold text-center">
+                            {{ deviceKey }}</td>
+                    </tr>
+                    <tr>
+                        <td
+                            class="border-b border-slate-100 dark:border-slate-600 p-4 pl-8 text-slate-500 dark:text-slate-400">
+                            Revel Root</td>
+                        <td
+                            class="border-b border-slate-100 dark:border-slate-600 p-4 text-slate-500 dark:text-slate-400 font-bold text-center">
+                            {{ revelRoot }}</td>
+                    </tr>
+                    <tr>
+                        <td
+                            class="border-b border-slate-100 dark:border-slate-700 p-4 pl-8 text-slate-500 dark:text-slate-400">
+                            Size</td>
+                        <td
+                            class="border-b border-slate-100 dark:border-slate-700 p-4 text-slate-500 dark:text-slate-400 font-bold text-center">
+                            {{
+                            width }} x {{ height }}</td>
+                    </tr>
+                    <tr>
+                        <td
+                            class="border-b border-slate-100 dark:border-slate-700 p-4 pl-8 text-slate-500 dark:text-slate-400">
+                            Duration</td>
+                        <td
+                            class="border-b border-slate-100 dark:border-slate-700 p-4 text-slate-500 dark:text-slate-400 font-bold text-center">
+                            {{
+                            duration }}</td>
+                    </tr>
+                    <tr>
+                        <td
+                            class="border-b border-slate-100 dark:border-slate-700 p-4 pl-8 text-slate-500 dark:text-slate-400">
+                            Is
+                            preview mode</td>
+                        <td
+                            class="border-b border-slate-100 dark:border-slate-700 p-4 text-slate-500 dark:text-slate-400 font-bold text-center">
+                            {{
+                            isPreviewMode }}</td>
+                    </tr>
+                    <tr>
+                        <td
+                            class="border-b border-slate-100 dark:border-slate-700 p-4 pl-8 text-slate-500 dark:text-slate-400">
+                            SDK Version</td>
+                        <td
+                            class="border-b border-slate-100 dark:border-slate-700 p-4 text-slate-500 dark:text-slate-400 font-bold text-center">
+                            {{
+                            version }}</td>
+                    </tr>
+                    <tr>
+                        <td
+                            class="border-b border-slate-100 dark:border-slate-600 p-4 pl-8 text-slate-500 dark:text-slate-400">
+                            Command map</td>
+                        <td
+                            class="border-b border-slate-100 dark:border-slate-600 p-4 text-slate-500 dark:text-slate-400 font-bold text-center">
+                            {{
+                            commandMap | json }}</td>
+                    </tr>
+                    <tr>
+                        <td
+                            class="border-b border-slate-100 dark:border-slate-600 p-4 pl-8 text-slate-500 dark:text-slate-400">
+                            Actions</td>
+                        <td
+                            class="border-b border-slate-100 dark:border-slate-600 p-4 text-slate-500 dark:text-slate-400 font-bold text-center">
+                            <button (click)="sendCommand()"
+                                class="mr-2 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">Send
+                                Command</button>
+                            <button (click)="trackEvent()"
+                                class="mr-2 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">Track
+                                Event</button>
+                            <button (click)="callback()"
+                                class="mr-2 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">Callback</button>
+                            <button (click)="finish()"
+                                class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">Finish</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -23,6 +23,11 @@ export class AppComponent implements OnInit {
   commandMap: any;
   prefs: any;
   style: any;
+  width: any;
+  height: any;
+  duration: any;
+  version: any;
+  isPreviewMode: any;
 
   //prefs = new gadgets.Prefs();
 
@@ -30,9 +35,9 @@ export class AppComponent implements OnInit {
   constructor(public client: PlayerClientService) {
 
     this.prefs = client.getPrefs();
-    
+
     this.style = this.prefs.getString('myStylePref');
-    
+
     this.client.onReady$.subscribe((val) => {
       console.log(val ? 'Ready' : 'Not ready');
       this.state = val ? 'Ready' : 'Not ready';
@@ -93,6 +98,26 @@ export class AppComponent implements OnInit {
 
     this.client.getCommandMap().then((res) => {
       this.commandMap = res;
+    });
+
+    this.client.getWidth().then((res) => {
+      this.width = res;
+    });
+
+    this.client.getHeight().then((res) => {
+      this.height = res;
+    });
+
+    this.client.getDuration().then((res) => {
+      this.duration = res;
+    });
+
+    this.client.getSdkVersion().then((res) => {
+      this.version = res;
+    });
+
+    this.client.isPreviewMode().then((res) => {
+      this.isPreviewMode = res;
     });
   }
 

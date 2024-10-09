@@ -12,10 +12,61 @@
         <link rel="stylesheet" href="../styles/dark.css">
     </head>
     <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
 
-        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
-            <a href="../" class="navbar-brand">reveldigital-client-library documentation</a>
-            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">reveldigital-client-library documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
         </div>
 
         <div class="xs-menu menu" id="mobile-menu">
@@ -24,7 +75,7 @@
 
         <div class="container-fluid main">
            <div class="row main">
-               <div class="hidden-xs menu">
+               <div class="d-none d-md-block menu">
                    <compodoc-menu mode="normal"></compodoc-menu>
                </div>
                <!-- START CONTENT -->
@@ -127,6 +178,11 @@
                             <li>
                                     <span class="modifier">Public</span>
                                     <span class="modifier">Async</span>
+                                <a href="#getDevice" >getDevice</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Async</span>
                                 <a href="#getDeviceKey" >getDeviceKey</a>
                             </li>
                             <li>
@@ -152,6 +208,16 @@
                             <li>
                                     <span class="modifier">Public</span>
                                     <span class="modifier">Async</span>
+                                <a href="#getDuration" >getDuration</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Async</span>
+                                <a href="#getHeight" >getHeight</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Async</span>
                                 <a href="#getLanguageCode" >getLanguageCode</a>
                             </li>
                             <li>
@@ -162,6 +228,16 @@
                                     <span class="modifier">Public</span>
                                     <span class="modifier">Async</span>
                                 <a href="#getRevelRoot" >getRevelRoot</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Async</span>
+                                <a href="#getSdkVersion" >getSdkVersion</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Async</span>
+                                <a href="#getWidth" >getWidth</a>
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
@@ -212,7 +288,7 @@
                 <td class="col-md-4">
                     <a name="callback"></a>
                     <span class="name">
-                        <span class="modifier">Public</span>
+                            <span class="modifier">Public</span>
                         <span ><b>callback</b></span>
                         <a href="#callback"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -220,72 +296,66 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
+                        <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>callback(...args: any[])</code>
                 </td>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="187"
-                            class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:187</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="150"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:150</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>This method allows the gadget to communicate with player scripting.
+                        <div class="io-description"><p>This method allows the gadget to communicate with player scripting.
 If the appropriate scripting is in place in the currently running template, calling this method
 will initiate a callback which can be acted upon in player script.</p>
-<div><pre class="line-numbers"><code class="language-html">client.callback(&#39;test&#39;, &#39;this&#39;);</code></pre></div></div>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-html">client.callback(&#39;test&#39;, &#39;this&#39;);</code></pre></div></div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>args</td>
-                                    <td>
-                                            <code>any[]</code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>args</td>
+                                            <td>
+                                                        <code>any[]</code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>variable number of arguments</p>
+                                            <td>
+                                                    <p>variable number of arguments</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                        <b>Example :</b>
-                        <div>
-                            <pre class="line-numbers"><code class="language-html">client.callback(&amp;#39;test&amp;#39;, &amp;#39;this&amp;#39;);</code></pre>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
                         </div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -296,7 +366,7 @@ will initiate a callback which can be acted upon in player script.</p>
                 <td class="col-md-4">
                     <a name="finish"></a>
                     <span class="name">
-                        <span class="modifier">Public</span>
+                            <span class="modifier">Public</span>
                         <span ><b>finish</b></span>
                         <a href="#finish"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -304,30 +374,30 @@ will initiate a callback which can be acted upon in player script.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
+                        <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>finish()</code>
                 </td>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="412"
-                            class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:412</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="375"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:375</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Indicate to the player that this gadget has finished it&#39;s visualization.
+                        <div class="io-description"><p>Indicate to the player that this gadget has finished it&#39;s visualization.
 This allows the player to proceed with the next item in a playlist if applicable.</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
@@ -338,8 +408,8 @@ This allows the player to proceed with the next item in a playlist if applicable
                 <td class="col-md-4">
                     <a name="getCommandMap"></a>
                     <span class="name">
-                        <span class="modifier">Public</span>
-                        <span class="modifier">Async</span>
+                            <span class="modifier">Public</span>
+                            <span class="modifier">Async</span>
                         <span ><b>getCommandMap</b></span>
                         <a href="#getCommandMap"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -347,35 +417,79 @@ This allows the player to proceed with the next item in a playlist if applicable
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
+                        <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>getCommandMap()</code>
                 </td>
             </tr>
 
 
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="364"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:364</a></div>
+                        </td>
+                    </tr>
+
+
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="401"
-                            class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:401</a></div>
+                        <div class="io-description"><p>Returns a map of commands currently active for this device.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Promise&lt;any&gt;</code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>Map of commands currently active for this device.</p>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getDevice"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                            <span class="modifier">Async</span>
+                        <span ><b>getDevice</b></span>
+                        <a href="#getDevice"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getDevice()</code>
                 </td>
             </tr>
 
 
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="401"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:401</a></div>
+                        </td>
+                    </tr>
+
+
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Returns a map of commands currently active for this device.</p>
+                        <div class="io-description"><p>Returns the device details associated with the player running the gadget or web app.</p>
 </div>
 
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Promise&lt;any&gt;</code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../interfaces/IDevice.html" target="_self" >Promise&lt;IDevice | null&gt;</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        <p>Map of commands currently active for this device.</p>
+                        </div>
+                            <div class="io-description">
+                                <p>Device details.</p>
 
-                    </div>
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -386,8 +500,8 @@ This allows the player to proceed with the next item in a playlist if applicable
                 <td class="col-md-4">
                     <a name="getDeviceKey"></a>
                     <span class="name">
-                        <span class="modifier">Public</span>
-                        <span class="modifier">Async</span>
+                            <span class="modifier">Public</span>
+                            <span class="modifier">Async</span>
                         <span ><b>getDeviceKey</b></span>
                         <a href="#getDeviceKey"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -395,35 +509,33 @@ This allows the player to proceed with the next item in a playlist if applicable
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
+                        <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>getDeviceKey()</code>
                 </td>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="301"
-                            class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:301</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="264"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:264</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Returns the unique Revel Digital device key associated with the device.</p>
+                        <div class="io-description"><p>Returns the unique Revel Digital device key associated with the device.</p>
 </div>
 
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Promise&lt;string&gt;</code>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Promise&lt;string&gt;</code>
 
-                    </div>
-                    <div class="io-description">
-                        <p>Device key</p>
+                        </div>
+                            <div class="io-description">
+                                <p>Device key</p>
 
-                    </div>
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -434,8 +546,8 @@ This allows the player to proceed with the next item in a playlist if applicable
                 <td class="col-md-4">
                     <a name="getDeviceTime"></a>
                     <span class="name">
-                        <span class="modifier">Public</span>
-                        <span class="modifier">Async</span>
+                            <span class="modifier">Public</span>
+                            <span class="modifier">Async</span>
                         <span ><b>getDeviceTime</b></span>
                         <a href="#getDeviceTime"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -443,68 +555,66 @@ This allows the player to proceed with the next item in a playlist if applicable
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
+                        <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>getDeviceTime(date?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date" target="_blank">Date</a>)</code>
                 </td>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="238"
-                            class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:238</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="201"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:201</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Returns the current device time in ISO8601 format.
+                        <div class="io-description"><p>Returns the current device time in ISO8601 format.
 Current device time is determined by the device timezone assigned to the device in the CMS.</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>date</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date" target="_blank" >Date</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>date</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date" target="_blank" >Date</a></code>
+                                            </td>
 
-                                    <td>
-                                        Yes
-                                    </td>
+                                            <td>
+                                                    Yes
+                                            </td>
 
 
-                                    <td>
-                                        <p>Optional. If supplied will translate the supplied date/time to device time based on respective timezones.</p>
+                                            <td>
+                                                    <p>Optional. If supplied will translate the supplied date/time to device time based on respective timezones.</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Promise&lt;string&gt;</code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Promise&lt;string&gt;</code>
 
-                    </div>
-                    <div class="io-description">
-                        <p>Date/time in ISO8601 format</p>
+                        </div>
+                            <div class="io-description">
+                                <p>Date/time in ISO8601 format</p>
 
-                    </div>
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -515,8 +625,8 @@ Current device time is determined by the device timezone assigned to the device 
                 <td class="col-md-4">
                     <a name="getDeviceTimeZoneID"></a>
                     <span class="name">
-                        <span class="modifier">Public</span>
-                        <span class="modifier">Async</span>
+                            <span class="modifier">Public</span>
+                            <span class="modifier">Async</span>
                         <span ><b>getDeviceTimeZoneID</b></span>
                         <a href="#getDeviceTimeZoneID"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -524,35 +634,33 @@ Current device time is determined by the device timezone assigned to the device 
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
+                        <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>getDeviceTimeZoneID()</code>
                 </td>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="265"
-                            class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:265</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="228"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:228</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Returns the timezone ID currently assigned to the device.</p>
+                        <div class="io-description"><p>Returns the timezone ID currently assigned to the device.</p>
 </div>
 
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Promise&lt;string&gt;</code>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Promise&lt;string&gt;</code>
 
-                    </div>
-                    <div class="io-description">
-                        <p>Timezone ID</p>
+                        </div>
+                            <div class="io-description">
+                                <p>Timezone ID</p>
 
-                    </div>
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -563,8 +671,8 @@ Current device time is determined by the device timezone assigned to the device 
                 <td class="col-md-4">
                     <a name="getDeviceTimeZoneName"></a>
                     <span class="name">
-                        <span class="modifier">Public</span>
-                        <span class="modifier">Async</span>
+                            <span class="modifier">Public</span>
+                            <span class="modifier">Async</span>
                         <span ><b>getDeviceTimeZoneName</b></span>
                         <a href="#getDeviceTimeZoneName"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -572,35 +680,33 @@ Current device time is determined by the device timezone assigned to the device 
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
+                        <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>getDeviceTimeZoneName()</code>
                 </td>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="253"
-                            class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:253</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="216"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:216</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Returns the timezone name currently assigned to the device.</p>
+                        <div class="io-description"><p>Returns the timezone name currently assigned to the device.</p>
 </div>
 
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Promise&lt;string&gt;</code>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Promise&lt;string&gt;</code>
 
-                    </div>
-                    <div class="io-description">
-                        <p>Timezone Name</p>
+                        </div>
+                            <div class="io-description">
+                                <p>Timezone Name</p>
 
-                    </div>
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -611,8 +717,8 @@ Current device time is determined by the device timezone assigned to the device 
                 <td class="col-md-4">
                     <a name="getDeviceTimeZoneOffset"></a>
                     <span class="name">
-                        <span class="modifier">Public</span>
-                        <span class="modifier">Async</span>
+                            <span class="modifier">Public</span>
+                            <span class="modifier">Async</span>
                         <span ><b>getDeviceTimeZoneOffset</b></span>
                         <a href="#getDeviceTimeZoneOffset"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -620,35 +726,126 @@ Current device time is determined by the device timezone assigned to the device 
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
+                        <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>getDeviceTimeZoneOffset()</code>
                 </td>
             </tr>
 
 
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="240"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:240</a></div>
+                        </td>
+                    </tr>
+
+
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="277"
-                            class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:277</a></div>
+                        <div class="io-description"><p>Returns the numerical offset from GMT of the timezone currently assigned to the device.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Promise&lt;number&gt;</code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>Timezone offset</p>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getDuration"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                            <span class="modifier">Async</span>
+                        <span ><b>getDuration</b></span>
+                        <a href="#getDuration"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getDuration()</code>
                 </td>
             </tr>
 
 
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="461"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:461</a></div>
+                        </td>
+                    </tr>
+
+
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Returns the numerical offset from GMT of the timezone currently assigned to the device.</p>
+                        <div class="io-description"><p>Returns the duration of the currently playing source.
+(only applicable when associated with a playlist)</p>
 </div>
 
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Promise&lt;number&gt;</code>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Promise&lt;number | null&gt;</code>
 
-                    </div>
-                    <div class="io-description">
-                        <p>Timezone offset</p>
+                        </div>
+                            <div class="io-description">
+                                <p>Duration of the current item in milliseconds</p>
 
-                    </div>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getHeight"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                            <span class="modifier">Async</span>
+                        <span ><b>getHeight</b></span>
+                        <a href="#getHeight"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getHeight()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="448"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:448</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Returns the height of the visualization area.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Promise&lt;number | null&gt;</code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>Height of the visualization area</p>
+
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -659,8 +856,8 @@ Current device time is determined by the device timezone assigned to the device 
                 <td class="col-md-4">
                     <a name="getLanguageCode"></a>
                     <span class="name">
-                        <span class="modifier">Public</span>
-                        <span class="modifier">Async</span>
+                            <span class="modifier">Public</span>
+                            <span class="modifier">Async</span>
                         <span ><b>getLanguageCode</b></span>
                         <a href="#getLanguageCode"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -668,35 +865,33 @@ Current device time is determined by the device timezone assigned to the device 
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
+                        <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>getLanguageCode()</code>
                 </td>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="289"
-                            class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:289</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="252"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:252</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Returns the language code of the language currently assigned to the device.</p>
+                        <div class="io-description"><p>Returns the language code of the language currently assigned to the device.</p>
 </div>
 
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Promise&lt;string&gt;</code>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Promise&lt;string&gt;</code>
 
-                    </div>
-                    <div class="io-description">
-                        <p>Language code</p>
+                        </div>
+                            <div class="io-description">
+                                <p>Language code</p>
 
-                    </div>
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -707,7 +902,7 @@ Current device time is determined by the device timezone assigned to the device 
                 <td class="col-md-4">
                     <a name="getPrefs"></a>
                     <span class="name">
-                        <span class="modifier">Public</span>
+                            <span class="modifier">Public</span>
                         <span ><b>getPrefs</b></span>
                         <a href="#getPrefs"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -715,46 +910,37 @@ Current device time is determined by the device timezone assigned to the device 
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
+                        <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>getPrefs()</code>
                 </td>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="226"
-                            class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:226</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="189"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:189</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Accessor method for the user preferences interface exposed by the Gadgets API.</p>
+                        <div class="io-description"><p>Accessor method for the user preferences interface exposed by the Gadgets API.</p>
 <p>See <a href="https://developers.google.com/gadgets/docs/basic">https://developers.google.com/gadgets/docs/basic</a> for more details on the Gadgets API.</p>
-<div><pre class="line-numbers"><code class="language-html">constructor(public client: PlayerClientService) {
+<b>Example :</b><div><pre class="line-numbers"><code class="language-html">constructor(public client: PlayerClientService) {
            let prefs = client.getPrefs();
            let myString = prefs.getString(&#39;myStringPref&#39;);
 }</code></pre></div></div>
 
-                    <div>
-                        <b>Example :</b>
-                        <div>
-                            <pre class="line-numbers"><code class="language-html">constructor(public client: PlayerClientService) {
-           let prefs = client.getPrefs();
-           let myString = prefs.getString(&amp;#39;myStringPref&amp;#39;);
-}</code></pre>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../miscellaneous/variables.html#gadgets" target="_self" >gadgets.Prefs</a></code>
+
                         </div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../miscellaneous/variables.html#gadgets" target="_self" >gadgets.Prefs</a></code>
+                            <div class="io-description">
+                                <p>Gadget API Prefs object</p>
 
-                    </div>
-                    <div class="io-description">
-                        <p>Gadget API Prefs object</p>
-
-                    </div>
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -765,8 +951,8 @@ Current device time is determined by the device timezone assigned to the device 
                 <td class="col-md-4">
                     <a name="getRevelRoot"></a>
                     <span class="name">
-                        <span class="modifier">Public</span>
-                        <span class="modifier">Async</span>
+                            <span class="modifier">Public</span>
+                            <span class="modifier">Async</span>
                         <span ><b>getRevelRoot</b></span>
                         <a href="#getRevelRoot"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -774,35 +960,125 @@ Current device time is determined by the device timezone assigned to the device 
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
+                        <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>getRevelRoot()</code>
                 </td>
             </tr>
 
 
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="352"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:352</a></div>
+                        </td>
+                    </tr>
+
+
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="389"
-                            class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:389</a></div>
+                        <div class="io-description"><p>Returns the root folder utilized by this player device.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Promise&lt;string&gt;</code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>Path to the root folder</p>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getSdkVersion"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                            <span class="modifier">Async</span>
+                        <span ><b>getSdkVersion</b></span>
+                        <a href="#getSdkVersion"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getSdkVersion()</code>
                 </td>
             </tr>
 
 
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="473"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:473</a></div>
+                        </td>
+                    </tr>
+
+
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Returns the root folder utilized by this player device.</p>
+                        <div class="io-description"><p>Returns the current SDK version.</p>
 </div>
 
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Promise&lt;string&gt;</code>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Promise&lt;string&gt;</code>
 
-                    </div>
-                    <div class="io-description">
-                        <p>Path to the root folder</p>
+                        </div>
+                            <div class="io-description">
+                                <p>SDK version</p>
 
-                    </div>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getWidth"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                            <span class="modifier">Async</span>
+                        <span ><b>getWidth</b></span>
+                        <a href="#getWidth"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getWidth()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="436"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:436</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Returns the width of the visualization area.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Promise&lt;number | null&gt;</code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>Width of the visualization area</p>
+
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -813,8 +1089,8 @@ Current device time is determined by the device timezone assigned to the device 
                 <td class="col-md-4">
                     <a name="isPreviewMode"></a>
                     <span class="name">
-                        <span class="modifier">Public</span>
-                        <span class="modifier">Async</span>
+                            <span class="modifier">Public</span>
+                            <span class="modifier">Async</span>
                         <span ><b>isPreviewMode</b></span>
                         <a href="#isPreviewMode"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -822,36 +1098,34 @@ Current device time is determined by the device timezone assigned to the device 
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
+                        <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>isPreviewMode()</code>
                 </td>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="426"
-                            class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:426</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="389"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:389</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Check is the gadget is running in preview mode. Preview mode is enabled when the gadget is
+                        <div class="io-description"><p>Check is the gadget is running in preview mode. Preview mode is enabled when the gadget is
 being edited in the CMS, or otherwise not running in a normal player environment.</p>
 </div>
 
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Promise&lt;boolean&gt;</code>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Promise&lt;boolean&gt;</code>
 
-                    </div>
-                    <div class="io-description">
-                        <p>True if the gadget is running in preview mode, false otherwise.</p>
+                        </div>
+                            <div class="io-description">
+                                <p>True if the gadget is running in preview mode, false otherwise.</p>
 
-                    </div>
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -862,7 +1136,7 @@ being edited in the CMS, or otherwise not running in a normal player environment
                 <td class="col-md-4">
                     <a name="newEventSession"></a>
                     <span class="name">
-                        <span class="modifier">Public</span>
+                            <span class="modifier">Public</span>
                         <span ><b>newEventSession</b></span>
                         <a href="#newEventSession"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -870,68 +1144,66 @@ being edited in the CMS, or otherwise not running in a normal player environment
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
+                        <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>newEventSession(id?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="373"
-                            class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:373</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="336"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:336</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>A session is a way of grouping events together. Each event has an associated session ID.
+                        <div class="io-description"><p>A session is a way of grouping events together. Each event has an associated session ID.
 Session ID&#39;s are randomly generated and reset by subsequent calls to newEventSession().</p>
 <p>Each call to track() will utilize the same session ID, until another call to newEventSession().</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>id</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>id</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
 
-                                    <td>
-                                        Yes
-                                    </td>
+                                            <td>
+                                                    Yes
+                                            </td>
 
 
-                                    <td>
-                                        <p>Optional. User supplied session ID. If not supplied a random session ID will be generated.</p>
+                                            <td>
+                                                    <p>Optional. User supplied session ID. If not supplied a random session ID will be generated.</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -942,7 +1214,7 @@ Session ID&#39;s are randomly generated and reset by subsequent calls to newEven
                 <td class="col-md-4">
                     <a name="sendCommand"></a>
                     <span class="name">
-                        <span class="modifier">Public</span>
+                            <span class="modifier">Public</span>
                         <span ><b>sendCommand</b></span>
                         <a href="#sendCommand"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -950,82 +1222,80 @@ Session ID&#39;s are randomly generated and reset by subsequent calls to newEven
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
+                        <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>sendCommand(name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, arg: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="314"
-                            class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:314</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="277"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:277</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Send a command to the player device.</p>
+                        <div class="io-description"><p>Send a command to the player device.</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>name</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>name</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>Command name</p>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>arg</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>Command argument</p>
+                                            <td>
+                                                    <p>Command name</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>arg</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
 
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Command argument</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -1036,7 +1306,7 @@ Session ID&#39;s are randomly generated and reset by subsequent calls to newEven
                 <td class="col-md-4">
                     <a name="sendRemoteCommand"></a>
                     <span class="name">
-                        <span class="modifier">Public</span>
+                            <span class="modifier">Public</span>
                         <span ><b>sendRemoteCommand</b></span>
                         <a href="#sendRemoteCommand"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -1044,99 +1314,97 @@ Session ID&#39;s are randomly generated and reset by subsequent calls to newEven
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
+                        <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>sendRemoteCommand(deviceKeys: string[], name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, arg: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="329"
-                            class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:329</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="292"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:292</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Send a command to any remote player with the supplied device key(s).
+                        <div class="io-description"><p>Send a command to any remote player with the supplied device key(s).
 Note: Remote commands can only be delivered to devices within the same account as the sender device.</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>deviceKeys</td>
-                                    <td>
-                                            <code>string[]</code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>deviceKeys</td>
+                                            <td>
+                                                        <code>string[]</code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>Array of remote device keys</p>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>name</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>Command name</p>
+                                            <td>
+                                                    <p>Array of remote device keys</p>
 
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>arg</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>name</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>Command arg</p>
+                                            <td>
+                                                    <p>Command name</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>arg</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
 
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Command arg</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -1147,7 +1415,7 @@ Note: Remote commands can only be delivered to devices within the same account a
                 <td class="col-md-4">
                     <a name="timeEvent"></a>
                     <span class="name">
-                        <span class="modifier">Public</span>
+                            <span class="modifier">Public</span>
                         <span ><b>timeEvent</b></span>
                         <a href="#timeEvent"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -1155,73 +1423,66 @@ Note: Remote commands can only be delivered to devices within the same account a
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
+                        <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>timeEvent(eventName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="359"
-                            class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:359</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="322"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:322</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Method for initiating a timed event.
+                        <div class="io-description"><p>Method for initiating a timed event.
 Timed events are useful for tracking the duration of an event and must be proceeded with a call to track().</p>
-<div><pre class="line-numbers"><code class="language-html">client.timeEvent(&#39;testEvent&#39;);
+<b>Example :</b><div><pre class="line-numbers"><code class="language-html">client.timeEvent(&#39;testEvent&#39;);
 client.track(&quot;test&quot;, { &quot;a&quot;: &quot;b&quot; });</code></pre></div></div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>eventName</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>eventName</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>Unique name for this event</p>
+                                            <td>
+                                                    <p>Unique name for this event</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                        <b>Example :</b>
-                        <div>
-                            <pre class="line-numbers"><code class="language-html">client.timeEvent(&amp;#39;testEvent&amp;#39;);
-client.track(&amp;quot;test&amp;quot;, { &amp;quot;a&amp;quot;: &amp;quot;b&amp;quot; });</code></pre>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
                         </div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -1232,7 +1493,7 @@ client.track(&amp;quot;test&amp;quot;, { &amp;quot;a&amp;quot;: &amp;quot;b&amp;
                 <td class="col-md-4">
                     <a name="track"></a>
                     <span class="name">
-                        <span class="modifier">Public</span>
+                            <span class="modifier">Public</span>
                         <span ><b>track</b></span>
                         <a href="#track"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -1240,83 +1501,81 @@ client.track(&amp;quot;test&amp;quot;, { &amp;quot;a&amp;quot;: &amp;quot;b&amp;
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>track(eventName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, properties?: <a href="../interfaces/EventProperties.html" target="_self">EventProperties</a>)</code>
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>track(eventName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, properties?: <a href="../interfaces/IEventProperties.html" target="_self">IEventProperties</a>)</code>
                 </td>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="343"
-                            class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:343</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="306"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:306</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Log an event for use with AdHawk analytics.
+                        <div class="io-description"><p>Log an event for use with AdHawk analytics.
 Events are used for tracking various metrics including usage statistics, player condition, state changes, etc.</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>eventName</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>eventName</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>Unique name for this event</p>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>properties</td>
-                                    <td>
-                                                <code><a href="../interfaces/EventProperties.html" target="_self" >EventProperties</a></code>
-                                    </td>
-
-                                    <td>
-                                        Yes
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>A map of user defined properties to associate with this event</p>
+                                            <td>
+                                                    <p>Unique name for this event</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>properties</td>
+                                            <td>
+                                                            <code><a href="../interfaces/IEventProperties.html" target="_self" >IEventProperties</a></code>
+                                            </td>
 
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                            <td>
+                                                    <p>A map of user defined properties to associate with this event</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -1341,12 +1600,12 @@ Events are used for tracking various metrics including usage statistics, player 
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Default value : </i><code>new Subject&lt;Command&gt;()</code>
+                        <i>Default value : </i><code>new Subject&lt;ICommand&gt;()</code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="71" class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:71</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:34</a></div>
                         </td>
                     </tr>
 
@@ -1378,7 +1637,7 @@ Events are used for tracking various metrics including usage statistics, player 
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="75" class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:75</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:38</a></div>
                         </td>
                     </tr>
 
@@ -1410,7 +1669,7 @@ Events are used for tracking various metrics including usage statistics, player 
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="79" class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:79</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:42</a></div>
                         </td>
                     </tr>
 
@@ -1442,7 +1701,7 @@ Events are used for tracking various metrics including usage statistics, player 
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="83" class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:83</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:46</a></div>
                         </td>
                     </tr>
 
@@ -1462,10 +1721,16 @@ Events are used for tracking various metrics including usage statistics, player 
 
     <div class="tab-pane fade  tab-source-code" id="source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, NgZone, OnDestroy } from &#x27;@angular/core&#x27;;
+import { gadgets } from &#x27;@reveldigital/gadget-types&#x27;;
 import { BehaviorSubject, fromEvent, Subject, Subscription } from &#x27;rxjs&#x27;;
 import { map, share, tap } from &#x27;rxjs/operators&#x27;;
-import { gadgets } from &#x27;@reveldigital/gadget-types&#x27;;
+import { ICommand } from &#x27;./interfaces/command.interface&#x27;;
+import { IDevice } from &#x27;./interfaces/device.interface&#x27;;
+import { IEventProperties } from &#x27;./interfaces/event-properties.interface&#x27;;
+import { IClient } from &#x27;./interfaces/client.interface&#x27;;
+import { version } from &#x27;./version&#x27;;
 
+//import { version } from &#x27;./version.js&#x27;;
 
 // So that TypeScript doesn&#x27;t complain, we&#x27;re going to augment the GLOBAL / WINDOW 
 // name-space definition to include the Tracker API. This also provides us with a place
@@ -1474,50 +1739,7 @@ import { gadgets } from &#x27;@reveldigital/gadget-types&#x27;;
 
 /** @ignore */
 declare global {
-  var Client: Client;
-}
-
-/** @ignore */
-export interface Client {
-
-  callback(...args: any[]): void;
-
-  getDeviceTime(date?: Date): Promise&lt;string&gt;;
-
-  getDeviceTimeZoneName(): Promise&lt;string&gt;;
-
-  getDeviceTimeZoneID(): Promise&lt;string&gt;;
-
-  getDeviceTimeZoneOffset(): Promise&lt;number&gt;;
-
-  getLanguageCode(): Promise&lt;string&gt;;
-
-  getDeviceKey(): Promise&lt;string&gt;;
-
-  sendCommand(name: string, arg: string): void;
-
-  sendRemoteCommand(deviceKeys: string[], name: string, arg: string): void;
-
-  track(eventName: string, properties?: string): void;
-
-  timeEvent(eventName: string): void;
-
-  newEventSession(id?: string): void;
-
-  getRevelRoot(): Promise&lt;string&gt;;
-
-  getCommandMap(): Promise&lt;string&gt;;
-
-  finish(): void;
-}
-
-export interface EventProperties {
-  [key: string]: any;
-}
-
-export interface Command {
-  name: string;
-  arg: string;
+  var Client: IClient;
 }
 
 @Injectable({
@@ -1526,12 +1748,12 @@ export interface Command {
 export class PlayerClientService implements OnDestroy {
 
   /** @ignore */
-  private clientPromise: Promise&lt;Client&gt; | null;
+  private clientPromise: Promise&lt;IClient&gt; | null;
 
   /**
    * Commands sent to this player.
    */
-  public onCommand$ &#x3D; new Subject&lt;Command&gt;();
+  public onCommand$ &#x3D; new Subject&lt;ICommand&gt;();
   /**
    * Signals the gadget has been loaded and is ready to start.
    */
@@ -1568,8 +1790,8 @@ export class PlayerClientService implements OnDestroy {
   /** @ignore */
   private onCommandSub: Subscription;
   /** @ignore */
-  private onCommandEvt$ &#x3D; fromEvent&lt;Command&gt;(document, &#x27;RevelDigital.Command&#x27;).pipe(
-    map((e: any) &#x3D;&gt; { return { name: e.detail.name, arg: e.detail.arg } as Command }),
+  private onCommandEvt$ &#x3D; fromEvent&lt;ICommand&gt;(document, &#x27;RevelDigital.Command&#x27;).pipe(
+    map((e: any) &#x3D;&gt; { return { name: e.detail.name, arg: e.detail.arg } as ICommand }),
     share(),
     tap(this.onCommand$)
   );
@@ -1803,7 +2025,7 @@ export class PlayerClientService implements OnDestroy {
    * @param eventName Unique name for this event
    * @param properties A map of user defined properties to associate with this event
    */
-  public track(eventName: string, properties?: EventProperties): void {
+  public track(eventName: string, properties?: IEventProperties): void {
 
     this.getClient().then((client) &#x3D;&gt; {
       client.track(eventName, JSON.stringify(properties));
@@ -1893,12 +2115,94 @@ export class PlayerClientService implements OnDestroy {
     return client instanceof NoopClient;
   }
 
-    
+  /**
+ * Returns the device details associated with the player running the gadget or web app.
+ * 
+ * @returns Device details.
+ */
+  public async getDevice(): Promise&lt;IDevice | null&gt; {
+
+    const client &#x3D; await this.getClient();
+
+    let obj: any &#x3D; JSON.parse(&lt;string&gt;await client.getDevice());
+
+    const device: IDevice[] &#x3D; [obj].map((device: any) &#x3D;&gt; {
+
+      return {
+        name: device.name,
+        registrationKey: device.key,
+        deviceType: device.devicetype,
+        enteredService: new Date(device.enteredservice),
+        langCode: device.langcode,
+        timeZone: device.timezone,
+        tags: device.description?.split(&#x27;\n&#x27;),
+        location: {
+          city: device.location?.city,
+          state: device.location?.state,
+          country: device.location?.country,
+          postalCode: device.location?.postalcode,
+          address: device.location?.address,
+          latitude: device.location?.latitude,
+          longitude: device.location?.longitude
+        }
+      }
+    });
+    return device[0];
+  }
+
+  /**
+   * Returns the width of the visualization area.
+   * 
+   * @returns Width of the visualization area
+   */
+  public async getWidth(): Promise&lt;number | null&gt; {
+
+    const client &#x3D; await this.getClient();
+
+    return client.getWidth();
+  }
+
+  /**
+   * Returns the height of the visualization area.
+   * 
+   * @returns Height of the visualization area
+   */
+  public async getHeight(): Promise&lt;number | null&gt; {
+
+    const client &#x3D; await this.getClient();
+
+    return client.getHeight();
+  }
+
+  /**
+   * Returns the duration of the currently playing source.
+   * (only applicable when associated with a playlist)
+   * 
+   * @returns Duration of the current item in milliseconds
+   */
+  public async getDuration(): Promise&lt;number | null&gt; {
+
+    const client &#x3D; await this.getClient();
+
+    return client.getDuration();
+  }
+
+  /**
+   * Returns the current SDK version.
+   * 
+   * @returns SDK version
+   */
+  public async getSdkVersion(): Promise&lt;string&gt; {
+
+    return Promise.resolve(version);
+  }
+
+
   // ---
   // PRIVATE METHODS.
   // ---
   /** @ignore */
-  private getClient(): Promise&lt;Client&gt; {
+  private getClient(): Promise&lt;IClient&gt; {
 
     if (this.clientPromise) {
 
@@ -1926,7 +2230,7 @@ export class PlayerClientService implements OnDestroy {
     // may be in an &quot;interactive&quot; state which is when I believe that the Angular app
     // gets bootstrapped). As such, we need bind to the LOAD event to wait for our
     // third-party scripts to load (or fail to load, or be blocked).
-    this.clientPromise &#x3D; new Promise&lt;Client&gt;(
+    this.clientPromise &#x3D; new Promise&lt;IClient&gt;(
       (resolve) &#x3D;&gt; {
 
         window.addEventListener(
@@ -1946,7 +2250,6 @@ export class PlayerClientService implements OnDestroy {
 
     return (this.clientPromise);
   }
-
 }
 
 
@@ -1959,7 +2262,7 @@ export class PlayerClientService implements OnDestroy {
 // blocked by an ad-blocker).
 
 /** @ignore */
-class NoopClient implements Client {
+class NoopClient implements IClient {
 
   constructor() {
 
@@ -2043,6 +2346,31 @@ class NoopClient implements Client {
 
     // NOOP implement, nothing to do....
   }
+
+  public async getDevice(): Promise&lt;string | null&gt; {
+
+    return Promise.resolve(null);
+  }
+
+  public async getWidth(): Promise&lt;number | null&gt; {
+
+    return Promise.resolve(null);
+  }
+
+  public async getHeight(): Promise&lt;number | null&gt; {
+
+    return Promise.resolve(null);
+  }
+
+  public async getDuration(): Promise&lt;number | null&gt; {
+
+    return Promise.resolve(null);
+  }
+
+  public async getSdkVersion(): Promise&lt;string&gt; {
+
+    return Promise.resolve(version);
+  }
 }
 </code></pre>
     </div>
@@ -2090,6 +2418,19 @@ class NoopClient implements Client {
             var COMPODOC_CURRENT_PAGE_URL = 'PlayerClientService.html';
             var MAX_SEARCH_RESULTS = 15;
        </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>
        <script src="../js/libs/lit-html.js"></script>
