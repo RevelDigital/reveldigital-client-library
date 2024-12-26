@@ -258,6 +258,11 @@
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
+                                    <span class="modifier">Async</span>
+                                <a href="#setPreference" >setPreference</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
                                 <a href="#timeEvent" >timeEvent</a>
                             </li>
                             <li>
@@ -1413,6 +1418,101 @@ Note: Remote commands can only be delivered to devices within the same account a
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="setPreference"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                            <span class="modifier">Async</span>
+                        <span ><b>setPreference</b></span>
+                        <a href="#setPreference"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>setPreference(key: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, value: string | number | boolean)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="487"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:487</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Set a preference value.</p>
+<p>Provides the ability to have the gadget present a UI for setting preferences.
+Only available during design time.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>key</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Prefernce key</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>value</td>
+                                            <td>
+                                                        <code>string | number | boolean</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Preference value</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="timeEvent"></a>
                     <span class="name">
                             <span class="modifier">Public</span>
@@ -2197,6 +2297,27 @@ export class PlayerClientService implements OnDestroy {
     return Promise.resolve(version);
   }
 
+  /**
+   * Set a preference value.
+   * 
+   * Provides the ability to have the gadget present a UI for setting preferences.
+   * Only available during design time.
+   * 
+   * @param key Prefernce key
+   * @param value Preference value
+   */
+  public async setPreference(key: string, value: string | number | boolean) {
+
+    if (await this.isPreviewMode()) {
+      const client &#x3D; await this.getClient();
+      client.setPreference(key, value);
+    } else {
+      console.log(
+        &#x27;%csetPreference() is only available in preview mode.&#x27;,
+        &#x27;background-color:blue; color:yellow;&#x27;
+      );
+    }
+  }
 
   // ---
   // PRIVATE METHODS.
@@ -2371,6 +2492,21 @@ class NoopClient implements IClient {
 
     return Promise.resolve(version);
   }
+
+  public setPreference(key: string, value: string | number | boolean) {
+
+    //if (window.parent !&#x3D;&#x3D; window.top) {
+
+      window.parent.postMessage(
+        JSON.stringify({
+          type: &#x27;setPreference&#x27;,
+          key: key,
+          value: value
+        }),
+        &#x27;*&#x27;
+      );
+    //}
+  }
 }
 </code></pre>
     </div>
@@ -2443,7 +2579,6 @@ class NoopClient implements IClient {
        <script src="../js/libs/es6-shim.min.js"></script>
        <script src="../js/libs/EventDispatcher.js"></script>
        <script src="../js/libs/promise.min.js"></script>
-       <script src="../js/libs/zepto.min.js"></script>
 
        <script src="../js/compodoc.js"></script>
 

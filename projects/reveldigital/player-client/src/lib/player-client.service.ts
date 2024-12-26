@@ -1,11 +1,12 @@
 import { Injectable, NgZone, OnDestroy } from '@angular/core';
 import { gadgets } from '@reveldigital/gadget-types';
 import { BehaviorSubject, fromEvent, Subject, Subscription } from 'rxjs';
-import { map, share, tap } from 'rxjs/operators';
+import { filter, map, share, tap } from 'rxjs/operators';
+import { IClient } from './interfaces/client.interface';
 import { ICommand } from './interfaces/command.interface';
+import { IDictionary } from './interfaces/config.interface';
 import { IDevice } from './interfaces/device.interface';
 import { IEventProperties } from './interfaces/event-properties.interface';
-import { IClient } from './interfaces/client.interface';
 import { version } from './version';
 
 //import { version } from './version.js';
@@ -45,6 +46,10 @@ export class PlayerClientService implements OnDestroy {
    */
   public onStop$ = new Subject();
 
+  public onConfig$ = new Subject();
+
+  public onPostMessage$ = new Subject();
+
   //
   // Two methods available for calling into the library:
   //
@@ -54,26 +59,40 @@ export class PlayerClientService implements OnDestroy {
   /** @ignore */
   private onStartSub: Subscription;
   /** @ignore */
-  private onStartEvt$ = fromEvent(document, 'RevelDigital.Start').pipe(
+  private onStartEvt$ = fromEvent(window, 'RevelDigital.Start').pipe(
     share(),
     tap(this.onStart$)
   );
   /** @ignore */
   private onStopSub: Subscription;
   /** @ignore */
-  private onStopEvt$ = fromEvent(document, 'RevelDigital.Stop').pipe(
+  private onStopEvt$ = fromEvent(window, 'RevelDigital.Stop').pipe(
     share(),
     tap(this.onStop$)
   );
   /** @ignore */
   private onCommandSub: Subscription;
   /** @ignore */
-  private onCommandEvt$ = fromEvent<ICommand>(document, 'RevelDigital.Command').pipe(
+  private onCommandEvt$ = fromEvent<ICommand>(window, 'RevelDigital.Command').pipe(
     map((e: any) => { return { name: e.detail.name, arg: e.detail.arg } as ICommand }),
     share(),
     tap(this.onCommand$)
   );
+  /** @ignore */
+  // private onConfigSub: Subscription;
+  // /** @ignore */
+  // private onConfigEvt$ = fromEvent(window, 'RevelDigital.Config').pipe(
+  //   share(),
+  //   tap((e: CustomEvent) => {
+  //     console.log(e);
 
+  //     if (e.detail.type === 'applyConfig' && e.detail.isOpener) {
+  //       this.applyConfig(e.detail.config); // propagate config to iframe parent from the popup window
+  //     } else {
+  //       this.onConfig$.next(e.detail);
+  //     }
+  //   })
+  // );
   // private onPostMessageSub: Subscription;
   // private onPostMessageEvt$ = fromEvent(window, 'message').pipe(
   //   filter((messageEvent: MessageEvent) =>
@@ -84,6 +103,29 @@ export class PlayerClientService implements OnDestroy {
   //   share(),
   //   tap(this.onCommand$)
   // );
+
+  private onPostMessageSub: Subscription;
+  private onPostMessageEvt$ = fromEvent(window, 'message').pipe(
+    filter((messageEvent: MessageEvent) =>
+      //messageEvent.source !== window.parent &&
+      typeof messageEvent.data === 'string'),
+    map((e: any) => JSON.parse(e.data)),
+    share(),
+    tap((e: any) => {
+      if (e.type === 'applyConfig' && e.isOpener) {
+        e.isOpener = false;
+        // propagate config to iframe parent from the popup window
+        window.parent.postMessage(
+          JSON.stringify(e),
+          '*'
+        );
+      } else if (e.type === 'openConfig') {
+        this.onConfig$.next(null);
+      }
+    }),
+    tap(e => this.onPostMessage$.next(e))
+  );
+
 
   /** @ignore */
   constructor(zone: NgZone) {
@@ -112,6 +154,8 @@ export class PlayerClientService implements OnDestroy {
     this.onStartSub = this.onStartEvt$.subscribe(() => { });
     this.onStopSub = this.onStopEvt$.subscribe(() => { });
     this.onCommandSub = this.onCommandEvt$.subscribe(() => { });
+    //this.onConfigSub = this.onConfigEvt$.subscribe(() => { });
+    this.onPostMessageSub = this.onPostMessageEvt$.subscribe(() => { });
 
     this.clientPromise = null;
 
@@ -124,6 +168,8 @@ export class PlayerClientService implements OnDestroy {
     this.onStartSub?.unsubscribe();
     this.onStopSub?.unsubscribe();
     this.onCommandSub?.unsubscribe();
+    //this.onConfigSub?.unsubscribe();
+    this.onPostMessageSub?.unsubscribe();
 
     this.onReady$.next(false);
   }
@@ -475,6 +521,18 @@ export class PlayerClientService implements OnDestroy {
     return Promise.resolve(version);
   }
 
+  public async applyConfig(prefs: IDictionary<any>) {
+
+    if (await this.isPreviewMode()) {
+      const client = await this.getClient();
+      client.applyConfig(prefs);
+    } else {
+      console.log(
+        '%capplyConfig() is only available in preview mode.',
+        'background-color:blue; color:yellow;'
+      );
+    }
+  }
 
   // ---
   // PRIVATE METHODS.
@@ -648,5 +706,22 @@ class NoopClient implements IClient {
   public async getSdkVersion(): Promise<string> {
 
     return Promise.resolve(version);
+  }
+
+  public applyConfig(prefs: IDictionary<any>): void {
+
+    let evt = { type: 'applyConfig', prefs: prefs, isOpener: window.opener !== null };
+
+    if (window.opener) {
+      window.opener.postMessage(
+        JSON.stringify(evt),
+        '*'
+      );
+    } else {
+      window.parent.postMessage(
+        JSON.stringify(evt),
+        '*'
+      );
+    }
   }
 }

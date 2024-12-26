@@ -1,3 +1,5 @@
+import { IDictionary } from "./config.interface";
+
 /** @ignore */
 export interface IClient {
 
@@ -171,4 +173,14 @@ export interface IClient {
      * @memberof IClient
      */
     getSdkVersion(): Promise<string | null>;
+
+    /**
+     * Sends the preference values to the CMS for assignement to the gadget configuration.
+     * 
+     * Provides the ability to have the gadget present a UI for setting preferences.
+     * Only available during design time.
+     * 
+     * @param prefs key/value pairs of preferences to apply 
+     */
+    applyConfig(prefs: IDictionary<any>): void;
 }

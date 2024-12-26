@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PlayerClientService } from '@reveldigital/player-client';
+import { IConfig } from 'dist/reveldigital/player-client/lib/interfaces/config.interface';
 
 
 @Component({
@@ -48,13 +49,17 @@ export class AppComponent implements OnInit {
     });
 
     this.client.onStart$.subscribe(() => {
-      console.log("onStart");
+      console.log('onStart');
       this.state = 'Started';
     });
 
     this.client.onStop$.subscribe(() => {
-      console.log("onStop");
+      console.log('onStop');
       this.state = 'Stopped';
+    });
+
+    this.client.onConfig$.subscribe(() => {
+      console.log(`onConfig`);
     });
   }
 
@@ -144,5 +149,12 @@ export class AppComponent implements OnInit {
   finish() {
 
     this.client.finish();
+  }
+
+  applyConfig() {
+
+    this.client.applyConfig({ prefs: { 'myStringPref': `Updated ${new Date()}` } }).then(() => {
+      window.close();
+    });
   }
 }
