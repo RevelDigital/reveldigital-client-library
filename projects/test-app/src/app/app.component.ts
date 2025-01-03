@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { PlayerClientService } from '@reveldigital/player-client';
-import { IConfig } from 'dist/reveldigital/player-client/lib/interfaces/config.interface';
 
 
 @Component({
