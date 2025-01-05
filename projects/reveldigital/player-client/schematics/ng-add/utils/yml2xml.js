@@ -53,7 +53,8 @@ function processYML(json, html) {
         datatype: val.datatype,
         default_value: val.default_value,
         required: !!val.required,
-        multiple: !!val.multiple
+        multiple: !!val.multiple,
+        multiline: !!val.multiline
       });
       if (val.datatype === 'enum') {
         for (let option of val.options) {
