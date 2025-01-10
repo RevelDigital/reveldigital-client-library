@@ -1,6 +1,6 @@
 {
   "name": "@reveldigital/player-client",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "description": "Helper library for interfacing Angular apps with the Revel Digital player",
   "scripts": {
     "build": "tsc -p tsconfig.schematics.json",

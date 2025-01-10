@@ -140,6 +140,18 @@
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
+                                <a href="#onConfig$" >onConfig$</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#onPostMessage$" >onPostMessage$</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#onPostMessageEvt$" >onPostMessageEvt$</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
                                 <a href="#onReady$" >onReady$</a>
                             </li>
                             <li>
@@ -162,6 +174,11 @@
                 <tr>
                     <td class="col-md-4">
                         <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Async</span>
+                                <a href="#applyConfig" >applyConfig</a>
+                            </li>
                             <li>
                                     <span class="modifier">Public</span>
                                 <a href="#callback" >callback</a>
@@ -258,11 +275,6 @@
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
-                                    <span class="modifier">Async</span>
-                                <a href="#setPreference" >setPreference</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Public</span>
                                 <a href="#timeEvent" >timeEvent</a>
                             </li>
                             <li>
@@ -291,6 +303,76 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="applyConfig"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                            <span class="modifier">Async</span>
+                        <span ><b>applyConfig</b></span>
+                        <a href="#applyConfig"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>applyConfig(prefs: <a href="../interfaces/IDictionary.html" target="_self">IDictionary&lt;any&gt;</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="524"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:524</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>prefs</td>
+                                            <td>
+                                                            <code><a href="../interfaces/IDictionary.html" target="_self" >IDictionary&lt;any&gt;</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="callback"></a>
                     <span class="name">
                             <span class="modifier">Public</span>
@@ -309,8 +391,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="150"
-                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:150</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="196"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:196</a></div>
                         </td>
                     </tr>
 
@@ -387,8 +469,8 @@ will initiate a callback which can be acted upon in player script.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="375"
-                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:375</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="421"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:421</a></div>
                         </td>
                     </tr>
 
@@ -430,8 +512,8 @@ This allows the player to proceed with the next item in a playlist if applicable
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="364"
-                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:364</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="410"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:410</a></div>
                         </td>
                     </tr>
 
@@ -476,8 +558,8 @@ This allows the player to proceed with the next item in a playlist if applicable
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="401"
-                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:401</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="447"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:447</a></div>
                         </td>
                     </tr>
 
@@ -522,8 +604,8 @@ This allows the player to proceed with the next item in a playlist if applicable
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="264"
-                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:264</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="310"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:310</a></div>
                         </td>
                     </tr>
 
@@ -568,8 +650,8 @@ This allows the player to proceed with the next item in a playlist if applicable
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="201"
-                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:201</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="247"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:247</a></div>
                         </td>
                     </tr>
 
@@ -647,8 +729,8 @@ Current device time is determined by the device timezone assigned to the device 
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="228"
-                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:228</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="274"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:274</a></div>
                         </td>
                     </tr>
 
@@ -693,8 +775,8 @@ Current device time is determined by the device timezone assigned to the device 
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="216"
-                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:216</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="262"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:262</a></div>
                         </td>
                     </tr>
 
@@ -739,8 +821,8 @@ Current device time is determined by the device timezone assigned to the device 
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="240"
-                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:240</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="286"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:286</a></div>
                         </td>
                     </tr>
 
@@ -785,8 +867,8 @@ Current device time is determined by the device timezone assigned to the device 
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="461"
-                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:461</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="507"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:507</a></div>
                         </td>
                     </tr>
 
@@ -832,8 +914,8 @@ Current device time is determined by the device timezone assigned to the device 
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="448"
-                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:448</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="494"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:494</a></div>
                         </td>
                     </tr>
 
@@ -878,8 +960,8 @@ Current device time is determined by the device timezone assigned to the device 
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="252"
-                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:252</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="298"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:298</a></div>
                         </td>
                     </tr>
 
@@ -923,8 +1005,8 @@ Current device time is determined by the device timezone assigned to the device 
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="189"
-                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:189</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="235"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:235</a></div>
                         </td>
                     </tr>
 
@@ -973,8 +1055,8 @@ Current device time is determined by the device timezone assigned to the device 
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="352"
-                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:352</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="398"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:398</a></div>
                         </td>
                     </tr>
 
@@ -1019,8 +1101,8 @@ Current device time is determined by the device timezone assigned to the device 
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="473"
-                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:473</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="519"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:519</a></div>
                         </td>
                     </tr>
 
@@ -1065,8 +1147,8 @@ Current device time is determined by the device timezone assigned to the device 
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="436"
-                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:436</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="482"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:482</a></div>
                         </td>
                     </tr>
 
@@ -1111,8 +1193,8 @@ Current device time is determined by the device timezone assigned to the device 
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="389"
-                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:389</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="435"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:435</a></div>
                         </td>
                     </tr>
 
@@ -1157,8 +1239,8 @@ being edited in the CMS, or otherwise not running in a normal player environment
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="336"
-                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:336</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="382"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:382</a></div>
                         </td>
                     </tr>
 
@@ -1235,8 +1317,8 @@ Session ID&#39;s are randomly generated and reset by subsequent calls to newEven
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="277"
-                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:277</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="323"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:323</a></div>
                         </td>
                     </tr>
 
@@ -1327,8 +1409,8 @@ Session ID&#39;s are randomly generated and reset by subsequent calls to newEven
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="292"
-                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:292</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="338"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:338</a></div>
                         </td>
                     </tr>
 
@@ -1418,101 +1500,6 @@ Note: Remote commands can only be delivered to devices within the same account a
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="setPreference"></a>
-                    <span class="name">
-                            <span class="modifier">Public</span>
-                            <span class="modifier">Async</span>
-                        <span ><b>setPreference</b></span>
-                        <a href="#setPreference"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>setPreference(key: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, value: string | number | boolean)</code>
-                </td>
-            </tr>
-
-
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="487"
-                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:487</a></div>
-                        </td>
-                    </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                        <div class="io-description"><p>Set a preference value.</p>
-<p>Provides the ability to have the gadget present a UI for setting preferences.
-Only available during design time.</p>
-</div>
-
-                            <div class="io-description">
-                                <b>Parameters :</b>
-                                
-                                <table class="params">
-                                    <thead>
-                                        <tr>
-                                            <td>Name</td>
-                                                <td>Type</td>
-                                            <td>Optional</td>
-                                                <td>Description</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                                <td>key</td>
-                                            <td>
-                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                            </td>
-
-                                            <td>
-                                                    No
-                                            </td>
-
-
-                                            <td>
-                                                    <p>Prefernce key</p>
-
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                                <td>value</td>
-                                            <td>
-                                                        <code>string | number | boolean</code>
-                                            </td>
-
-                                            <td>
-                                                    No
-                                            </td>
-
-
-                                            <td>
-                                                    <p>Preference value</p>
-
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        <div class="io-description">
-                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
-
-                        </div>
-                            <div class="io-description">
-                                
-                            </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
                     <a name="timeEvent"></a>
                     <span class="name">
                             <span class="modifier">Public</span>
@@ -1531,8 +1518,8 @@ Only available during design time.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="322"
-                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:322</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="368"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:368</a></div>
                         </td>
                     </tr>
 
@@ -1609,8 +1596,8 @@ client.track(&quot;test&quot;, { &quot;a&quot;: &quot;b&quot; });</code></pre></
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="306"
-                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:306</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="352"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:352</a></div>
                         </td>
                     </tr>
 
@@ -1705,7 +1692,7 @@ Events are used for tracking various metrics including usage statistics, player 
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:34</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:35</a></div>
                         </td>
                     </tr>
 
@@ -1715,6 +1702,103 @@ Events are used for tracking various metrics including usage statistics, player 
 </div>
                 </td>
             </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onConfig$"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>onConfig$</b></span>
+                        <a href="#onConfig$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new Subject()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:49</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onPostMessage$"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>onPostMessage$</b></span>
+                        <a href="#onPostMessage$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new Subject()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:51</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onPostMessageEvt$"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>onPostMessageEvt$</b></span>
+                        <a href="#onPostMessageEvt$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>fromEvent(window, &#x27;message&#x27;).pipe(
+    filter((messageEvent: MessageEvent) &#x3D;&gt;
+      //messageEvent.source !&#x3D;&#x3D; window.parent &amp;&amp;
+      typeof messageEvent.data &#x3D;&#x3D;&#x3D; &#x27;string&#x27;),
+    map((e: any) &#x3D;&gt; JSON.parse(e.data)),
+    share(),
+    tap((e: any) &#x3D;&gt; {
+      if (e.type &#x3D;&#x3D;&#x3D; &#x27;applyConfig&#x27; &amp;&amp; e.isOpener) {
+        e.isOpener &#x3D; false;
+        // propagate config to iframe parent from the popup window
+        window.parent.postMessage(
+          JSON.stringify(e),
+          &#x27;*&#x27;
+        );
+      } else if (e.type &#x3D;&#x3D;&#x3D; &#x27;openConfig&#x27;) {
+        this.onConfig$.next(null);
+      }
+    }),
+    tap(e &#x3D;&gt; this.onPostMessage$.next(e))
+  )</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="108" class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:108</a></div>
+                        </td>
+                    </tr>
+
 
         </tbody>
     </table>
@@ -1737,7 +1821,7 @@ Events are used for tracking various metrics including usage statistics, player 
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:38</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:39</a></div>
                         </td>
                     </tr>
 
@@ -1769,7 +1853,7 @@ Events are used for tracking various metrics including usage statistics, player 
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:42</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:43</a></div>
                         </td>
                     </tr>
 
@@ -1801,7 +1885,7 @@ Events are used for tracking various metrics including usage statistics, player 
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:46</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:47</a></div>
                         </td>
                     </tr>
 
@@ -1823,11 +1907,12 @@ Events are used for tracking various metrics including usage statistics, player 
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, NgZone, OnDestroy } from &#x27;@angular/core&#x27;;
 import { gadgets } from &#x27;@reveldigital/gadget-types&#x27;;
 import { BehaviorSubject, fromEvent, Subject, Subscription } from &#x27;rxjs&#x27;;
-import { map, share, tap } from &#x27;rxjs/operators&#x27;;
+import { filter, map, share, tap } from &#x27;rxjs/operators&#x27;;
+import { IClient } from &#x27;./interfaces/client.interface&#x27;;
 import { ICommand } from &#x27;./interfaces/command.interface&#x27;;
+import { IDictionary } from &#x27;./interfaces/config.interface&#x27;;
 import { IDevice } from &#x27;./interfaces/device.interface&#x27;;
 import { IEventProperties } from &#x27;./interfaces/event-properties.interface&#x27;;
-import { IClient } from &#x27;./interfaces/client.interface&#x27;;
 import { version } from &#x27;./version&#x27;;
 
 //import { version } from &#x27;./version.js&#x27;;
@@ -1867,6 +1952,10 @@ export class PlayerClientService implements OnDestroy {
    */
   public onStop$ &#x3D; new Subject();
 
+  public onConfig$ &#x3D; new Subject();
+
+  public onPostMessage$ &#x3D; new Subject();
+
   //
   // Two methods available for calling into the library:
   //
@@ -1876,26 +1965,40 @@ export class PlayerClientService implements OnDestroy {
   /** @ignore */
   private onStartSub: Subscription;
   /** @ignore */
-  private onStartEvt$ &#x3D; fromEvent(document, &#x27;RevelDigital.Start&#x27;).pipe(
+  private onStartEvt$ &#x3D; fromEvent(window, &#x27;RevelDigital.Start&#x27;).pipe(
     share(),
     tap(this.onStart$)
   );
   /** @ignore */
   private onStopSub: Subscription;
   /** @ignore */
-  private onStopEvt$ &#x3D; fromEvent(document, &#x27;RevelDigital.Stop&#x27;).pipe(
+  private onStopEvt$ &#x3D; fromEvent(window, &#x27;RevelDigital.Stop&#x27;).pipe(
     share(),
     tap(this.onStop$)
   );
   /** @ignore */
   private onCommandSub: Subscription;
   /** @ignore */
-  private onCommandEvt$ &#x3D; fromEvent&lt;ICommand&gt;(document, &#x27;RevelDigital.Command&#x27;).pipe(
+  private onCommandEvt$ &#x3D; fromEvent&lt;ICommand&gt;(window, &#x27;RevelDigital.Command&#x27;).pipe(
     map((e: any) &#x3D;&gt; { return { name: e.detail.name, arg: e.detail.arg } as ICommand }),
     share(),
     tap(this.onCommand$)
   );
+  /** @ignore */
+  // private onConfigSub: Subscription;
+  // /** @ignore */
+  // private onConfigEvt$ &#x3D; fromEvent(window, &#x27;RevelDigital.Config&#x27;).pipe(
+  //   share(),
+  //   tap((e: CustomEvent) &#x3D;&gt; {
+  //     console.log(e);
 
+  //     if (e.detail.type &#x3D;&#x3D;&#x3D; &#x27;applyConfig&#x27; &amp;&amp; e.detail.isOpener) {
+  //       this.applyConfig(e.detail.config); // propagate config to iframe parent from the popup window
+  //     } else {
+  //       this.onConfig$.next(e.detail);
+  //     }
+  //   })
+  // );
   // private onPostMessageSub: Subscription;
   // private onPostMessageEvt$ &#x3D; fromEvent(window, &#x27;message&#x27;).pipe(
   //   filter((messageEvent: MessageEvent) &#x3D;&gt;
@@ -1906,6 +2009,29 @@ export class PlayerClientService implements OnDestroy {
   //   share(),
   //   tap(this.onCommand$)
   // );
+
+  private onPostMessageSub: Subscription;
+  private onPostMessageEvt$ &#x3D; fromEvent(window, &#x27;message&#x27;).pipe(
+    filter((messageEvent: MessageEvent) &#x3D;&gt;
+      //messageEvent.source !&#x3D;&#x3D; window.parent &amp;&amp;
+      typeof messageEvent.data &#x3D;&#x3D;&#x3D; &#x27;string&#x27;),
+    map((e: any) &#x3D;&gt; JSON.parse(e.data)),
+    share(),
+    tap((e: any) &#x3D;&gt; {
+      if (e.type &#x3D;&#x3D;&#x3D; &#x27;applyConfig&#x27; &amp;&amp; e.isOpener) {
+        e.isOpener &#x3D; false;
+        // propagate config to iframe parent from the popup window
+        window.parent.postMessage(
+          JSON.stringify(e),
+          &#x27;*&#x27;
+        );
+      } else if (e.type &#x3D;&#x3D;&#x3D; &#x27;openConfig&#x27;) {
+        this.onConfig$.next(null);
+      }
+    }),
+    tap(e &#x3D;&gt; this.onPostMessage$.next(e))
+  );
+
 
   /** @ignore */
   constructor(zone: NgZone) {
@@ -1934,6 +2060,8 @@ export class PlayerClientService implements OnDestroy {
     this.onStartSub &#x3D; this.onStartEvt$.subscribe(() &#x3D;&gt; { });
     this.onStopSub &#x3D; this.onStopEvt$.subscribe(() &#x3D;&gt; { });
     this.onCommandSub &#x3D; this.onCommandEvt$.subscribe(() &#x3D;&gt; { });
+    //this.onConfigSub &#x3D; this.onConfigEvt$.subscribe(() &#x3D;&gt; { });
+    this.onPostMessageSub &#x3D; this.onPostMessageEvt$.subscribe(() &#x3D;&gt; { });
 
     this.clientPromise &#x3D; null;
 
@@ -1946,6 +2074,8 @@ export class PlayerClientService implements OnDestroy {
     this.onStartSub?.unsubscribe();
     this.onStopSub?.unsubscribe();
     this.onCommandSub?.unsubscribe();
+    //this.onConfigSub?.unsubscribe();
+    this.onPostMessageSub?.unsubscribe();
 
     this.onReady$.next(false);
   }
@@ -2297,23 +2427,14 @@ export class PlayerClientService implements OnDestroy {
     return Promise.resolve(version);
   }
 
-  /**
-   * Set a preference value.
-   * 
-   * Provides the ability to have the gadget present a UI for setting preferences.
-   * Only available during design time.
-   * 
-   * @param key Prefernce key
-   * @param value Preference value
-   */
-  public async setPreference(key: string, value: string | number | boolean) {
+  public async applyConfig(prefs: IDictionary&lt;any&gt;) {
 
     if (await this.isPreviewMode()) {
       const client &#x3D; await this.getClient();
-      client.setPreference(key, value);
+      client.applyConfig(prefs);
     } else {
       console.log(
-        &#x27;%csetPreference() is only available in preview mode.&#x27;,
+        &#x27;%capplyConfig() is only available in preview mode.&#x27;,
         &#x27;background-color:blue; color:yellow;&#x27;
       );
     }
@@ -2493,19 +2614,21 @@ class NoopClient implements IClient {
     return Promise.resolve(version);
   }
 
-  public setPreference(key: string, value: string | number | boolean) {
+  public applyConfig(prefs: IDictionary&lt;any&gt;): void {
 
-    //if (window.parent !&#x3D;&#x3D; window.top) {
+    let evt &#x3D; { type: &#x27;applyConfig&#x27;, prefs: prefs, isOpener: window.opener !&#x3D;&#x3D; null };
 
-      window.parent.postMessage(
-        JSON.stringify({
-          type: &#x27;setPreference&#x27;,
-          key: key,
-          value: value
-        }),
+    if (window.opener) {
+      window.opener.postMessage(
+        JSON.stringify(evt),
         &#x27;*&#x27;
       );
-    //}
+    } else {
+      window.parent.postMessage(
+        JSON.stringify(evt),
+        &#x27;*&#x27;
+      );
+    }
   }
 }
 </code></pre>

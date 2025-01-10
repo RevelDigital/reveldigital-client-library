@@ -116,7 +116,13 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="interfaces/ICommand.html" data-type="entity-link" >ICommand</a>
                             </li>
                             <li class="link">
+                                <a href="interfaces/IConfig.html" data-type="entity-link" >IConfig</a>
+                            </li>
+                            <li class="link">
                                 <a href="interfaces/IDevice.html" data-type="entity-link" >IDevice</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/IDictionary.html" data-type="entity-link" >IDictionary</a>
                             </li>
                             <li class="link">
                                 <a href="interfaces/IEventProperties.html" data-type="entity-link" >IEventProperties</a>
@@ -134,6 +140,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                             <span class="icon ion-ios-arrow-down"></span>
                         </div>
                         <ul class="links collapse " ${ isNormalMode ? 'id="miscellaneous-links"' : 'id="xs-miscellaneous-links"' }>
+                            <li class="link">
+                                <a href="miscellaneous/enumerations.html" data-type="entity-link">Enums</a>
+                            </li>
                             <li class="link">
                                 <a href="miscellaneous/functions.html" data-type="entity-link">Functions</a>
                             </li>
