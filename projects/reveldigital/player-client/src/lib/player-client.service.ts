@@ -45,9 +45,13 @@ export class PlayerClientService implements OnDestroy {
    * Signals the gadgets has been stopped by the player.
    */
   public onStop$ = new Subject();
-
+  /**
+   * Signals the gadget should open the config window.
+   */
   public onConfig$ = new Subject();
-
+  /**
+  * Signals the gadget has received a postMessage event from the player.
+  */
   public onPostMessage$ = new Subject();
 
   //
