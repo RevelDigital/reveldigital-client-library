@@ -1,0 +1,2270 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>reveldigital-client-library documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">reveldigital-client-library documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content interface">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Interfaces</li>
+  <li class="breadcrumb-item"
+  >
+  IClient</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>projects/reveldigital/player-client/src/lib/interfaces/client.interface.ts</code>
+        </p>
+
+
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Core interface defining the contract for Revel Digital player client implementations.</p>
+<p>This interface represents the complete API available for gadgets and web applications
+to interact with the Revel Digital player environment. It provides methods for:</p>
+<ul>
+<li><strong>Device Information</strong>: Access device details, timezone, language, and hardware specs</li>
+<li><strong>Communication</strong>: Send commands locally and to remote devices</li>
+<li><strong>Analytics</strong>: Track events, measure performance, and manage user sessions</li>
+<li><strong>Player Control</strong>: Manage gadget lifecycle and player transitions</li>
+<li><strong>Configuration</strong>: Apply and manage gadget preferences and settings</li>
+</ul>
+<p>Implementations of this interface handle the actual communication with the player
+environment, while providing a consistent API for client code regardless of the
+underlying platform or deployment scenario.</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">// Typical usage through PlayerClientService
+class MyGadget {
+  constructor(private client: PlayerClientService) {}
+
+  async initialize() {
+    const device = await this.client.getDevice();
+    const time = await this.client.getDeviceTime();
+    this.client.track(&#39;gadget_initialized&#39;, { deviceType: device.deviceType });
+  }
+}</code></pre></div>
+            </p>
+
+
+        <section data-compodoc="block-index">
+            <h3 id="index">Index</h3>
+            <table class="table table-sm table-bordered index-table">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Methods</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                    <a href="#applyConfig" 
+>
+                                        applyConfig
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#callback" 
+>
+                                        callback
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#finish" 
+>
+                                        finish
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#getCommandMap" 
+>
+                                        getCommandMap
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#getDevice" 
+>
+                                        getDevice
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#getDeviceKey" 
+>
+                                        getDeviceKey
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#getDeviceTime" 
+>
+                                        getDeviceTime
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#getDeviceTimeZoneID" 
+>
+                                        getDeviceTimeZoneID
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#getDeviceTimeZoneName" 
+>
+                                        getDeviceTimeZoneName
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#getDeviceTimeZoneOffset" 
+>
+                                        getDeviceTimeZoneOffset
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#getDuration" 
+>
+                                        getDuration
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#getHeight" 
+>
+                                        getHeight
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#getLanguageCode" 
+>
+                                        getLanguageCode
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#getRevelRoot" 
+>
+                                        getRevelRoot
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#getSdkVersion" 
+>
+                                        getSdkVersion
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#getWidth" 
+>
+                                        getWidth
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#newEventSession" 
+>
+                                        newEventSession
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#sendCommand" 
+>
+                                        sendCommand
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#sendRemoteCommand" 
+>
+                                        sendRemoteCommand
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#timeEvent" 
+>
+                                        timeEvent
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#track" 
+>
+                                        track
+                                    </a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+            <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="applyConfig"></a>
+                    <span class="name">
+                        <span ><b>applyConfig</b></span>
+                        <a href="#applyConfig"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>applyConfig(prefs: <a href="../interfaces/IDictionary.html" target="_self">IDictionary&lt;any&gt;</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="427"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/interfaces/client.interface.ts:427</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Applies configuration preferences to the gadget (design-time only).</p>
+<p>This method is used during gadget design/configuration to apply
+preference changes. It sends the updated preferences to the CMS
+for assignment to the gadget configuration. Only available during
+design-time operations.</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">// Apply configuration changes in design mode
+client.applyConfig({
+  &#39;title&#39;: &#39;Updated Title&#39;,
+  &#39;backgroundColor&#39;: &#39;#ff0000&#39;,
+  &#39;autoRefresh&#39;: true
+});</code></pre></div></div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>prefs</td>
+                                            <td>
+                                                            <code><a href="../interfaces/IDictionary.html" target="_self" >IDictionary&lt;any&gt;</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <ul>
+<li>Dictionary of preference key-value pairs to apply</li>
+</ul>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">// Apply configuration changes in design mode
+client.applyConfig({
+&#39;title&#39;: &#39;Updated Title&#39;,
+&#39;backgroundColor&#39;: &#39;#ff0000&#39;,
+&#39;autoRefresh&#39;: true
+});</code></pre></div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="callback"></a>
+                    <span class="name">
+                        <span ><b>callback</b></span>
+                        <a href="#callback"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>callback(...args: any[])</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="58"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/interfaces/client.interface.ts:58</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Sends a callback to the player with optional arguments.</p>
+<p>This is the primary method for bi-directional communication between the gadget
+and player scripting. When called, it triggers any callback handlers that have
+been configured in the player template scripting.</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">// Simple callback without arguments
+client.callback();
+
+// Callback with data
+client.callback(&#39;user_action&#39;, { buttonId: &#39;start&#39;, timestamp: Date.now() });
+
+// Multiple arguments
+client.callback(&#39;event_name&#39;, &#39;event_data&#39;, { additional: &#39;context&#39; });</code></pre></div></div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>args</td>
+                                            <td>
+                                                        <code>any[]</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <ul>
+<li>Variable number of arguments to pass to the player callback handler</li>
+</ul>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">// Simple callback without arguments
+client.callback();
+
+// Callback with data
+client.callback(&#39;user_action&#39;, { buttonId: &#39;start&#39;, timestamp: Date.now() });
+
+// Multiple arguments
+client.callback(&#39;event_name&#39;, &#39;event_data&#39;, { additional: &#39;context&#39; });</code></pre></div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="finish"></a>
+                    <span class="name">
+                        <span ><b>finish</b></span>
+                        <a href="#finish"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>finish()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="322"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/interfaces/client.interface.ts:322</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Signals that the gadget has completed its visualization and the player can proceed.</p>
+<p>This notifies the player that the current content has finished displaying
+and it&#39;s safe to transition to the next item in a playlist or perform
+other scheduled actions.</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">// After animation completes
+setTimeout(() =&gt; {
+  client.finish();
+}, 5000);
+
+// After user interaction
+button.onclick = () =&gt; {
+  this.processAction();
+  client.finish();
+};</code></pre></div></div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getCommandMap"></a>
+                    <span class="name">
+                        <span ><b>getCommandMap</b></span>
+                        <a href="#getCommandMap"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getCommandMap()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="300"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/interfaces/client.interface.ts:300</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Gets the current command map configuration for this device.</p>
+<p>Returns a JSON string containing the mapping of command names to their
+configurations as defined in the device&#39;s current template or playlist.</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">const commandMapJson = await client.getCommandMap();
+const commandMap = JSON.parse(commandMapJson);
+if (commandMap[&#39;customCommand&#39;]) {
+  console.log(&#39;Custom command is available&#39;);
+}</code></pre></div></div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Promise&lt;string | null&gt;</code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>Promise resolving to JSON string of command mappings</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">const commandMapJson = await client.getCommandMap();
+const commandMap = JSON.parse(commandMapJson);
+if (commandMap[&#39;customCommand&#39;]) {
+console.log(&#39;Custom command is available&#39;);
+}</code></pre></div>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getDevice"></a>
+                    <span class="name">
+                        <span ><b>getDevice</b></span>
+                        <a href="#getDevice"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getDevice()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="339"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/interfaces/client.interface.ts:339</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Gets comprehensive information about the current device.</p>
+<p>Returns detailed device information including registration details,
+hardware type, location, and configuration as a JSON string.</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">const deviceJson = await client.getDevice();
+const device = JSON.parse(deviceJson);
+console.log(`Device: ${device.name} (${device.devicetype})`);
+console.log(`Location: ${device.location?.city}, ${device.location?.state}`);</code></pre></div></div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Promise&lt;string | null&gt;</code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>Promise resolving to JSON string containing device information</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">const deviceJson = await client.getDevice();
+const device = JSON.parse(deviceJson);
+console.log(`Device: ${device.name} (${device.devicetype})`);
+console.log(`Location: ${device.location?.city}, ${device.location?.state}`);</code></pre></div>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getDeviceKey"></a>
+                    <span class="name">
+                        <span ><b>getDeviceKey</b></span>
+                        <a href="#getDeviceKey"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getDeviceKey()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="159"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/interfaces/client.interface.ts:159</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Gets the unique device key (registration key) for this player device.</p>
+<p>The device key is a unique identifier assigned to each device when it&#39;s
+registered with the Revel Digital system. This key can be used for
+device-specific operations and remote command targeting.</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">const deviceKey = await client.getDeviceKey();
+console.log(`This device key: ${deviceKey}`);
+// Use for analytics or device-specific configuration</code></pre></div></div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Promise&lt;string | null&gt;</code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>Promise resolving to the device&#39;s unique registration key</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">const deviceKey = await client.getDeviceKey();
+console.log(`This device key: ${deviceKey}`);
+// Use for analytics or device-specific configuration</code></pre></div>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getDeviceTime"></a>
+                    <span class="name">
+                        <span ><b>getDeviceTime</b></span>
+                        <a href="#getDeviceTime"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getDeviceTime(date?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date" target="_blank">Date</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="79"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/interfaces/client.interface.ts:79</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Gets the current device time in the device&#39;s configured timezone.</p>
+<p>Returns the current time adjusted to the timezone assigned to the device
+in the Revel Digital CMS. If a date is provided, it will be converted
+to the device&#39;s timezone.</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">// Get current device time
+const now = await client.getDeviceTime();
+
+// Convert specific time to device timezone
+const utcTime = new Date(&#39;2023-12-25T12:00:00Z&#39;);
+const localTime = await client.getDeviceTime(utcTime);</code></pre></div></div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>date</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date" target="_blank" >Date</a></code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                            <td>
+                                                    <ul>
+<li>Optional date to convert to device time. If omitted, returns current device time</li>
+</ul>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Promise&lt;string | null&gt;</code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>Promise resolving to ISO8601 formatted date string in device timezone</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">// Get current device time
+const now = await client.getDeviceTime();
+
+// Convert specific time to device timezone  
+const utcTime = new Date(&#39;2023-12-25T12:00:00Z&#39;);
+const localTime = await client.getDeviceTime(utcTime);</code></pre></div>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getDeviceTimeZoneID"></a>
+                    <span class="name">
+                        <span ><b>getDeviceTimeZoneID</b></span>
+                        <a href="#getDeviceTimeZoneID"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getDeviceTimeZoneID()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="109"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/interfaces/client.interface.ts:109</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Gets the timezone identifier currently assigned to the device.</p>
+<p>Returns the timezone ID/identifier as configured for this device.
+This may be different from the timezone name depending on the system configuration.</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">const timezoneId = await client.getDeviceTimeZoneID();
+// Use for timezone-specific operations</code></pre></div></div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Promise&lt;string | null&gt;</code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>Promise resolving to timezone identifier</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">const timezoneId = await client.getDeviceTimeZoneID();
+// Use for timezone-specific operations</code></pre></div>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getDeviceTimeZoneName"></a>
+                    <span class="name">
+                        <span ><b>getDeviceTimeZoneName</b></span>
+                        <a href="#getDeviceTimeZoneName"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getDeviceTimeZoneName()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="94"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/interfaces/client.interface.ts:94</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Gets the timezone name currently assigned to the device.</p>
+<p>Returns the human-readable timezone name as configured in the device
+settings within the Revel Digital CMS.</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">const timezoneName = await client.getDeviceTimeZoneName();
+console.log(`Device timezone: ${timezoneName}`);</code></pre></div></div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Promise&lt;string | null&gt;</code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>Promise resolving to timezone name (e.g., &quot;America/New_York&quot;, &quot;Europe/London&quot;)</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">const timezoneName = await client.getDeviceTimeZoneName();
+console.log(`Device timezone: ${timezoneName}`);</code></pre></div>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getDeviceTimeZoneOffset"></a>
+                    <span class="name">
+                        <span ><b>getDeviceTimeZoneOffset</b></span>
+                        <a href="#getDeviceTimeZoneOffset"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getDeviceTimeZoneOffset()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="125"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/interfaces/client.interface.ts:125</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Gets the numerical offset from GMT for the device&#39;s configured timezone.</p>
+<p>Returns the number of hours the device&#39;s timezone is offset from GMT.
+Positive values indicate timezones east of GMT, negative values indicate
+timezones west of GMT.</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">const offset = await client.getDeviceTimeZoneOffset();
+console.log(`Device is ${offset} hours from GMT`);</code></pre></div></div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Promise&lt;number | null&gt;</code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>Promise resolving to timezone offset in hours (e.g., -5 for EST, +1 for CET)</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">const offset = await client.getDeviceTimeZoneOffset();
+console.log(`Device is ${offset} hours from GMT`);</code></pre></div>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getDuration"></a>
+                    <span class="name">
+                        <span ><b>getDuration</b></span>
+                        <a href="#getDuration"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getDuration()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="392"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/interfaces/client.interface.ts:392</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Gets the duration assigned to the current playlist item.</p>
+<p>Returns the time duration (in milliseconds) that this content should
+be displayed when running as part of a playlist. Only applicable
+when the gadget is associated with a playlist.</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">const duration = await client.getDuration();
+if (duration) {
+  // Auto-finish after the assigned duration
+  setTimeout(() =&gt; client.finish(), duration);
+}</code></pre></div></div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Promise&lt;number | null&gt;</code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>Promise resolving to duration in milliseconds</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">const duration = await client.getDuration();
+if (duration) {
+// Auto-finish after the assigned duration
+setTimeout(() =&gt; client.finish(), duration);
+}</code></pre></div>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getHeight"></a>
+                    <span class="name">
+                        <span ><b>getHeight</b></span>
+                        <a href="#getHeight"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getHeight()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="373"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/interfaces/client.interface.ts:373</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Gets the height of the available visualization area in pixels.</p>
+<p>Returns the display height available for gadget content, which may
+differ from screen resolution based on template layout and player configuration.</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">const height = await client.getHeight();
+const width = await client.getWidth();
+const aspectRatio = width / height;
+this.adjustLayout(aspectRatio);</code></pre></div></div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Promise&lt;number | null&gt;</code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>Promise resolving to height in pixels</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">const height = await client.getHeight();
+const width = await client.getWidth();
+const aspectRatio = width / height;
+this.adjustLayout(aspectRatio);</code></pre></div>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getLanguageCode"></a>
+                    <span class="name">
+                        <span ><b>getLanguageCode</b></span>
+                        <a href="#getLanguageCode"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getLanguageCode()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="142"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/interfaces/client.interface.ts:142</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Gets the language code currently assigned to the device.</p>
+<p>Returns the language/locale code configured for this device in the CMS.
+This can be used for localization and internationalization purposes.</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">const langCode = await client.getLanguageCode();
+if (langCode === &#39;fr-FR&#39;) {
+  this.loadFrenchContent();
+}</code></pre></div></div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Promise&lt;string | null&gt;</code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>Promise resolving to language code (e.g., &quot;en-US&quot;, &quot;fr-FR&quot;, &quot;de-DE&quot;)</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">const langCode = await client.getLanguageCode();
+if (langCode === &#39;fr-FR&#39;) {
+this.loadFrenchContent();
+}</code></pre></div>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getRevelRoot"></a>
+                    <span class="name">
+                        <span ><b>getRevelRoot</b></span>
+                        <a href="#getRevelRoot"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getRevelRoot()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="282"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/interfaces/client.interface.ts:282</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Gets the root directory path where the Revel Digital system stores files.</p>
+<p>Returns the base file system path used by the player for storing
+content, cache, and other system files on the local device.</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">const rootPath = await client.getRevelRoot();
+console.log(`System root: ${rootPath}`);
+// Use for file operations or path construction</code></pre></div></div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Promise&lt;string | null&gt;</code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>Promise resolving to the root directory path</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">const rootPath = await client.getRevelRoot();
+console.log(`System root: ${rootPath}`);
+// Use for file operations or path construction</code></pre></div>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getSdkVersion"></a>
+                    <span class="name">
+                        <span ><b>getSdkVersion</b></span>
+                        <a href="#getSdkVersion"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getSdkVersion()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="406"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/interfaces/client.interface.ts:406</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Gets the version of the Revel Digital SDK.</p>
+<p>Returns the current version string of the SDK/client library.</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">const version = await client.getSdkVersion();
+console.log(`SDK Version: ${version}`);</code></pre></div></div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Promise&lt;string | null&gt;</code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>Promise resolving to version string</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">const version = await client.getSdkVersion();
+console.log(`SDK Version: ${version}`);</code></pre></div>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getWidth"></a>
+                    <span class="name">
+                        <span ><b>getWidth</b></span>
+                        <a href="#getWidth"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getWidth()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="356"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/interfaces/client.interface.ts:356</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Gets the width of the available visualization area in pixels.</p>
+<p>Returns the display width available for gadget content, which may
+differ from screen resolution based on template layout and player configuration.</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">const width = await client.getWidth();
+if (width &lt; 800) {
+  this.enableMobileLayout();
+}</code></pre></div></div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Promise&lt;number | null&gt;</code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>Promise resolving to width in pixels</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">const width = await client.getWidth();
+if (width &lt; 800) {
+this.enableMobileLayout();
+}</code></pre></div>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="newEventSession"></a>
+                    <span class="name">
+                        <span ><b>newEventSession</b></span>
+                        <a href="#newEventSession"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>newEventSession(id?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="266"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/interfaces/client.interface.ts:266</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Creates a new analytics event session for grouping related events.</p>
+<p>Sessions provide a way to group related events together for analysis.
+Each subsequent event tracked will be associated with this session
+until a new session is started.</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">// Start new session with auto-generated ID
+client.newEventSession();
+client.track(&#39;session_start&#39;, &#39;&#39;);
+
+// Start session with custom ID
+client.newEventSession(&#39;user-123-workflow&#39;);
+client.track(&#39;workflow_begin&#39;, &#39;&#39;);</code></pre></div></div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>id</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                            <td>
+                                                    <ul>
+<li>Optional custom session identifier. If not provided, a random ID is generated</li>
+</ul>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">// Start new session with auto-generated ID
+client.newEventSession();
+client.track(&#39;session_start&#39;, &#39;&#39;);
+
+// Start session with custom ID
+client.newEventSession(&#39;user-123-workflow&#39;);
+client.track(&#39;workflow_begin&#39;, &#39;&#39;);</code></pre></div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="sendCommand"></a>
+                    <span class="name">
+                        <span ><b>sendCommand</b></span>
+                        <a href="#sendCommand"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>sendCommand(name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, arg: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="179"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/interfaces/client.interface.ts:179</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Sends a command to the local player device.</p>
+<p>Commands are used to trigger specific behaviors or actions on the player.
+The command is processed immediately by the local player only.</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">// Simple command
+client.sendCommand(&#39;restart&#39;, &#39;&#39;);
+
+// Command with parameters
+client.sendCommand(&#39;setVolume&#39;, &#39;75&#39;);
+client.sendCommand(&#39;loadContent&#39;, JSON.stringify({ url: &#39;http://example.com&#39; }));</code></pre></div></div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>name</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <ul>
+<li>The command identifier/name</li>
+</ul>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>arg</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <ul>
+<li>Command argument or payload data</li>
+</ul>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">// Simple command
+client.sendCommand(&#39;restart&#39;, &#39;&#39;);
+
+// Command with parameters
+client.sendCommand(&#39;setVolume&#39;, &#39;75&#39;);
+client.sendCommand(&#39;loadContent&#39;, JSON.stringify({ url: &#39;http://example.com&#39; }));</code></pre></div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="sendRemoteCommand"></a>
+                    <span class="name">
+                        <span ><b>sendRemoteCommand</b></span>
+                        <a href="#sendRemoteCommand"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>sendRemoteCommand(deviceKeys: string[], name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, arg: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="201"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/interfaces/client.interface.ts:201</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Sends a command to one or more remote player devices.</p>
+<p>Enables cross-device communication by sending commands to other devices
+within the same Revel Digital account. Useful for synchronized displays,
+coordinated actions, or remote device control.</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">// Send to multiple devices
+const targets = [&#39;lobby-display&#39;, &#39;kiosk-001&#39;, &#39;kiosk-002&#39;];
+client.sendRemoteCommand(targets, &#39;updateContent&#39;, &#39;new-content-id&#39;);
+
+// Broadcast synchronization command
+client.sendRemoteCommand([&#39;device1&#39;, &#39;device2&#39;], &#39;sync&#39;, Date.now().toString());</code></pre></div></div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>deviceKeys</td>
+                                            <td>
+                                                        <code>string[]</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <ul>
+<li>Array of target device keys to receive the command</li>
+</ul>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>name</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <ul>
+<li>The command identifier/name</li>
+</ul>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>arg</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <ul>
+<li>Command argument or payload data</li>
+</ul>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">// Send to multiple devices
+const targets = [&#39;lobby-display&#39;, &#39;kiosk-001&#39;, &#39;kiosk-002&#39;];
+client.sendRemoteCommand(targets, &#39;updateContent&#39;, &#39;new-content-id&#39;);
+
+// Broadcast synchronization command
+client.sendRemoteCommand([&#39;device1&#39;, &#39;device2&#39;], &#39;sync&#39;, Date.now().toString());</code></pre></div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="timeEvent"></a>
+                    <span class="name">
+                        <span ><b>timeEvent</b></span>
+                        <a href="#timeEvent"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>timeEvent(eventName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="245"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/interfaces/client.interface.ts:245</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Begins timing measurement for a named event.</p>
+<p>This starts a timer for performance measurement. The timer is stopped
+and duration calculated when track() is called with the same event name.
+Multiple concurrent timers can be active for different event names.</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">// Start timing a video playback
+client.timeEvent(&#39;video_playback&#39;);
+// ... video plays for some duration ...
+client.track(&#39;video_playback&#39;, JSON.stringify({ videoId: &#39;abc123&#39; }));
+// Duration is automatically included in the tracked event</code></pre></div></div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>eventName</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <ul>
+<li>Unique identifier for the timed event</li>
+</ul>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">// Start timing a video playback
+client.timeEvent(&#39;video_playback&#39;);
+// ... video plays for some duration ...
+client.track(&#39;video_playback&#39;, JSON.stringify({ videoId: &#39;abc123&#39; }));
+// Duration is automatically included in the tracked event</code></pre></div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="track"></a>
+                    <span class="name">
+                        <span ><b>track</b></span>
+                        <a href="#track"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>track(eventName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, properties?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="226"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/interfaces/client.interface.ts:226</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Tracks an analytics event with optional properties.</p>
+<p>Events are logged for analytics and reporting purposes, providing insights
+into gadget usage, performance, and user interactions. For timed events,
+the duration is automatically calculated from the timeEvent() call to this track() call.</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">// Simple event
+client.track(&#39;gadget_loaded&#39;, &#39;&#39;);
+
+// Event with properties
+const props = JSON.stringify({
+  action: &#39;button_click&#39;,
+  button_id: &#39;submit&#39;,
+  timestamp: Date.now()
+});
+client.track(&#39;user_interaction&#39;, props);</code></pre></div></div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>eventName</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <ul>
+<li>Unique identifier for the event</li>
+</ul>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>properties</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                            <td>
+                                                    <ul>
+<li>Optional JSON string containing event properties and metadata</li>
+</ul>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">// Simple event
+client.track(&#39;gadget_loaded&#39;, &#39;&#39;);
+
+// Event with properties
+const props = JSON.stringify({ 
+action: &#39;button_click&#39;, 
+button_id: &#39;submit&#39;,
+timestamp: Date.now() 
+});
+client.track(&#39;user_interaction&#39;, props);</code></pre></div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { IDictionary } from &quot;./config.interface&quot;;
+
+/**
+ * Core interface defining the contract for Revel Digital player client implementations.
+ * 
+ * This interface represents the complete API available for gadgets and web applications
+ * to interact with the Revel Digital player environment. It provides methods for:
+ * 
+ * - **Device Information**: Access device details, timezone, language, and hardware specs
+ * - **Communication**: Send commands locally and to remote devices
+ * - **Analytics**: Track events, measure performance, and manage user sessions
+ * - **Player Control**: Manage gadget lifecycle and player transitions
+ * - **Configuration**: Apply and manage gadget preferences and settings
+ * 
+ * Implementations of this interface handle the actual communication with the player
+ * environment, while providing a consistent API for client code regardless of the
+ * underlying platform or deployment scenario.
+ * 
+ * &#x60;&#x60;&#x60;typescript
+ * // Typical usage through PlayerClientService
+ * class MyGadget {
+ *   constructor(private client: PlayerClientService) {}
+ *   
+ *   async initialize() {
+ *     const device &#x3D; await this.client.getDevice();
+ *     const time &#x3D; await this.client.getDeviceTime();
+ *     this.client.track(&#x27;gadget_initialized&#x27;, { deviceType: device.deviceType });
+ *   }
+ * }
+ * &#x60;&#x60;&#x60;
+ * 
+ * @export
+ * @interface IClient
+ * @since 1.0.0
+ */
+export interface IClient {
+
+    /**
+     * Sends a callback to the player with optional arguments.
+     * 
+     * This is the primary method for bi-directional communication between the gadget
+     * and player scripting. When called, it triggers any callback handlers that have
+     * been configured in the player template scripting.
+     * 
+     * @param args - Variable number of arguments to pass to the player callback handler
+     * 
+     * &#x60;&#x60;&#x60;typescript
+     * // Simple callback without arguments
+     * client.callback();
+     * 
+     * // Callback with data
+     * client.callback(&#x27;user_action&#x27;, { buttonId: &#x27;start&#x27;, timestamp: Date.now() });
+     * 
+     * // Multiple arguments
+     * client.callback(&#x27;event_name&#x27;, &#x27;event_data&#x27;, { additional: &#x27;context&#x27; });
+     * &#x60;&#x60;&#x60;
+     */
+    callback(...args: any[]): void;
+
+    /**
+     * Gets the current device time in the device&#x27;s configured timezone.
+     * 
+     * Returns the current time adjusted to the timezone assigned to the device
+     * in the Revel Digital CMS. If a date is provided, it will be converted
+     * to the device&#x27;s timezone.
+     * 
+     * @param date - Optional date to convert to device time. If omitted, returns current device time
+     * @returns Promise resolving to ISO8601 formatted date string in device timezone
+     * 
+     * &#x60;&#x60;&#x60;typescript
+     * // Get current device time
+     * const now &#x3D; await client.getDeviceTime();
+     * 
+     * // Convert specific time to device timezone  
+     * const utcTime &#x3D; new Date(&#x27;2023-12-25T12:00:00Z&#x27;);
+     * const localTime &#x3D; await client.getDeviceTime(utcTime);
+     * &#x60;&#x60;&#x60;
+     */
+    getDeviceTime(date?: Date): Promise&lt;string | null&gt;;
+
+    /**
+     * Gets the timezone name currently assigned to the device.
+     * 
+     * Returns the human-readable timezone name as configured in the device
+     * settings within the Revel Digital CMS.
+     * 
+     * @returns Promise resolving to timezone name (e.g., &quot;America/New_York&quot;, &quot;Europe/London&quot;)
+     * 
+     * &#x60;&#x60;&#x60;typescript
+     * const timezoneName &#x3D; await client.getDeviceTimeZoneName();
+     * console.log(&#x60;Device timezone: ${timezoneName}&#x60;);
+     * &#x60;&#x60;&#x60;
+     */
+    getDeviceTimeZoneName(): Promise&lt;string | null&gt;;
+
+    /**
+     * Gets the timezone identifier currently assigned to the device.
+     * 
+     * Returns the timezone ID/identifier as configured for this device.
+     * This may be different from the timezone name depending on the system configuration.
+     * 
+     * @returns Promise resolving to timezone identifier
+     * 
+     * &#x60;&#x60;&#x60;typescript
+     * const timezoneId &#x3D; await client.getDeviceTimeZoneID();
+     * // Use for timezone-specific operations
+     * &#x60;&#x60;&#x60;
+     */
+    getDeviceTimeZoneID(): Promise&lt;string | null&gt;;
+
+    /**
+     * Gets the numerical offset from GMT for the device&#x27;s configured timezone.
+     * 
+     * Returns the number of hours the device&#x27;s timezone is offset from GMT.
+     * Positive values indicate timezones east of GMT, negative values indicate
+     * timezones west of GMT.
+     * 
+     * @returns Promise resolving to timezone offset in hours (e.g., -5 for EST, +1 for CET)
+     * 
+     * &#x60;&#x60;&#x60;typescript
+     * const offset &#x3D; await client.getDeviceTimeZoneOffset();
+     * console.log(&#x60;Device is ${offset} hours from GMT&#x60;);
+     * &#x60;&#x60;&#x60;
+     */
+    getDeviceTimeZoneOffset(): Promise&lt;number | null&gt;;
+
+    /**
+     * Gets the language code currently assigned to the device.
+     * 
+     * Returns the language/locale code configured for this device in the CMS.
+     * This can be used for localization and internationalization purposes.
+     * 
+     * @returns Promise resolving to language code (e.g., &quot;en-US&quot;, &quot;fr-FR&quot;, &quot;de-DE&quot;)
+     * 
+     * &#x60;&#x60;&#x60;typescript
+     * const langCode &#x3D; await client.getLanguageCode();
+     * if (langCode &#x3D;&#x3D;&#x3D; &#x27;fr-FR&#x27;) {
+     *   this.loadFrenchContent();
+     * }
+     * &#x60;&#x60;&#x60;
+     */
+    getLanguageCode(): Promise&lt;string | null&gt;;
+
+    /**
+     * Gets the unique device key (registration key) for this player device.
+     * 
+     * The device key is a unique identifier assigned to each device when it&#x27;s
+     * registered with the Revel Digital system. This key can be used for
+     * device-specific operations and remote command targeting.
+     * 
+     * @returns Promise resolving to the device&#x27;s unique registration key
+     * 
+     * &#x60;&#x60;&#x60;typescript
+     * const deviceKey &#x3D; await client.getDeviceKey();
+     * console.log(&#x60;This device key: ${deviceKey}&#x60;);
+     * // Use for analytics or device-specific configuration
+     * &#x60;&#x60;&#x60;
+     */
+    getDeviceKey(): Promise&lt;string | null&gt;;
+
+    /**
+     * Sends a command to the local player device.
+     * 
+     * Commands are used to trigger specific behaviors or actions on the player.
+     * The command is processed immediately by the local player only.
+     * 
+     * @param name - The command identifier/name
+     * @param arg - Command argument or payload data
+     * 
+     * &#x60;&#x60;&#x60;typescript
+     * // Simple command
+     * client.sendCommand(&#x27;restart&#x27;, &#x27;&#x27;);
+     * 
+     * // Command with parameters
+     * client.sendCommand(&#x27;setVolume&#x27;, &#x27;75&#x27;);
+     * client.sendCommand(&#x27;loadContent&#x27;, JSON.stringify({ url: &#x27;http://example.com&#x27; }));
+     * &#x60;&#x60;&#x60;
+     */
+    sendCommand(name: string, arg: string): void;
+
+    /**
+     * Sends a command to one or more remote player devices.
+     * 
+     * Enables cross-device communication by sending commands to other devices
+     * within the same Revel Digital account. Useful for synchronized displays,
+     * coordinated actions, or remote device control.
+     * 
+     * @param deviceKeys - Array of target device keys to receive the command
+     * @param name - The command identifier/name  
+     * @param arg - Command argument or payload data
+     * 
+     * &#x60;&#x60;&#x60;typescript
+     * // Send to multiple devices
+     * const targets &#x3D; [&#x27;lobby-display&#x27;, &#x27;kiosk-001&#x27;, &#x27;kiosk-002&#x27;];
+     * client.sendRemoteCommand(targets, &#x27;updateContent&#x27;, &#x27;new-content-id&#x27;);
+     * 
+     * // Broadcast synchronization command
+     * client.sendRemoteCommand([&#x27;device1&#x27;, &#x27;device2&#x27;], &#x27;sync&#x27;, Date.now().toString());
+     * &#x60;&#x60;&#x60;
+     */
+    sendRemoteCommand(deviceKeys: string[], name: string, arg: string): void;
+
+    /**
+     * Tracks an analytics event with optional properties.
+     * 
+     * Events are logged for analytics and reporting purposes, providing insights
+     * into gadget usage, performance, and user interactions. For timed events,
+     * the duration is automatically calculated from the timeEvent() call to this track() call.
+     * 
+     * @param eventName - Unique identifier for the event
+     * @param properties - Optional JSON string containing event properties and metadata
+     * 
+     * &#x60;&#x60;&#x60;typescript
+     * // Simple event
+     * client.track(&#x27;gadget_loaded&#x27;, &#x27;&#x27;);
+     * 
+     * // Event with properties
+     * const props &#x3D; JSON.stringify({ 
+     *   action: &#x27;button_click&#x27;, 
+     *   button_id: &#x27;submit&#x27;,
+     *   timestamp: Date.now() 
+     * });
+     * client.track(&#x27;user_interaction&#x27;, props);
+     * &#x60;&#x60;&#x60;
+     */
+    track(eventName: string, properties?: string): void;
+
+    /**
+     * Begins timing measurement for a named event.
+     * 
+     * This starts a timer for performance measurement. The timer is stopped
+     * and duration calculated when track() is called with the same event name.
+     * Multiple concurrent timers can be active for different event names.
+     * 
+     * @param eventName - Unique identifier for the timed event
+     * 
+     * &#x60;&#x60;&#x60;typescript
+     * // Start timing a video playback
+     * client.timeEvent(&#x27;video_playback&#x27;);
+     * // ... video plays for some duration ...
+     * client.track(&#x27;video_playback&#x27;, JSON.stringify({ videoId: &#x27;abc123&#x27; }));
+     * // Duration is automatically included in the tracked event
+     * &#x60;&#x60;&#x60;
+     */
+    timeEvent(eventName: string): void;
+
+    /**
+     * Creates a new analytics event session for grouping related events.
+     * 
+     * Sessions provide a way to group related events together for analysis.
+     * Each subsequent event tracked will be associated with this session
+     * until a new session is started.
+     * 
+     * @param id - Optional custom session identifier. If not provided, a random ID is generated
+     * 
+     * &#x60;&#x60;&#x60;typescript
+     * // Start new session with auto-generated ID
+     * client.newEventSession();
+     * client.track(&#x27;session_start&#x27;, &#x27;&#x27;);
+     * 
+     * // Start session with custom ID
+     * client.newEventSession(&#x27;user-123-workflow&#x27;);
+     * client.track(&#x27;workflow_begin&#x27;, &#x27;&#x27;);
+     * &#x60;&#x60;&#x60;
+     */
+    newEventSession(id?: string): void;
+
+    /**
+     * Gets the root directory path where the Revel Digital system stores files.
+     * 
+     * Returns the base file system path used by the player for storing
+     * content, cache, and other system files on the local device.
+     * 
+     * @returns Promise resolving to the root directory path
+     * 
+     * &#x60;&#x60;&#x60;typescript
+     * const rootPath &#x3D; await client.getRevelRoot();
+     * console.log(&#x60;System root: ${rootPath}&#x60;);
+     * // Use for file operations or path construction
+     * &#x60;&#x60;&#x60;
+     */
+    getRevelRoot(): Promise&lt;string | null&gt;;
+
+    /**
+     * Gets the current command map configuration for this device.
+     * 
+     * Returns a JSON string containing the mapping of command names to their
+     * configurations as defined in the device&#x27;s current template or playlist.
+     * 
+     * @returns Promise resolving to JSON string of command mappings
+     * 
+     * &#x60;&#x60;&#x60;typescript
+     * const commandMapJson &#x3D; await client.getCommandMap();
+     * const commandMap &#x3D; JSON.parse(commandMapJson);
+     * if (commandMap[&#x27;customCommand&#x27;]) {
+     *   console.log(&#x27;Custom command is available&#x27;);
+     * }
+     * &#x60;&#x60;&#x60;
+     */
+    getCommandMap(): Promise&lt;string | null&gt;;
+
+    /**
+     * Signals that the gadget has completed its visualization and the player can proceed.
+     * 
+     * This notifies the player that the current content has finished displaying
+     * and it&#x27;s safe to transition to the next item in a playlist or perform
+     * other scheduled actions.
+     * 
+     * &#x60;&#x60;&#x60;typescript
+     * // After animation completes
+     * setTimeout(() &#x3D;&gt; {
+     *   client.finish();
+     * }, 5000);
+     * 
+     * // After user interaction
+     * button.onclick &#x3D; () &#x3D;&gt; {
+     *   this.processAction();
+     *   client.finish();
+     * };
+     * &#x60;&#x60;&#x60;
+     */
+    finish(): void;
+
+    /**
+     * Gets comprehensive information about the current device.
+     * 
+     * Returns detailed device information including registration details,
+     * hardware type, location, and configuration as a JSON string.
+     * 
+     * @returns Promise resolving to JSON string containing device information
+     * 
+     * &#x60;&#x60;&#x60;typescript
+     * const deviceJson &#x3D; await client.getDevice();
+     * const device &#x3D; JSON.parse(deviceJson);
+     * console.log(&#x60;Device: ${device.name} (${device.devicetype})&#x60;);
+     * console.log(&#x60;Location: ${device.location?.city}, ${device.location?.state}&#x60;);
+     * &#x60;&#x60;&#x60;
+     */
+    getDevice(): Promise&lt;string | null&gt;;
+
+    /**
+     * Gets the width of the available visualization area in pixels.
+     * 
+     * Returns the display width available for gadget content, which may
+     * differ from screen resolution based on template layout and player configuration.
+     * 
+     * @returns Promise resolving to width in pixels
+     * 
+     * &#x60;&#x60;&#x60;typescript
+     * const width &#x3D; await client.getWidth();
+     * if (width &lt; 800) {
+     *   this.enableMobileLayout();
+     * }
+     * &#x60;&#x60;&#x60;
+     */
+    getWidth(): Promise&lt;number | null&gt;;
+
+    /**
+     * Gets the height of the available visualization area in pixels.
+     * 
+     * Returns the display height available for gadget content, which may
+     * differ from screen resolution based on template layout and player configuration.
+     * 
+     * @returns Promise resolving to height in pixels
+     * 
+     * &#x60;&#x60;&#x60;typescript
+     * const height &#x3D; await client.getHeight();
+     * const width &#x3D; await client.getWidth();
+     * const aspectRatio &#x3D; width / height;
+     * this.adjustLayout(aspectRatio);
+     * &#x60;&#x60;&#x60;
+     */
+    getHeight(): Promise&lt;number | null&gt;;
+
+    /**
+     * Gets the duration assigned to the current playlist item.
+     * 
+     * Returns the time duration (in milliseconds) that this content should
+     * be displayed when running as part of a playlist. Only applicable
+     * when the gadget is associated with a playlist.
+     * 
+     * @returns Promise resolving to duration in milliseconds
+     * 
+     * &#x60;&#x60;&#x60;typescript
+     * const duration &#x3D; await client.getDuration();
+     * if (duration) {
+     *   // Auto-finish after the assigned duration
+     *   setTimeout(() &#x3D;&gt; client.finish(), duration);
+     * }
+     * &#x60;&#x60;&#x60;
+     */
+    getDuration(): Promise&lt;number | null&gt;;
+
+    /**
+     * Gets the version of the Revel Digital SDK.
+     * 
+     * Returns the current version string of the SDK/client library.
+     * 
+     * @returns Promise resolving to version string
+     * 
+     * &#x60;&#x60;&#x60;typescript
+     * const version &#x3D; await client.getSdkVersion();
+     * console.log(&#x60;SDK Version: ${version}&#x60;);
+     * &#x60;&#x60;&#x60;
+     */
+    getSdkVersion(): Promise&lt;string | null&gt;;
+
+    /**
+     * Applies configuration preferences to the gadget (design-time only).
+     * 
+     * This method is used during gadget design/configuration to apply
+     * preference changes. It sends the updated preferences to the CMS
+     * for assignment to the gadget configuration. Only available during
+     * design-time operations.
+     * 
+     * @param prefs - Dictionary of preference key-value pairs to apply
+     * 
+     * &#x60;&#x60;&#x60;typescript
+     * // Apply configuration changes in design mode
+     * client.applyConfig({
+     *   &#x27;title&#x27;: &#x27;Updated Title&#x27;,
+     *   &#x27;backgroundColor&#x27;: &#x27;#ff0000&#x27;,
+     *   &#x27;autoRefresh&#x27;: true
+     * });
+     * &#x60;&#x60;&#x60;
+     */
+    applyConfig(prefs: IDictionary&lt;any&gt;): void;
+}
+</code></pre>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
+            var COMPODOC_CURRENT_PAGE_URL = 'IClient.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

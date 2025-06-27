@@ -126,6 +126,27 @@
         </p>
 
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Interface representing configuration settings and events for the Revel Digital system.</p>
+<p>This interface defines the structure for configuration-related communication
+between gadgets and the player, particularly during design-time configuration
+and preference management operations.</p>
+<p>Configuration events are typically used when:</p>
+<ul>
+<li>Opening configuration dialogs in the CMS</li>
+<li>Applying preference changes from configuration UI</li>
+<li>Communicating between parent and child windows during config operations</li>
+</ul>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">// Handle configuration events
+this.client.onPostMessage$.subscribe((config: IConfig) =&gt; {
+  if (config.type === ConfigType.ApplyConfig) {
+    this.applyPreferences(config.prefs);
+  }
+});</code></pre></div>
+            </p>
 
 
         <section data-compodoc="block-index">
@@ -202,8 +223,14 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>Is this event triggered by the opener</p>
-</div>
+                                    <div class="io-description"><p>Indicates if this configuration event originated from a popup window opener.</p>
+<p>When true, this suggests the configuration change originated from a popup
+configuration window and may need to be propagated to the parent window.
+This is used internally for handling window communication during config operations.</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">if (config.isOpener) {
+  // Propagate config changes from popup to parent window
+  window.parent.postMessage(configData, &#39;*&#39;);
+}</code></pre></div></div>
                                 </td>
                             </tr>
                         </tbody>
@@ -241,8 +268,21 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>Preferences</p>
-</div>
+                                    <div class="io-description"><p>Dictionary of preference key-value pairs containing configuration settings.</p>
+<p>This object contains all the preference values that have been configured
+for the gadget. The keys correspond to preference names defined in the
+gadget&#39;s configuration schema, and values can be of any type.</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">const config: IConfig = {
+  prefs: {
+    &#39;title&#39;: &#39;My Gadget Title&#39;,
+    &#39;backgroundColor&#39;: &#39;#ff0000&#39;,
+    &#39;refreshInterval&#39;: 30,
+    &#39;showBorder&#39;: true,
+    &#39;apiEndpoint&#39;: &#39;https://api.example.com/data&#39;
+  },
+  type: ConfigType.ApplyConfig,
+  isOpener: false
+};</code></pre></div></div>
                                 </td>
                             </tr>
                         </tbody>
@@ -280,7 +320,10 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>Config type</p>
+                                    <div class="io-description"><p>The type of configuration operation being performed.</p>
+<p>Indicates whether this is a request to open configuration UI
+or an instruction to apply new configuration values.</p>
+<p>See ConfigType enum for available values</p>
 </div>
                                 </td>
                             </tr>
@@ -294,39 +337,133 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">export interface IConfig {
 
     /**
-     * Preferences
+     * Dictionary of preference key-value pairs containing configuration settings.
      * 
-     * @type {any}
+     * This object contains all the preference values that have been configured
+     * for the gadget. The keys correspond to preference names defined in the
+     * gadget&#x27;s configuration schema, and values can be of any type.
      * 
-     * @memberof IConfig
+     * &#x60;&#x60;&#x60;typescript
+     * const config: IConfig &#x3D; {
+     *   prefs: {
+     *     &#x27;title&#x27;: &#x27;My Gadget Title&#x27;,
+     *     &#x27;backgroundColor&#x27;: &#x27;#ff0000&#x27;,
+     *     &#x27;refreshInterval&#x27;: 30,
+     *     &#x27;showBorder&#x27;: true,
+     *     &#x27;apiEndpoint&#x27;: &#x27;https://api.example.com/data&#x27;
+     *   },
+     *   type: ConfigType.ApplyConfig,
+     *   isOpener: false
+     * };
+     * &#x60;&#x60;&#x60;
      */
     prefs: IDictionary&lt;any&gt;;
 
     /**
-     * Config type
+     * The type of configuration operation being performed.
      * 
-     * @type {ConfigType}
+     * Indicates whether this is a request to open configuration UI
+     * or an instruction to apply new configuration values.
      * 
-     * @memberof IConfig
+     * @see ConfigType enum for available values
      */
     type: ConfigType;
 
     /**
-     * Is this event triggered by the opener
+     * Indicates if this configuration event originated from a popup window opener.
      * 
-     * @type {boolean}
+     * When true, this suggests the configuration change originated from a popup
+     * configuration window and may need to be propagated to the parent window.
+     * This is used internally for handling window communication during config operations.
      * 
-     * @memberof IConfig
+     * &#x60;&#x60;&#x60;typescript
+     * if (config.isOpener) {
+     *   // Propagate config changes from popup to parent window
+     *   window.parent.postMessage(configData, &#x27;*&#x27;);
+     * }
+     * &#x60;&#x60;&#x60;
      */
     isOpener: boolean;
 }
 
+/**
+ * Generic dictionary interface for key-value pairs.
+ * 
+ * This interface provides a flexible way to represent objects with
+ * string keys and values of any type. It&#x27;s commonly used for configuration
+ * preferences, command arguments, and other dynamic data structures.
+ * 
+ * @template T - The type of values stored in the dictionary
+ * 
+ * &#x60;&#x60;&#x60;typescript
+ * // String dictionary
+ * const stringPrefs: IDictionary&lt;string&gt; &#x3D; {
+ *   &#x27;title&#x27;: &#x27;My Title&#x27;,
+ *   &#x27;description&#x27;: &#x27;My Description&#x27;
+ * };
+ * 
+ * // Mixed type dictionary
+ * const mixedPrefs: IDictionary&lt;any&gt; &#x3D; {
+ *   &#x27;title&#x27;: &#x27;My Title&#x27;,
+ *   &#x27;count&#x27;: 42,
+ *   &#x27;enabled&#x27;: true
+ * };
+ * &#x60;&#x60;&#x60;
+ * 
+ * @export
+ * @interface IDictionary
+ */
 export interface IDictionary&lt;T&gt; {
     [Key: string]: T;
 }
 
+/**
+ * Enumeration of configuration operation types.
+ * 
+ * Defines the different types of configuration-related operations
+ * that can be performed between gadgets and the player environment.
+ * 
+ * @export
+ * @enum ConfigType
+ * @since 1.0.0
+ */
 export enum ConfigType {
+    /**
+     * Request to open the configuration interface.
+     * 
+     * This type indicates that the configuration UI should be displayed,
+     * typically in response to a user action or system event.
+     * 
+     * &#x60;&#x60;&#x60;typescript
+     * // Trigger config UI opening
+     * const openConfigEvent: IConfig &#x3D; {
+     *   prefs: {},
+     *   type: ConfigType.OpenConfig,
+     *   isOpener: false
+     * };
+     * &#x60;&#x60;&#x60;
+     */
     OpenConfig &#x3D; &#x27;openConfig&#x27;,
+
+    /**
+     * Instruction to apply new configuration values.
+     * 
+     * This type indicates that the provided preferences should be
+     * applied to the gadget&#x27;s configuration, typically after the
+     * user has made changes in the configuration UI.
+     * 
+     * &#x60;&#x60;&#x60;typescript
+     * // Apply new configuration
+     * const applyConfigEvent: IConfig &#x3D; {
+     *   prefs: {
+     *     &#x27;title&#x27;: &#x27;Updated Title&#x27;,
+     *     &#x27;interval&#x27;: 60
+     *   },
+     *   type: ConfigType.ApplyConfig,
+     *   isOpener: true
+     * };
+     * &#x60;&#x60;&#x60;
+     */
     ApplyConfig &#x3D; &#x27;applyConfig&#x27;
 }
 </code></pre>

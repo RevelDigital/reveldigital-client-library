@@ -59,13 +59,13 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="modules/NgSafeStylePipeModule.html" data-type="entity-link" >NgSafeStylePipeModule</a>
                                     <li class="chapter inner">
                                         <div class="simple menu-toggler" data-bs-toggle="collapse" ${ isNormalMode ?
-                                            'data-bs-target="#pipes-links-module-NgSafeStylePipeModule-9f971a30daedbfaba64adf2088559512392dfc25e6cb5b1c9577e8bfda42b0949f67a9421ef2989776c49b4e71bcd4fe879bb981cbd113ce2282726ebe63b34a"' : 'data-bs-target="#xs-pipes-links-module-NgSafeStylePipeModule-9f971a30daedbfaba64adf2088559512392dfc25e6cb5b1c9577e8bfda42b0949f67a9421ef2989776c49b4e71bcd4fe879bb981cbd113ce2282726ebe63b34a"' }>
+                                            'data-bs-target="#pipes-links-module-NgSafeStylePipeModule-2d89fbd730f29c201d2c1e5e9e1e06a40848091fa8cc61378a71e453b42e0424d158af2ebc3b3fae0abbf048feb9b310a8b902315b702835ebb646e9996934b4"' : 'data-bs-target="#xs-pipes-links-module-NgSafeStylePipeModule-2d89fbd730f29c201d2c1e5e9e1e06a40848091fa8cc61378a71e453b42e0424d158af2ebc3b3fae0abbf048feb9b310a8b902315b702835ebb646e9996934b4"' }>
                                             <span class="icon ion-md-add"></span>
                                             <span>Pipes</span>
                                             <span class="icon ion-ios-arrow-down"></span>
                                         </div>
-                                        <ul class="links collapse" ${ isNormalMode ? 'id="pipes-links-module-NgSafeStylePipeModule-9f971a30daedbfaba64adf2088559512392dfc25e6cb5b1c9577e8bfda42b0949f67a9421ef2989776c49b4e71bcd4fe879bb981cbd113ce2282726ebe63b34a"' :
-                                            'id="xs-pipes-links-module-NgSafeStylePipeModule-9f971a30daedbfaba64adf2088559512392dfc25e6cb5b1c9577e8bfda42b0949f67a9421ef2989776c49b4e71bcd4fe879bb981cbd113ce2282726ebe63b34a"' }>
+                                        <ul class="links collapse" ${ isNormalMode ? 'id="pipes-links-module-NgSafeStylePipeModule-2d89fbd730f29c201d2c1e5e9e1e06a40848091fa8cc61378a71e453b42e0424d158af2ebc3b3fae0abbf048feb9b310a8b902315b702835ebb646e9996934b4"' :
+                                            'id="xs-pipes-links-module-NgSafeStylePipeModule-2d89fbd730f29c201d2c1e5e9e1e06a40848091fa8cc61378a71e453b42e0424d158af2ebc3b3fae0abbf048feb9b310a8b902315b702835ebb646e9996934b4"' }>
                                             <li class="link">
                                                 <a href="pipes/SafeStylePipe.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >SafeStylePipe</a>
                                             </li>
@@ -91,6 +91,19 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                             </li>
                 </ul>
                 </li>
+                    <li class="chapter">
+                        <div class="simple menu-toggler" data-bs-toggle="collapse" ${ isNormalMode ? 'data-bs-target="#classes-links"' :
+                            'data-bs-target="#xs-classes-links"' }>
+                            <span class="icon ion-ios-paper"></span>
+                            <span>Classes</span>
+                            <span class="icon ion-ios-arrow-down"></span>
+                        </div>
+                        <ul class="links collapse " ${ isNormalMode ? 'id="classes-links"' : 'id="xs-classes-links"' }>
+                            <li class="link">
+                                <a href="classes/NoopClient.html" data-type="entity-link" >NoopClient</a>
+                            </li>
+                        </ul>
+                    </li>
                         <li class="chapter">
                             <div class="simple menu-toggler" data-bs-toggle="collapse" ${ isNormalMode ? 'data-bs-target="#injectables-links"' :
                                 'data-bs-target="#xs-injectables-links"' }>
@@ -112,6 +125,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                             <span class="icon ion-ios-arrow-down"></span>
                         </div>
                         <ul class="links collapse " ${ isNormalMode ? ' id="interfaces-links"' : 'id="xs-interfaces-links"' }>
+                            <li class="link">
+                                <a href="interfaces/IClient.html" data-type="entity-link" >IClient</a>
+                            </li>
                             <li class="link">
                                 <a href="interfaces/ICommand.html" data-type="entity-link" >ICommand</a>
                             </li>

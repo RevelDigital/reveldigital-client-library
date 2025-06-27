@@ -79,7 +79,7 @@
                    <compodoc-menu mode="normal"></compodoc-menu>
                </div>
                <!-- START CONTENT -->
-               <div class="content injectable">
+               <div class="content class">
                    <div class="content-data">
 
 
@@ -89,9 +89,13 @@
 
 
 
+
+
+
+
 <ol class="breadcrumb">
-  <li class="breadcrumb-item">Injectables</li>
-  <li class="breadcrumb-item" >PlayerClientService</li>
+  <li class="breadcrumb-item">Classes</li>
+  <li class="breadcrumb-item" >NoopClient</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -123,79 +127,30 @@
                 <h3>Description</h3>
             </p>
             <p class="comment">
-                <p>Service for interacting with the Revel Digital player client.</p>
-<p>This service provides a comprehensive interface for gadgets and web applications
-to communicate with the Revel Digital player environment. It handles device
-information, commands, events, analytics tracking, and configuration management.</p>
-<p>The service supports both direct API calls and event-based communication patterns,
-allowing gadgets to respond to player lifecycle events (start, stop, commands) and
-send data back to the player or remote devices.</p>
-<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">constructor(private client: PlayerClientService) {
-  // Subscribe to player events
-  this.client.onStart$.subscribe(() =&gt; {
-    console.log(&#39;Gadget started&#39;);
-  });
+                <p>Mock implementation of the IClient interface.</p>
+<p>This class provides a no-operation (NOOP) implementation of the client API
+that allows consuming code to function normally even when the actual player
+API is not available. This typically occurs during development, testing,
+or when the player script is blocked by ad-blockers.</p>
+<p>All methods in this class either return null/empty values or perform no
+operations, allowing gadgets to function without errors while providing
+appropriate fallback behavior.</p>
 
-  this.client.onCommand$.subscribe(command =&gt; {
-    console.log(&#39;Received command:&#39;, command);
-  });
-}
-
-async ngOnInit() {
-  // Get device information
-  const device = await this.client.getDevice();
-  const deviceTime = await this.client.getDeviceTime();
-
-  // Track analytics
-  this.client.track(&#39;gadget_loaded&#39;, { version: &#39;1.0&#39; });
-}</code></pre></div>
             </p>
 
+
+            <p class="comment">
+                <h3>Implements</h3>
+            </p>
+            <p class="comment">
+                            <code><a href="../interfaces/IClient.html" target="_self" >IClient</a></code>
+            </p>
 
 
             <section data-compodoc="block-index">
     <h3 id="index">Index</h3>
     <table class="table table-sm table-bordered index-table">
         <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <h6><b>Properties</b></h6>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <ul class="index-list">
-                            <li>
-                                    <span class="modifier">Public</span>
-                                <a href="#onCommand$" >onCommand$</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Public</span>
-                                <a href="#onConfig$" >onConfig$</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Public</span>
-                                <a href="#onPostMessage$" >onPostMessage$</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Private</span>
-                                <a href="#onPostMessageEvt$" >onPostMessageEvt$</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Public</span>
-                                <a href="#onReady$" >onReady$</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Public</span>
-                                <a href="#onStart$" >onStart$</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Public</span>
-                                <a href="#onStop$" >onStop$</a>
-                            </li>
-                        </ul>
-                    </td>
-                </tr>
 
                 <tr>
                     <td class="col-md-4">
@@ -207,7 +162,6 @@ async ngOnInit() {
                         <ul class="index-list">
                             <li>
                                     <span class="modifier">Public</span>
-                                    <span class="modifier">Async</span>
                                 <a href="#applyConfig" >applyConfig</a>
                             </li>
                             <li>
@@ -235,7 +189,6 @@ async ngOnInit() {
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
-                                    <span class="modifier">Async</span>
                                 <a href="#getDeviceTime" >getDeviceTime</a>
                             </li>
                             <li>
@@ -270,10 +223,6 @@ async ngOnInit() {
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
-                                <a href="#getPrefs" >getPrefs</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Public</span>
                                     <span class="modifier">Async</span>
                                 <a href="#getRevelRoot" >getRevelRoot</a>
                             </li>
@@ -286,11 +235,6 @@ async ngOnInit() {
                                     <span class="modifier">Public</span>
                                     <span class="modifier">Async</span>
                                 <a href="#getWidth" >getWidth</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Public</span>
-                                    <span class="modifier">Async</span>
-                                <a href="#isPreviewMode" >isPreviewMode</a>
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
@@ -324,6 +268,25 @@ async ngOnInit() {
     </table>
 </section>
 
+            <section data-compodoc="block-constructor">
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor()</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="1033" class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:1033</a></div>
+                            </td>
+                        </tr>
+
+            </tbody>
+        </table>
+</section>
+
 
             <section data-compodoc="block-methods">
     
@@ -337,7 +300,6 @@ async ngOnInit() {
                     <a name="applyConfig"></a>
                     <span class="name">
                             <span class="modifier">Public</span>
-                            <span class="modifier">Async</span>
                         <span ><b>applyConfig</b></span>
                         <a href="#applyConfig"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -353,27 +315,14 @@ async ngOnInit() {
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="947"
-                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:947</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="1143"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:1143</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Applies configuration preferences to the gadget (preview mode only).</p>
-<p>This method is only available when running in preview mode (typically during
-gadget development or testing in the CMS). It allows applying configuration
-changes that would normally come from the gadget&#39;s preference settings.</p>
-<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">if (await this.client.isPreviewMode()) {
-  // Apply test configuration in preview
-  await this.client.applyConfig({
-    &#39;title&#39;: &#39;Test Title&#39;,
-    &#39;backgroundColor&#39;: &#39;#ff0000&#39;,
-    &#39;showBorder&#39;: true,
-    &#39;refreshInterval&#39;: 30
-  });
-}</code></pre></div></div>
 
                             <div class="io-description">
                                 <b>Parameters :</b>
@@ -384,7 +333,6 @@ changes that would normally come from the gadget&#39;s preference settings.</p>
                                             <td>Name</td>
                                                 <td>Type</td>
                                             <td>Optional</td>
-                                                <td>Description</td>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -399,26 +347,12 @@ changes that would normally come from the gadget&#39;s preference settings.</p>
                                             </td>
 
 
-                                            <td>
-                                                    <ul>
-<li>Dictionary of preference key-value pairs to apply</li>
-</ul>
-<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">if (await this.client.isPreviewMode()) {
-// Apply test configuration in preview
-await this.client.applyConfig({
-&#39;title&#39;: &#39;Test Title&#39;,
-&#39;backgroundColor&#39;: &#39;#ff0000&#39;,
-&#39;showBorder&#39;: true,
-&#39;refreshInterval&#39;: 30
-});
-}</code></pre></div>
-                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
                         <div class="io-description">
-                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
                         </div>
                             <div class="io-description">
@@ -450,23 +384,14 @@ await this.client.applyConfig({
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="298"
-                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:298</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="1043"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:1043</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Sends a callback to player scripting with variable arguments.</p>
-<p>This method allows the gadget to communicate with player scripting.
-If the appropriate scripting is in place in the currently running template,
-calling this method will initiate a callback which can be acted upon in player script.</p>
-<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">// Send a simple callback
-this.client.callback(&#39;test&#39;, &#39;data&#39;);
-
-// Send multiple parameters
-this.client.callback(&#39;action&#39;, &#39;value1&#39;, &#39;value2&#39;, { data: &#39;object&#39; });</code></pre></div></div>
 
                             <div class="io-description">
                                 <b>Parameters :</b>
@@ -477,7 +402,6 @@ this.client.callback(&#39;action&#39;, &#39;value1&#39;, &#39;value2&#39;, { dat
                                             <td>Name</td>
                                                 <td>Type</td>
                                             <td>Optional</td>
-                                                <td>Description</td>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -492,16 +416,6 @@ this.client.callback(&#39;action&#39;, &#39;value1&#39;, &#39;value2&#39;, { dat
                                             </td>
 
 
-                                            <td>
-                                                    <ul>
-<li>Variable number of arguments to pass to the callback (max 5 arguments)</li>
-</ul>
-<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">// Send a simple callback
-this.client.callback(&#39;test&#39;, &#39;data&#39;);
-
-// Send multiple parameters
-this.client.callback(&#39;action&#39;, &#39;value1&#39;, &#39;value2&#39;, { data: &#39;object&#39; });</code></pre></div>
-                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -539,37 +453,14 @@ this.client.callback(&#39;action&#39;, &#39;value1&#39;, &#39;value2&#39;, { dat
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="716"
-                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:716</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="1113"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:1113</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Signals to the player that this gadget has completed its visualization.</p>
-<p>This method notifies the player that the current gadget has finished its
-content display or interaction cycle. The player can then proceed with
-the next item in a playlist if applicable, or handle the completion
-according to its configuration.</p>
-<p>Call this method when your gadget has completed its intended function,
-such as finishing an animation, completing a form, or reaching a natural
-stopping point.</p>
-<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">// After completing an animation
-private onAnimationComplete(): void {
-  this.client.finish();
-}
-
-// After user interaction is complete
-private onFormSubmitted(): void {
-  this.saveFormData();
-  this.client.finish();
-}
-
-// After a timed display period
-setTimeout(() =&gt; {
-  this.client.finish();
-}, 30000); // 30 seconds</code></pre></div></div>
 
                         <div class="io-description">
                             <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -602,39 +493,19 @@ setTimeout(() =&gt; {
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="679"
-                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:679</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="1108"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:1108</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Gets a map of commands currently active for this device.</p>
-<p>This returns the current command configuration that defines how the device
-responds to various command triggers and remote commands.</p>
-<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">const commandMap = await this.client.getCommandMap();
-console.log(&#39;Active commands:&#39;, commandMap);
-
-// Check if specific command is available
-if (commandMap[&#39;customCommand&#39;]) {
-  console.log(&#39;Custom command is available&#39;);
-}</code></pre></div></div>
 
                         <div class="io-description">
-                            <b>Returns : </b>    <code>Promise&lt;any&gt;</code>
+                            <b>Returns : </b>    <code>Promise&lt;string&gt;</code>
 
                         </div>
-                            <div class="io-description">
-                                <p>Promise resolving to a map of currently active commands</p>
-<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">const commandMap = await this.client.getCommandMap();
-console.log(&#39;Active commands:&#39;, commandMap);
-
-// Check if specific command is available
-if (commandMap[&#39;customCommand&#39;]) {
-console.log(&#39;Custom command is available&#39;);
-}</code></pre></div>
-                            </div>
                 </td>
             </tr>
         </tbody>
@@ -662,62 +533,19 @@ console.log(&#39;Custom command is available&#39;);
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="786"
-                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:786</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="1118"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:1118</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Gets detailed information about the device running the player.</p>
-<p>Returns comprehensive device details including name, registration key, type,
-service date, language, timezone, tags, and location information. This data
-is configured in the Revel Digital CMS for each device.</p>
-<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">const device = await this.client.getDevice();
-
-if (device) {
-  console.log(&#39;Device name:&#39;, device.name);
-  console.log(&#39;Device type:&#39;, device.deviceType);
-  console.log(&#39;Location:&#39;, device.location.city, device.location.state);
-  console.log(&#39;Tags:&#39;, device.tags);
-
-  // Use device info for customization
-  if (device.location.country === &#39;US&#39;) {
-    this.loadUSContent();
-  }
-
-  // Check device capabilities based on type
-  if (device.deviceType === &#39;android&#39;) {
-    this.enableTouchFeatures();
-  }
-}</code></pre></div></div>
 
                         <div class="io-description">
-                            <b>Returns : </b>        <code><a href="../interfaces/IDevice.html" target="_self" >Promise&lt;IDevice | null&gt;</a></code>
+                            <b>Returns : </b>    <code>Promise&lt;string | null&gt;</code>
 
                         </div>
-                            <div class="io-description">
-                                <p>Promise resolving to device details object, or null if not available</p>
-<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">const device = await this.client.getDevice();
-
-if (device) {
-console.log(&#39;Device name:&#39;, device.name);
-console.log(&#39;Device type:&#39;, device.deviceType);
-console.log(&#39;Location:&#39;, device.location.city, device.location.state);
-console.log(&#39;Tags:&#39;, device.tags);
-
-// Use device info for customization
-if (device.location.country === &#39;US&#39;) {
-this.loadUSContent();
-}
-
-// Check device capabilities based on type
-if (device.deviceType === &#39;android&#39;) {
-this.enableTouchFeatures();
-}
-}</code></pre></div>
-                            </div>
                 </td>
             </tr>
         </tbody>
@@ -745,29 +573,19 @@ this.enableTouchFeatures();
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="463"
-                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:463</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="1073"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:1073</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Gets the unique Revel Digital device key associated with the device.</p>
-<p>The device key is a unique identifier for this specific player device
-and can be used for device-specific operations or remote commands.</p>
-<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">const deviceKey = await this.client.getDeviceKey();
-console.log(&#39;Device key:&#39;, deviceKey);</code></pre></div></div>
 
                         <div class="io-description">
                             <b>Returns : </b>    <code>Promise&lt;string&gt;</code>
 
                         </div>
-                            <div class="io-description">
-                                <p>Promise resolving to the device key string</p>
-<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">const deviceKey = await this.client.getDeviceKey();
-console.log(&#39;Device key:&#39;, deviceKey);</code></pre></div>
-                            </div>
                 </td>
             </tr>
         </tbody>
@@ -779,7 +597,6 @@ console.log(&#39;Device key:&#39;, deviceKey);</code></pre></div>
                     <a name="getDeviceTime"></a>
                     <span class="name">
                             <span class="modifier">Public</span>
-                            <span class="modifier">Async</span>
                         <span ><b>getDeviceTime</b></span>
                         <a href="#getDeviceTime"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -795,25 +612,14 @@ console.log(&#39;Device key:&#39;, deviceKey);</code></pre></div>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="370"
-                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:370</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="1048"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:1048</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Gets the current device time in ISO8601 format.</p>
-<p>Current device time is determined by the device timezone assigned to the device in the CMS.
-This is useful for displaying time-sensitive content or scheduling operations based on
-the device&#39;s local time rather than browser time.</p>
-<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">// Get current device time
-const currentTime = await this.client.getDeviceTime();
-console.log(&#39;Device time:&#39;, currentTime);
-
-// Convert a specific date to device time
-const specificDate = new Date(&#39;2023-01-01T12:00:00Z&#39;);
-const deviceTime = await this.client.getDeviceTime(specificDate);</code></pre></div></div>
 
                             <div class="io-description">
                                 <b>Parameters :</b>
@@ -824,7 +630,6 @@ const deviceTime = await this.client.getDeviceTime(specificDate);</code></pre></
                                             <td>Name</td>
                                                 <td>Type</td>
                                             <td>Optional</td>
-                                                <td>Description</td>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -839,12 +644,6 @@ const deviceTime = await this.client.getDeviceTime(specificDate);</code></pre></
                                             </td>
 
 
-                                            <td>
-                                                    <ul>
-<li>Optional. If supplied, will translate the supplied date/time to device time based on respective timezones</li>
-</ul>
-
-                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -854,14 +653,7 @@ const deviceTime = await this.client.getDeviceTime(specificDate);</code></pre></
 
                         </div>
                             <div class="io-description">
-                                <p>Promise resolving to date/time in ISO8601 format</p>
-<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">// Get current device time
-const currentTime = await this.client.getDeviceTime();
-console.log(&#39;Device time:&#39;, currentTime);
-
-// Convert a specific date to device time
-const specificDate = new Date(&#39;2023-01-01T12:00:00Z&#39;);
-const deviceTime = await this.client.getDeviceTime(specificDate);</code></pre></div>
+                                
                             </div>
                 </td>
             </tr>
@@ -890,27 +682,19 @@ const deviceTime = await this.client.getDeviceTime(specificDate);</code></pre></
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="407"
-                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:407</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="1058"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:1058</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Gets the timezone ID currently assigned to the device.</p>
-<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">const timezoneId = await this.client.getDeviceTimeZoneID();
-console.log(&#39;Device timezone ID:&#39;, timezoneId);</code></pre></div></div>
 
                         <div class="io-description">
                             <b>Returns : </b>    <code>Promise&lt;string&gt;</code>
 
                         </div>
-                            <div class="io-description">
-                                <p>Promise resolving to the timezone ID</p>
-<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">const timezoneId = await this.client.getDeviceTimeZoneID();
-console.log(&#39;Device timezone ID:&#39;, timezoneId);</code></pre></div>
-                            </div>
                 </td>
             </tr>
         </tbody>
@@ -938,27 +722,19 @@ console.log(&#39;Device timezone ID:&#39;, timezoneId);</code></pre></div>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="390"
-                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:390</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="1053"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:1053</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Gets the timezone name currently assigned to the device.</p>
-<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">const timezoneName = await this.client.getDeviceTimeZoneName();
-console.log(&#39;Device timezone:&#39;, timezoneName);</code></pre></div></div>
 
                         <div class="io-description">
                             <b>Returns : </b>    <code>Promise&lt;string&gt;</code>
 
                         </div>
-                            <div class="io-description">
-                                <p>Promise resolving to the timezone name (e.g., &quot;America/New_York&quot;)</p>
-<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">const timezoneName = await this.client.getDeviceTimeZoneName();
-console.log(&#39;Device timezone:&#39;, timezoneName);</code></pre></div>
-                            </div>
                 </td>
             </tr>
         </tbody>
@@ -986,27 +762,19 @@ console.log(&#39;Device timezone:&#39;, timezoneName);</code></pre></div>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="424"
-                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:424</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="1063"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:1063</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Gets the numerical offset from GMT of the timezone currently assigned to the device.</p>
-<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">const offset = await this.client.getDeviceTimeZoneOffset();
-console.log(&#39;Device timezone offset:&#39;, offset, &#39;hours from GMT&#39;);</code></pre></div></div>
 
                         <div class="io-description">
                             <b>Returns : </b>    <code>Promise&lt;number&gt;</code>
 
                         </div>
-                            <div class="io-description">
-                                <p>Promise resolving to the timezone offset in hours (e.g., -5 for EST)</p>
-<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">const offset = await this.client.getDeviceTimeZoneOffset();
-console.log(&#39;Device timezone offset:&#39;, offset, &#39;hours from GMT&#39;);</code></pre></div>
-                            </div>
                 </td>
             </tr>
         </tbody>
@@ -1034,52 +802,19 @@ console.log(&#39;Device timezone offset:&#39;, offset, &#39;hours from GMT&#39;)
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="901"
-                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:901</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="1133"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:1133</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Gets the duration of the currently playing content item.</p>
-<p>This method is only applicable when the gadget is associated with a playlist
-and returns the duration assigned to the current playlist item. The duration
-determines how long the content should be displayed before moving to the next item.</p>
-<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">const duration = await this.client.getDuration();
-
-if (duration) {
-  console.log(&#39;Content duration:&#39;, duration, &#39;milliseconds&#39;);
-
-  // Set up auto-finish timer
-  setTimeout(() =&gt; {
-    this.client.finish();
-  }, duration);
-
-  // Show progress indicator
-  this.startProgressIndicator(duration);
-}</code></pre></div></div>
 
                         <div class="io-description">
                             <b>Returns : </b>    <code>Promise&lt;number | null&gt;</code>
 
                         </div>
-                            <div class="io-description">
-                                <p>Promise resolving to duration in milliseconds, or null if not applicable/available</p>
-<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">const duration = await this.client.getDuration();
-
-if (duration) {
-console.log(&#39;Content duration:&#39;, duration, &#39;milliseconds&#39;);
-
-// Set up auto-finish timer
-setTimeout(() =&gt; {
-this.client.finish();
-}, duration);
-
-// Show progress indicator
-this.startProgressIndicator(duration);
-}</code></pre></div>
-                            </div>
                 </td>
             </tr>
         </tbody>
@@ -1107,46 +842,19 @@ this.startProgressIndicator(duration);
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="869"
-                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:869</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="1128"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:1128</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Gets the height of the visualization area in pixels.</p>
-<p>This returns the available height for content display, which may be
-different from the full screen height depending on player configuration
-and template layout.</p>
-<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">const height = await this.client.getHeight();
-
-if (height) {
-  console.log(&#39;Available height:&#39;, height, &#39;pixels&#39;);
-
-  // Calculate aspect ratio for responsive design
-  const width = await this.client.getWidth();
-  const aspectRatio = width / height;
-  this.adjustContentForAspectRatio(aspectRatio);
-}</code></pre></div></div>
 
                         <div class="io-description">
                             <b>Returns : </b>    <code>Promise&lt;number | null&gt;</code>
 
                         </div>
-                            <div class="io-description">
-                                <p>Promise resolving to height in pixels, or null if not available</p>
-<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">const height = await this.client.getHeight();
-
-if (height) {
-console.log(&#39;Available height:&#39;, height, &#39;pixels&#39;);
-
-// Calculate aspect ratio for responsive design
-const width = await this.client.getWidth();
-const aspectRatio = width / height;
-this.adjustContentForAspectRatio(aspectRatio);
-}</code></pre></div>
-                            </div>
                 </td>
             </tr>
         </tbody>
@@ -1174,90 +882,19 @@ this.adjustContentForAspectRatio(aspectRatio);
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="443"
-                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:443</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="1068"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:1068</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Gets the language code of the language currently assigned to the device.</p>
-<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">const languageCode = await this.client.getLanguageCode();
-console.log(&#39;Device language:&#39;, languageCode);
-// Use for localization
-this.loadLanguageResources(languageCode);</code></pre></div></div>
 
                         <div class="io-description">
                             <b>Returns : </b>    <code>Promise&lt;string&gt;</code>
 
                         </div>
-                            <div class="io-description">
-                                <p>Promise resolving to the language code (e.g., &quot;en-US&quot;, &quot;fr-FR&quot;)</p>
-<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">const languageCode = await this.client.getLanguageCode();
-console.log(&#39;Device language:&#39;, languageCode);
-// Use for localization
-this.loadLanguageResources(languageCode);</code></pre></div>
-                            </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="getPrefs"></a>
-                    <span class="name">
-                            <span class="modifier">Public</span>
-                        <span ><b>getPrefs</b></span>
-                        <a href="#getPrefs"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getPrefs()</code>
-                </td>
-            </tr>
-
-
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="345"
-                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:345</a></div>
-                        </td>
-                    </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                        <div class="io-description"><p>Gets the user preferences interface exposed by the Google Gadgets API.</p>
-<p>This method provides access to gadget preferences which can be configured
-in the Revel Digital CMS. Use this to retrieve user-configurable settings
-for your gadget.</p>
-<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">constructor(public client: PlayerClientService) {
-  const prefs = client.getPrefs();
-  const myString = prefs.getString(&#39;myStringPref&#39;);
-  const myNumber = prefs.getInt(&#39;myNumberPref&#39;);
-  const myBool = prefs.getBool(&#39;myBoolPref&#39;);
-}</code></pre></div><p>See <a href="https://developers.google.com/gadgets/docs/basic">https://developers.google.com/gadgets/docs/basic</a> Google Gadgets API documentation</p>
-</div>
-
-                        <div class="io-description">
-                            <b>Returns : </b>        <code><a href="../miscellaneous/variables.html#gadgets" target="_self" >gadgets.Prefs</a></code>
-
-                        </div>
-                            <div class="io-description">
-                                <p>The Gadgets API Prefs object for accessing preference values</p>
-<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">constructor(public client: PlayerClientService) {
-const prefs = client.getPrefs();
-const myString = prefs.getString(&#39;myStringPref&#39;);
-const myNumber = prefs.getInt(&#39;myNumberPref&#39;);
-const myBool = prefs.getBool(&#39;myBoolPref&#39;);
-}</code></pre></div>
-                            </div>
                 </td>
             </tr>
         </tbody>
@@ -1285,31 +922,19 @@ const myBool = prefs.getBool(&#39;myBoolPref&#39;);
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="654"
-                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:654</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="1103"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:1103</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Gets the root folder path utilized by this player device.</p>
-<p>This returns the base directory path where the Revel Digital player
-stores its files and resources on the local device.</p>
-<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">const rootPath = await this.client.getRevelRoot();
-console.log(&#39;Player root directory:&#39;, rootPath);
-// Use for constructing file paths or understanding storage structure</code></pre></div></div>
 
                         <div class="io-description">
                             <b>Returns : </b>    <code>Promise&lt;string&gt;</code>
 
                         </div>
-                            <div class="io-description">
-                                <p>Promise resolving to the path of the root folder</p>
-<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">const rootPath = await this.client.getRevelRoot();
-console.log(&#39;Player root directory:&#39;, rootPath);
-// Use for constructing file paths or understanding storage structure</code></pre></div>
-                            </div>
                 </td>
             </tr>
         </tbody>
@@ -1337,33 +962,19 @@ console.log(&#39;Player root directory:&#39;, rootPath);
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="921"
-                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:921</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="1138"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:1138</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Gets the current version of the Revel Digital SDK.</p>
-<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">const version = await this.client.getSdkVersion();
-console.log(&#39;SDK Version:&#39;, version);
-
-// Use for compatibility checks or logging
-this.client.track(&#39;gadget_loaded&#39;, { sdkVersion: version });</code></pre></div></div>
 
                         <div class="io-description">
                             <b>Returns : </b>    <code>Promise&lt;string&gt;</code>
 
                         </div>
-                            <div class="io-description">
-                                <p>Promise resolving to the SDK version string</p>
-<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">const version = await this.client.getSdkVersion();
-console.log(&#39;SDK Version:&#39;, version);
-
-// Use for compatibility checks or logging
-this.client.track(&#39;gadget_loaded&#39;, { sdkVersion: version });</code></pre></div>
-                            </div>
                 </td>
             </tr>
         </tbody>
@@ -1391,122 +1002,19 @@ this.client.track(&#39;gadget_loaded&#39;, { sdkVersion: version });</code></pre
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="840"
-                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:840</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="1123"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:1123</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Gets the width of the visualization area in pixels.</p>
-<p>This returns the available width for content display, which may be
-different from the full screen width depending on player configuration
-and template layout.</p>
-<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">const width = await this.client.getWidth();
-
-if (width) {
-  console.log(&#39;Available width:&#39;, width, &#39;pixels&#39;);
-
-  // Adapt content layout based on width
-  if (width &lt; 800) {
-    this.enableMobileLayout();
-  } else {
-    this.enableDesktopLayout();
-  }
-}</code></pre></div></div>
 
                         <div class="io-description">
                             <b>Returns : </b>    <code>Promise&lt;number | null&gt;</code>
 
                         </div>
-                            <div class="io-description">
-                                <p>Promise resolving to width in pixels, or null if not available</p>
-<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">const width = await this.client.getWidth();
-
-if (width) {
-console.log(&#39;Available width:&#39;, width, &#39;pixels&#39;);
-
-// Adapt content layout based on width
-if (width &lt; 800) {
-this.enableMobileLayout();
-} else {
-this.enableDesktopLayout();
-}
-}</code></pre></div>
-                            </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="isPreviewMode"></a>
-                    <span class="name">
-                            <span class="modifier">Public</span>
-                            <span class="modifier">Async</span>
-                        <span ><b>isPreviewMode</b></span>
-                        <a href="#isPreviewMode"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>isPreviewMode()</code>
-                </td>
-            </tr>
-
-
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="749"
-                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:749</a></div>
-                        </td>
-                    </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                        <div class="io-description"><p>Checks if the gadget is running in preview mode.</p>
-<p>Preview mode is enabled when the gadget is being edited in the Revel Digital CMS,
-tested in the gadget editor, or otherwise not running in a normal player environment.
-This is useful for providing different behavior during development/testing versus
-production deployment.</p>
-<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">const isPreview = await this.client.isPreviewMode();
-
-if (isPreview) {
-  console.log(&#39;Running in preview mode - using mock data&#39;);
-  this.loadMockData();
-} else {
-  console.log(&#39;Running on player device - using live data&#39;);
-  this.loadLiveData();
-}
-
-// Show different UI in preview
-this.showPreviewIndicator = isPreview;</code></pre></div></div>
-
-                        <div class="io-description">
-                            <b>Returns : </b>    <code>Promise&lt;boolean&gt;</code>
-
-                        </div>
-                            <div class="io-description">
-                                <p>Promise resolving to true if running in preview mode, false if running on actual player</p>
-<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">const isPreview = await this.client.isPreviewMode();
-
-if (isPreview) {
-console.log(&#39;Running in preview mode - using mock data&#39;);
-this.loadMockData();
-} else {
-console.log(&#39;Running on player device - using live data&#39;);
-this.loadLiveData();
-}
-
-// Show different UI in preview
-this.showPreviewIndicator = isPreview;</code></pre></div>
-                            </div>
                 </td>
             </tr>
         </tbody>
@@ -1533,34 +1041,14 @@ this.showPreviewIndicator = isPreview;</code></pre></div>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="629"
-                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:629</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="1098"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:1098</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Creates a new analytics event session for grouping related events.</p>
-<p>A session is a way of grouping events together for analysis. Each event tracked
-after calling this method will have the same session ID until a new session is created.
-Session IDs are randomly generated unless explicitly provided.</p>
-<p>This is useful for tracking user journeys, workflow completion, or grouping
-related interactions within a specific time period.</p>
-<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">// Start a new session with auto-generated ID
-this.client.newEventSession();
-this.client.track(&#39;session_start&#39;);
-this.client.track(&#39;user_action_1&#39;);
-this.client.track(&#39;user_action_2&#39;);
-
-// Start a session with custom ID
-this.client.newEventSession(&#39;user-workflow-12345&#39;);
-this.client.track(&#39;workflow_start&#39;);
-this.client.track(&#39;step_completed&#39;, { step: 1 });
-
-// Start a new session for different workflow
-this.client.newEventSession();
-this.client.track(&#39;different_workflow_start&#39;);</code></pre></div></div>
 
                             <div class="io-description">
                                 <b>Parameters :</b>
@@ -1571,7 +1059,6 @@ this.client.track(&#39;different_workflow_start&#39;);</code></pre></div></div>
                                             <td>Name</td>
                                                 <td>Type</td>
                                             <td>Optional</td>
-                                                <td>Description</td>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -1586,25 +1073,6 @@ this.client.track(&#39;different_workflow_start&#39;);</code></pre></div></div>
                                             </td>
 
 
-                                            <td>
-                                                    <ul>
-<li>Optional user-supplied session ID. If not provided, a random session ID will be generated</li>
-</ul>
-<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">// Start a new session with auto-generated ID
-this.client.newEventSession();
-this.client.track(&#39;session_start&#39;);
-this.client.track(&#39;user_action_1&#39;);
-this.client.track(&#39;user_action_2&#39;);
-
-// Start a session with custom ID
-this.client.newEventSession(&#39;user-workflow-12345&#39;);
-this.client.track(&#39;workflow_start&#39;);
-this.client.track(&#39;step_completed&#39;, { step: 1 });
-
-// Start a new session for different workflow
-this.client.newEventSession();
-this.client.track(&#39;different_workflow_start&#39;);</code></pre></div>
-                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -1642,25 +1110,14 @@ this.client.track(&#39;different_workflow_start&#39;);</code></pre></div>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="490"
-                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:490</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="1078"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:1078</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Sends a command to the local player device.</p>
-<p>Commands can be used to control various aspects of the player or trigger
-specific behaviors. The command is processed by the local player only.</p>
-<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">// Send a simple command
-this.client.sendCommand(&#39;refresh&#39;, &#39;&#39;);
-
-// Send a command with data
-this.client.sendCommand(&#39;setVolume&#39;, &#39;50&#39;);
-
-// Send a command with JSON data
-this.client.sendCommand(&#39;configure&#39;, JSON.stringify({ setting: &#39;value&#39; }));</code></pre></div></div>
 
                             <div class="io-description">
                                 <b>Parameters :</b>
@@ -1671,7 +1128,6 @@ this.client.sendCommand(&#39;configure&#39;, JSON.stringify({ setting: &#39;valu
                                             <td>Name</td>
                                                 <td>Type</td>
                                             <td>Optional</td>
-                                                <td>Description</td>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -1686,12 +1142,6 @@ this.client.sendCommand(&#39;configure&#39;, JSON.stringify({ setting: &#39;valu
                                             </td>
 
 
-                                            <td>
-                                                    <ul>
-<li>The command name/identifier</li>
-</ul>
-
-                                            </td>
                                         </tr>
                                         <tr>
                                                 <td>arg</td>
@@ -1704,19 +1154,6 @@ this.client.sendCommand(&#39;configure&#39;, JSON.stringify({ setting: &#39;valu
                                             </td>
 
 
-                                            <td>
-                                                    <ul>
-<li>The command argument/payload</li>
-</ul>
-<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">// Send a simple command
-this.client.sendCommand(&#39;refresh&#39;, &#39;&#39;);
-
-// Send a command with data
-this.client.sendCommand(&#39;setVolume&#39;, &#39;50&#39;);
-
-// Send a command with JSON data
-this.client.sendCommand(&#39;configure&#39;, JSON.stringify({ setting: &#39;value&#39; }));</code></pre></div>
-                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -1754,28 +1191,14 @@ this.client.sendCommand(&#39;configure&#39;, JSON.stringify({ setting: &#39;valu
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="522"
-                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:522</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="1083"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:1083</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Sends a command to remote player devices with the specified device keys.</p>
-<p>Remote commands allow cross-device communication within the same Revel Digital account.
-This is useful for synchronized displays, device coordination, or remote control scenarios.</p>
-<p>Note: Remote commands can only be delivered to devices within the same account as the sender device.</p>
-<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">// Send command to specific devices
-const targetDevices = [&#39;device-key-1&#39;, &#39;device-key-2&#39;];
-this.client.sendRemoteCommand(targetDevices, &#39;syncAction&#39;, &#39;start&#39;);
-
-// Broadcast to multiple devices
-this.client.sendRemoteCommand(
-  [&#39;lobby-display&#39;, &#39;kiosk-1&#39;, &#39;kiosk-2&#39;],
-  &#39;updateContent&#39;,
-  JSON.stringify({ contentId: &#39;12345&#39; })
-);</code></pre></div></div>
 
                             <div class="io-description">
                                 <b>Parameters :</b>
@@ -1786,7 +1209,6 @@ this.client.sendRemoteCommand(
                                             <td>Name</td>
                                                 <td>Type</td>
                                             <td>Optional</td>
-                                                <td>Description</td>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -1801,12 +1223,6 @@ this.client.sendRemoteCommand(
                                             </td>
 
 
-                                            <td>
-                                                    <ul>
-<li>Array of target device keys to send the command to</li>
-</ul>
-
-                                            </td>
                                         </tr>
                                         <tr>
                                                 <td>name</td>
@@ -1819,12 +1235,6 @@ this.client.sendRemoteCommand(
                                             </td>
 
 
-                                            <td>
-                                                    <ul>
-<li>The command name/identifier</li>
-</ul>
-
-                                            </td>
                                         </tr>
                                         <tr>
                                                 <td>arg</td>
@@ -1837,21 +1247,6 @@ this.client.sendRemoteCommand(
                                             </td>
 
 
-                                            <td>
-                                                    <ul>
-<li>The command argument/payload</li>
-</ul>
-<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">// Send command to specific devices
-const targetDevices = [&#39;device-key-1&#39;, &#39;device-key-2&#39;];
-this.client.sendRemoteCommand(targetDevices, &#39;syncAction&#39;, &#39;start&#39;);
-
-// Broadcast to multiple devices
-this.client.sendRemoteCommand(
-[&#39;lobby-display&#39;, &#39;kiosk-1&#39;, &#39;kiosk-2&#39;], 
-&#39;updateContent&#39;, 
-JSON.stringify({ contentId: &#39;12345&#39; })
-);</code></pre></div>
-                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -1889,34 +1284,14 @@ JSON.stringify({ contentId: &#39;12345&#39; })
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="593"
-                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:593</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="1093"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:1093</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Initiates a timed event for duration tracking.</p>
-<p>Timed events are useful for tracking the duration of operations or user interactions.
-This method must be followed by a call to track() with the same event name to complete
-the timing measurement. The duration will be automatically calculated and included
-in the event properties.</p>
-<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">// Start timing an event
-this.client.timeEvent(&#39;video_playback&#39;);
-
-// ... video plays for some duration ...
-
-// End timing and log the event with duration
-this.client.track(&#39;video_playback&#39;, {
-  video_id: &#39;abc123&#39;,
-  quality: &#39;HD&#39;
-}); // Duration will be automatically added
-
-// Example for user interaction timing
-this.client.timeEvent(&#39;form_completion&#39;);
-// ... user fills out form ...
-this.client.track(&#39;form_completion&#39;, { form_type: &#39;contact&#39; });</code></pre></div></div>
 
                             <div class="io-description">
                                 <b>Parameters :</b>
@@ -1927,7 +1302,6 @@ this.client.track(&#39;form_completion&#39;, { form_type: &#39;contact&#39; });<
                                             <td>Name</td>
                                                 <td>Type</td>
                                             <td>Optional</td>
-                                                <td>Description</td>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -1942,26 +1316,6 @@ this.client.track(&#39;form_completion&#39;, { form_type: &#39;contact&#39; });<
                                             </td>
 
 
-                                            <td>
-                                                    <ul>
-<li>Unique name for this timed event (must match the subsequent track() call)</li>
-</ul>
-<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">// Start timing an event
-this.client.timeEvent(&#39;video_playback&#39;);
-
-// ... video plays for some duration ...
-
-// End timing and log the event with duration
-this.client.track(&#39;video_playback&#39;, {
-video_id: &#39;abc123&#39;,
-quality: &#39;HD&#39;
-}); // Duration will be automatically added
-
-// Example for user interaction timing
-this.client.timeEvent(&#39;form_completion&#39;);
-// ... user fills out form ...
-this.client.track(&#39;form_completion&#39;, { form_type: &#39;contact&#39; });</code></pre></div>
-                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -1992,41 +1346,21 @@ this.client.track(&#39;form_completion&#39;, { form_type: &#39;contact&#39; });<
             <tr>
                 <td class="col-md-4">
                         <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>track(eventName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, properties?: <a href="../interfaces/IEventProperties.html" target="_self">IEventProperties</a>)</code>
+                    <code>track(eventName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, properties?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="558"
-                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:558</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="1088"
+                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:1088</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Logs an analytics event for use with AdHawk analytics and reporting.</p>
-<p>Events are used for tracking various metrics including usage statistics,
-player condition, state changes, user interactions, and custom business metrics.
-These events can be viewed in the Revel Digital analytics dashboard.</p>
-<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">// Simple event tracking
-this.client.track(&#39;gadget_loaded&#39;);
-
-// Event with properties
-this.client.track(&#39;user_interaction&#39;, {
-  action: &#39;button_click&#39;,
-  button_id: &#39;start_button&#39;,
-  timestamp: new Date().toISOString()
-});
-
-// Performance tracking
-this.client.track(&#39;content_displayed&#39;, {
-  content_type: &#39;video&#39;,
-  duration: 30,
-  quality: &#39;HD&#39;
-});</code></pre></div></div>
 
                             <div class="io-description">
                                 <b>Parameters :</b>
@@ -2037,7 +1371,6 @@ this.client.track(&#39;content_displayed&#39;, {
                                             <td>Name</td>
                                                 <td>Type</td>
                                             <td>Optional</td>
-                                                <td>Description</td>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -2052,17 +1385,11 @@ this.client.track(&#39;content_displayed&#39;, {
                                             </td>
 
 
-                                            <td>
-                                                    <ul>
-<li>Unique name for this event (should be descriptive and consistent)</li>
-</ul>
-
-                                            </td>
                                         </tr>
                                         <tr>
                                                 <td>properties</td>
                                             <td>
-                                                            <code><a href="../interfaces/IEventProperties.html" target="_self" >IEventProperties</a></code>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
                                             </td>
 
                                             <td>
@@ -2070,27 +1397,6 @@ this.client.track(&#39;content_displayed&#39;, {
                                             </td>
 
 
-                                            <td>
-                                                    <ul>
-<li>Optional map of user-defined properties to associate with this event</li>
-</ul>
-<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">// Simple event tracking
-this.client.track(&#39;gadget_loaded&#39;);
-
-// Event with properties
-this.client.track(&#39;user_interaction&#39;, {
-action: &#39;button_click&#39;,
-button_id: &#39;start_button&#39;,
-timestamp: new Date().toISOString()
-});
-
-// Performance tracking
-this.client.track(&#39;content_displayed&#39;, {
-content_type: &#39;video&#39;,
-duration: 30,
-quality: &#39;HD&#39;
-});</code></pre></div>
-                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -2107,276 +1413,10 @@ quality: &#39;HD&#39;
         </tbody>
     </table>
 </section>
-            <section data-compodoc="block-properties">
-    
-    <h3 id="inputs">
-        Properties
-    </h3>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="onCommand$"></a>
-                    <span class="name">
-                            <span class="modifier">Public</span>
-                        <span ><b>onCommand$</b></span>
-                        <a href="#onCommand$"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Default value : </i><code>new Subject&lt;ICommand&gt;()</code>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="79" class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:79</a></div>
-                        </td>
-                    </tr>
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Observable stream of commands sent to this player from the Revel Digital platform.
-Subscribe to this to handle custom commands sent from templates, playlists, or remote devices.</p>
-<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">this.client.onCommand$.subscribe(command =&gt; {
-  if (command.name === &#39;customAction&#39;) {
-    this.handleCustomAction(command.arg);
-  }
-});</code></pre></div></div>
-                </td>
-            </tr>
-
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="onConfig$"></a>
-                    <span class="name">
-                            <span class="modifier">Public</span>
-                        <span ><b>onConfig$</b></span>
-                        <a href="#onConfig$"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Default value : </i><code>new Subject()</code>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="133" class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:133</a></div>
-                        </td>
-                    </tr>
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Observable that signals when the gadget should open the configuration window.
-This allows gadgets to respond to configuration requests from the player.</p>
-<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">this.client.onConfig$.subscribe(() =&gt; {
-  this.openConfigurationDialog();
-});</code></pre></div></div>
-                </td>
-            </tr>
-
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="onPostMessage$"></a>
-                    <span class="name">
-                            <span class="modifier">Public</span>
-                        <span ><b>onPostMessage$</b></span>
-                        <a href="#onPostMessage$"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Default value : </i><code>new Subject()</code>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="146" class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:146</a></div>
-                        </td>
-                    </tr>
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Observable that signals when the gadget has received a postMessage event from the player.
-This handles communication between the gadget and player via the postMessage API.</p>
-<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">this.client.onPostMessage$.subscribe(message =&gt; {
-  console.log(&#39;Received message:&#39;, message);
-  this.handlePlayerMessage(message);
-});</code></pre></div></div>
-                </td>
-            </tr>
-
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="onPostMessageEvt$"></a>
-                    <span class="name">
-                            <span class="modifier">Private</span>
-                        <span ><b>onPostMessageEvt$</b></span>
-                        <a href="#onPostMessageEvt$"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Default value : </i><code>fromEvent(window, &#x27;message&#x27;).pipe(
-    filter((messageEvent: MessageEvent) &#x3D;&gt;
-      //messageEvent.source !&#x3D;&#x3D; window.parent &amp;&amp;
-      typeof messageEvent.data &#x3D;&#x3D;&#x3D; &#x27;string&#x27;),
-    map((e: any) &#x3D;&gt; JSON.parse(e.data)),
-    share(),
-    tap((e: any) &#x3D;&gt; {
-      if (e.type &#x3D;&#x3D;&#x3D; &#x27;applyConfig&#x27; &amp;&amp; e.isOpener) {
-        e.isOpener &#x3D; false;
-        // propagate config to iframe parent from the popup window
-        window.parent.postMessage(
-          JSON.stringify(e),
-          &#x27;*&#x27;
-        );
-      } else if (e.type &#x3D;&#x3D;&#x3D; &#x27;openConfig&#x27;) {
-        this.onConfig$.next(null);
-      }
-    }),
-    tap(e &#x3D;&gt; this.onPostMessage$.next(e))
-  )</code>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="203" class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:203</a></div>
-                        </td>
-                    </tr>
 
 
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="onReady$"></a>
-                    <span class="name">
-                            <span class="modifier">Public</span>
-                        <span ><b>onReady$</b></span>
-                        <a href="#onReady$"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Default value : </i><code>new BehaviorSubject(false)</code>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="94" class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:94</a></div>
-                        </td>
-                    </tr>
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Observable that signals when the gadget has been loaded and is ready to start.
-Emits <code>true</code> when ready, <code>false</code> when destroyed.</p>
-<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">this.client.onReady$.subscribe(isReady =&gt; {
-  if (isReady) {
-    console.log(&#39;Client is ready&#39;);
-    this.initializeGadget();
-  }
-});</code></pre></div></div>
-                </td>
-            </tr>
 
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="onStart$"></a>
-                    <span class="name">
-                            <span class="modifier">Public</span>
-                        <span ><b>onStart$</b></span>
-                        <a href="#onStart$"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Default value : </i><code>new Subject()</code>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="107" class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:107</a></div>
-                        </td>
-                    </tr>
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Observable that signals when the gadget has been started by the player.
-This event occurs when the player begins execution of the gadget content.</p>
-<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">this.client.onStart$.subscribe(() =&gt; {
-  console.log(&#39;Gadget started&#39;);
-  this.startAnimation();
-});</code></pre></div></div>
-                </td>
-            </tr>
-
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="onStop$"></a>
-                    <span class="name">
-                            <span class="modifier">Public</span>
-                        <span ><b>onStop$</b></span>
-                        <a href="#onStop$"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Default value : </i><code>new Subject()</code>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="121" class="link-to-prism">projects/reveldigital/player-client/src/lib/player-client.service.ts:121</a></div>
-                        </td>
-                    </tr>
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Observable that signals when the gadget has been stopped by the player.
-This event occurs when the player stops execution, typically when moving
-to the next item in a playlist or when the content duration expires.</p>
-<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">this.client.onStop$.subscribe(() =&gt; {
-  console.log(&#39;Gadget stopped&#39;);
-  this.cleanup();
-});</code></pre></div></div>
-                </td>
-            </tr>
-
-        </tbody>
-    </table>
-</section>
 
     </div>
 
@@ -3543,12 +2583,7 @@ class NoopClient implements IClient {
 }
 </code></pre>
     </div>
-
 </div>
-
-
-
-
 
 
 
@@ -3583,8 +2618,8 @@ class NoopClient implements IClient {
 
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
-            var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
-            var COMPODOC_CURRENT_PAGE_URL = 'PlayerClientService.html';
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'class';
+            var COMPODOC_CURRENT_PAGE_URL = 'NoopClient.html';
             var MAX_SEARCH_RESULTS = 15;
        </script>
 

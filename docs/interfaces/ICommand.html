@@ -126,6 +126,36 @@
         </p>
 
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Interface representing a command sent to or from the Revel Digital player.</p>
+<p>Commands are the primary mechanism for triggering actions and behaviors
+in the player environment. They consist of a name identifier and an
+optional argument payload that provides additional context or parameters.</p>
+<p>Commands can originate from:</p>
+<ul>
+<li>Remote devices via sendRemoteCommand()</li>
+<li>Template scripting via player callbacks</li>
+<li>Playlist actions and transitions</li>
+<li>Manual triggers from the CMS interface</li>
+</ul>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">// Subscribe to incoming commands
+this.client.onCommand$.subscribe((command: ICommand) =&gt; {
+  switch (command.name) {
+    case &#39;refresh&#39;:
+      this.refreshContent();
+      break;
+    case &#39;updateConfig&#39;:
+      this.applyNewConfig(JSON.parse(command.arg));
+      break;
+    case &#39;customAction&#39;:
+      this.handleCustomAction(command.arg);
+      break;
+  }
+});</code></pre></div>
+            </p>
 
 
         <section data-compodoc="block-index">
@@ -196,8 +226,25 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>Command arguments</p>
-</div>
+                                    <div class="io-description"><p>Optional command argument or payload data.</p>
+<p>This string contains any additional data required by the command.
+For complex data structures, this is typically a JSON-encoded string
+that can be parsed by the command handler.</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">// Simple string argument
+{ name: &quot;setVolume&quot;, arg: &quot;75&quot; }
+
+// JSON payload for complex data
+{
+  name: &quot;loadContent&quot;,
+  arg: JSON.stringify({
+    contentId: &quot;abc123&quot;,
+    transition: &quot;fade&quot;,
+    duration: 5000
+  })
+}
+
+// Empty argument for parameterless commands
+{ name: &quot;refresh&quot;, arg: &quot;&quot; }</code></pre></div></div>
                                 </td>
                             </tr>
                         </tbody>
@@ -235,7 +282,19 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>Command name</p>
+                                    <div class="io-description"><p>The command identifier or action name.</p>
+<p>This is a string that uniquely identifies the type of command or action
+to be performed. Command names should be descriptive and consistent
+across the application.</p>
+<p>Common command names:</p>
+<ul>
+<li>&quot;refresh&quot; - Reload content or data</li>
+<li>&quot;restart&quot; - Restart the application or component</li>
+<li>&quot;updateConfig&quot; - Apply new configuration settings</li>
+<li>&quot;setVolume&quot; - Adjust audio volume</li>
+<li>&quot;loadContent&quot; - Load specific content by ID</li>
+<li>&quot;sync&quot; - Synchronize with other devices</li>
+</ul>
 </div>
                                 </td>
                             </tr>
@@ -248,20 +307,46 @@
     <div class="tab-pane fade  tab-source-code" id="source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">export interface ICommand {
     /**
-     * Command name
+     * The command identifier or action name.
      * 
-     * @type {string}
+     * This is a string that uniquely identifies the type of command or action
+     * to be performed. Command names should be descriptive and consistent
+     * across the application.
      * 
-     * @memberof Command
+     * Common command names:
+     * - &quot;refresh&quot; - Reload content or data
+     * - &quot;restart&quot; - Restart the application or component
+     * - &quot;updateConfig&quot; - Apply new configuration settings
+     * - &quot;setVolume&quot; - Adjust audio volume
+     * - &quot;loadContent&quot; - Load specific content by ID
+     * - &quot;sync&quot; - Synchronize with other devices
      */
     name: string;
 
     /**
-     * Command arguments
+     * Optional command argument or payload data.
      * 
-     * @type {Array&lt;string&gt;}
+     * This string contains any additional data required by the command.
+     * For complex data structures, this is typically a JSON-encoded string
+     * that can be parsed by the command handler.
      * 
-     * @memberof ICommand
+     * &#x60;&#x60;&#x60;typescript
+     * // Simple string argument
+     * { name: &quot;setVolume&quot;, arg: &quot;75&quot; }
+     * 
+     * // JSON payload for complex data
+     * { 
+     *   name: &quot;loadContent&quot;, 
+     *   arg: JSON.stringify({ 
+     *     contentId: &quot;abc123&quot;, 
+     *     transition: &quot;fade&quot;,
+     *     duration: 5000 
+     *   })
+     * }
+     * 
+     * // Empty argument for parameterless commands
+     * { name: &quot;refresh&quot;, arg: &quot;&quot; }
+     * &#x60;&#x60;&#x60;
      */
     arg: string;
 }
