@@ -1,6 +1,6 @@
 {
   "name": "@reveldigital/player-client",
-  "version": "1.0.14",
+  "version": "1.0.15",
   "description": "Helper library for interfacing Angular apps with the Revel Digital player",
   "scripts": {
     "build": "tsc -p tsconfig.schematics.json",
@@ -16,7 +16,8 @@
     "library"
   ],
   "repository": {
-    "url": "https://github.com/RevelDigital/reveldigital-client-library"
+    "type": "git",
+    "url": "https://github.com/RevelDigital/reveldigital-client-library.git"
   },
   "author": {
     "name": "Mike Tinnes"

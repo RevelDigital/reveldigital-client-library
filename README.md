@@ -229,6 +229,8 @@ this.prefs.getArray('myListPref');
 
 ## Angular Library Documentation
 
+NPM: [https://www.npmjs.com/package/@reveldigital/player-client](https://www.npmjs.com/package/@reveldigital/player-client)
+
 Library documentation is available here: [https://reveldigital.github.io/reveldigital-client-library/](https://reveldigital.github.io/reveldigital-client-library/)
 
 A sample Angular app is available in this repo under [https://github.com/RevelDigital/reveldigital-client-library/tree/master/projects/test-app](https://github.com/RevelDigital/reveldigital-client-library/tree/master/projects/test-app).
