@@ -79,7 +79,7 @@
                    <compodoc-menu mode="normal"></compodoc-menu>
                </div>
                <!-- START CONTENT -->
-               <div class="content pipe">
+               <div class="content miscellaneous-enumerations">
                    <div class="content-data">
 
 
@@ -92,168 +92,76 @@
 
 
 
+
+
+
+
+
+
+
 <ol class="breadcrumb">
-  <li class="breadcrumb-item">Pipes</li>
-  <li class="breadcrumb-item" >SafeStylePipe</li>
+  <li class="breadcrumb-item">Miscellaneous</li>
+  <li class="breadcrumb-item">Enumerations</li>
 </ol>
 
-<ul class="nav nav-tabs" role="tablist">
-        <li class="nav-item">
-            <a href="#info" 
-                class="nav-link"
-                class="nav-link active"
-                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
-        </li>
-        <li class="nav-item">
-            <a href="#source" 
-                class="nav-link"
-                
-                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
-        </li>
-</ul>
-
-<div class="tab-content">
-    <div class="tab-pane fade active in" id="info">
-
-        <p class="comment">
-            <h3>File</h3>
-        </p>
-        <p class="comment">
-            <code>projects/reveldigital/player-client/src/lib/safe-style.pipe.ts</code>
-        </p>
-
-
-            <p class="comment">
-                <h3>Description</h3>
-            </p>
-            <p class="comment">
-                <p>The safe style pipe is used when custom styles are defined for a gadget and must be applied to an Angular
-component. This pipe will ensure the style can be appied safely by utilizing the DomSanitizer.</p>
-<b>Example :</b><div><pre class="line-numbers"><code class="language-html">&lt;h2 [style]=&quot;style | safeStyle&quot;&gt;Sample Pref: {{ prefs.getString(&#39;myStringPref&#39;) }}&lt;/h2&gt;</code></pre></div>
-            </p>
-
-
-        <section data-compodoc="block-metadata">
-            <h3>Metadata</h3>
-            <table class="table table-sm table-hover metadata">
-                <tbody>
-                    <tr>
-                        <td class="col-md-3">Name</td>
-                        <td class="col-md-9">safeStyle</td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
-
-            <section data-compodoc="block-methods">
-    
-    <h3 id="methods">
-        Methods
-    </h3>
-    <table class="table table-sm table-bordered">
+<section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="transform"></a>
-                    <span class="name">
-                        <span ><b>transform</b></span>
-                        <a href="#transform"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>transform(value: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
-                </td>
-            </tr>
-
-
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="18"
-                                    class="link-to-prism">projects/reveldigital/player-client/src/lib/safe-style.pipe.ts:18</a></div>
-                        </td>
-                    </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                            <div class="io-description">
-                                <b>Parameters :</b>
-                                
-                                <table class="params">
-                                    <thead>
-                                        <tr>
-                                            <td>Name</td>
-                                                <td>Type</td>
-                                            <td>Optional</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                                <td>value</td>
-                                            <td>
-                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
-                                            </td>
-
-                                            <td>
-                                                    No
-                                            </td>
-
-
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                    <ul class="index-list">
+                        <li>
+                            <a href="#ConfigType" title="projects/reveldigital/player-client/src/lib/interfaces/config.interface.ts" ><b>ConfigType</b>&nbsp;&nbsp;&nbsp;(projects/.../config.interface.ts)</a>
+                        </li>
+                    </ul>
                 </td>
             </tr>
         </tbody>
     </table>
 </section>
 
-    </div>
-
-
-    <div class="tab-pane fade  tab-source-code" id="source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Pipe, PipeTransform, NgModule } from &#x27;@angular/core&#x27;;
-import { DomSanitizer } from &#x27;@angular/platform-browser&#x27;;
-
-/**
- * The safe style pipe is used when custom styles are defined for a gadget and must be applied to an Angular
- * component. This pipe will ensure the style can be appied safely by utilizing the DomSanitizer.
- * 
- * &#x60;&#x60;&#x60;html
- * &lt;h2 [style]&#x3D;&quot;style | safeStyle&quot;&gt;Sample Pref: {{ prefs.getString(&#x27;myStringPref&#x27;) }}&lt;/h2&gt;
- * &#x60;&#x60;&#x60;
- */
-@Pipe({
-    name: &#x27;safeStyle&#x27;,
-})
-export class SafeStylePipe implements PipeTransform {
-    constructor(private sanitized: DomSanitizer) { }
-
-    transform(value: any): unknown {
-        return this.sanitized.bypassSecurityTrustStyle(value);
-    }
-}
-
-@NgModule({
-    declarations: [SafeStylePipe],
-    exports: [SafeStylePipe],
-})
-export class NgSafeStylePipeModule { }
-</code></pre>
-    </div>
-
+    <h3>projects/reveldigital/player-client/src/lib/interfaces/config.interface.ts</h3>
+    <section data-compodoc="block-enums">
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="ConfigType"></a>
+                        <span class="name "><b>ConfigType</b><a href="#ConfigType"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-description"><p>Enumeration of configuration operation types.</p>
+<p>Defines the different types of configuration-related operations
+that can be performed between gadgets and the player environment.</p>
 </div>
-
-
-
-
-
-
-
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;OpenConfig
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>openConfig</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;ApplyConfig
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>applyConfig</code>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
 
 
 
@@ -282,8 +190,8 @@ export class NgSafeStylePipeModule { }
 
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
-            var COMPODOC_CURRENT_PAGE_CONTEXT = 'pipe';
-            var COMPODOC_CURRENT_PAGE_URL = 'SafeStylePipe.html';
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'miscellaneous-enumerations';
+            var COMPODOC_CURRENT_PAGE_URL = 'enumerations.html';
             var MAX_SEARCH_RESULTS = 15;
        </script>
 

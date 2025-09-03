@@ -98,7 +98,7 @@
   <li class="breadcrumb-item">Interfaces</li>
   <li class="breadcrumb-item"
   >
-  ICommand</li>
+  IConfig</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -122,7 +122,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/reveldigital/player-client/src/lib/interfaces/command.interface.ts</code>
+            <code>projects/reveldigital/player-client/src/lib/interfaces/config.interface.ts</code>
         </p>
 
 
@@ -130,29 +130,20 @@
                 <h3>Description</h3>
             </p>
             <p class="comment">
-                <p>Interface representing a command sent to or from the Revel Digital player.</p>
-<p>Commands are the primary mechanism for triggering actions and behaviors
-in the player environment. They consist of a name identifier and an
-optional argument payload that provides additional context or parameters.</p>
-<p>Commands can originate from:</p>
+                <p>Interface representing configuration settings and events for the Revel Digital system.</p>
+<p>This interface defines the structure for configuration-related communication
+between gadgets and the player, particularly during design-time configuration
+and preference management operations.</p>
+<p>Configuration events are typically used when:</p>
 <ul>
-<li>Remote devices via sendRemoteCommand()</li>
-<li>Template scripting via player callbacks</li>
-<li>Playlist actions and transitions</li>
-<li>Manual triggers from the CMS interface</li>
+<li>Opening configuration dialogs in the CMS</li>
+<li>Applying preference changes from configuration UI</li>
+<li>Communicating between parent and child windows during config operations</li>
 </ul>
-<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">// Subscribe to incoming commands
-this.client.onCommand$.subscribe((command: ICommand) =&gt; {
-  switch (command.name) {
-    case &#39;refresh&#39;:
-      this.refreshContent();
-      break;
-    case &#39;updateConfig&#39;:
-      this.applyNewConfig(JSON.parse(command.arg));
-      break;
-    case &#39;customAction&#39;:
-      this.handleCustomAction(command.arg);
-      break;
+<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">// Handle configuration events
+this.client.onPostMessage$.subscribe((config: IConfig) =&gt; {
+  if (config.type === ConfigType.ApplyConfig) {
+    this.applyPreferences(config.prefs);
   }
 });</code></pre></div>
             </p>
@@ -171,15 +162,21 @@ this.client.onCommand$.subscribe((command: ICommand) =&gt; {
                         <td class="col-md-4">
                             <ul class="index-list">
                                 <li>
-                                        <a href="#arg" 
+                                        <a href="#isOpener" 
 >
-                                            arg
+                                            isOpener
                                         </a>
                                 </li>
                                 <li>
-                                        <a href="#name" 
+                                        <a href="#prefs" 
 >
-                                            name
+                                            prefs
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#type" 
+>
+                                            type
                                         </a>
                                 </li>
                             </ul>
@@ -197,9 +194,9 @@ this.client.onCommand$.subscribe((command: ICommand) =&gt; {
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
-                                        <a name="arg"></a>
-                                        <span class="name "><b>arg</b>
-                                            <a href="#arg">
+                                        <a name="isOpener"></a>
+                                        <span class="name "><b>isOpener</b>
+                                            <a href="#isOpener">
                                                 <span class="icon ion-ios-link"></span>
                                             </a>
                                         </span>
@@ -207,7 +204,7 @@ this.client.onCommand$.subscribe((command: ICommand) =&gt; {
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>arg:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                        <code>isOpener:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -215,7 +212,7 @@ this.client.onCommand$.subscribe((command: ICommand) =&gt; {
 
                                     <tr>
                                         <td class="col-md-4">
-                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
 
                                         </td>
                                     </tr>
@@ -226,25 +223,14 @@ this.client.onCommand$.subscribe((command: ICommand) =&gt; {
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>Optional command argument or payload data.</p>
-<p>This string contains any additional data required by the command.
-For complex data structures, this is typically a JSON-encoded string
-that can be parsed by the command handler.</p>
-<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">// Simple string argument
-{ name: &quot;setVolume&quot;, arg: &quot;75&quot; }
-
-// JSON payload for complex data
-{
-  name: &quot;loadContent&quot;,
-  arg: JSON.stringify({
-    contentId: &quot;abc123&quot;,
-    transition: &quot;fade&quot;,
-    duration: 5000
-  })
-}
-
-// Empty argument for parameterless commands
-{ name: &quot;refresh&quot;, arg: &quot;&quot; }</code></pre></div></div>
+                                    <div class="io-description"><p>Indicates if this configuration event originated from a popup window opener.</p>
+<p>When true, this suggests the configuration change originated from a popup
+configuration window and may need to be propagated to the parent window.
+This is used internally for handling window communication during config operations.</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">if (config.isOpener) {
+  // Propagate config changes from popup to parent window
+  window.parent.postMessage(configData, &#39;*&#39;);
+}</code></pre></div></div>
                                 </td>
                             </tr>
                         </tbody>
@@ -253,9 +239,9 @@ that can be parsed by the command handler.</p>
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
-                                        <a name="name"></a>
-                                        <span class="name "><b>name</b>
-                                            <a href="#name">
+                                        <a name="prefs"></a>
+                                        <span class="name "><b>prefs</b>
+                                            <a href="#prefs">
                                                 <span class="icon ion-ios-link"></span>
                                             </a>
                                         </span>
@@ -263,7 +249,7 @@ that can be parsed by the command handler.</p>
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>name:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                        <code>prefs:         <code><a href="../interfaces/IDictionary.html" target="_self" >IDictionary&lt;any&gt;</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -271,7 +257,7 @@ that can be parsed by the command handler.</p>
 
                                     <tr>
                                         <td class="col-md-4">
-                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            <i>Type : </i>        <code><a href="../interfaces/IDictionary.html" target="_self" >IDictionary&lt;any&gt;</a></code>
 
                                         </td>
                                     </tr>
@@ -282,19 +268,62 @@ that can be parsed by the command handler.</p>
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>The command identifier or action name.</p>
-<p>This is a string that uniquely identifies the type of command or action
-to be performed. Command names should be descriptive and consistent
-across the application.</p>
-<p>Common command names:</p>
-<ul>
-<li>&quot;refresh&quot; - Reload content or data</li>
-<li>&quot;restart&quot; - Restart the application or component</li>
-<li>&quot;updateConfig&quot; - Apply new configuration settings</li>
-<li>&quot;setVolume&quot; - Adjust audio volume</li>
-<li>&quot;loadContent&quot; - Load specific content by ID</li>
-<li>&quot;sync&quot; - Synchronize with other devices</li>
-</ul>
+                                    <div class="io-description"><p>Dictionary of preference key-value pairs containing configuration settings.</p>
+<p>This object contains all the preference values that have been configured
+for the gadget. The keys correspond to preference names defined in the
+gadget&#39;s configuration schema, and values can be of any type.</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">const config: IConfig = {
+  prefs: {
+    &#39;title&#39;: &#39;My Gadget Title&#39;,
+    &#39;backgroundColor&#39;: &#39;#ff0000&#39;,
+    &#39;refreshInterval&#39;: 30,
+    &#39;showBorder&#39;: true,
+    &#39;apiEndpoint&#39;: &#39;https://api.example.com/data&#39;
+  },
+  type: ConfigType.ApplyConfig,
+  isOpener: false
+};</code></pre></div></div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="type"></a>
+                                        <span class="name "><b>type</b>
+                                            <a href="#type">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>type:         <code><a href="../miscellaneous/enumerations.html#ConfigType" target="_self" >ConfigType</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="../miscellaneous/enumerations.html#ConfigType" target="_self" >ConfigType</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>The type of configuration operation being performed.</p>
+<p>Indicates whether this is a request to open configuration UI
+or an instruction to apply new configuration values.</p>
+<p>See ConfigType enum for available values</p>
 </div>
                                 </td>
                             </tr>
@@ -305,50 +334,137 @@ across the application.</p>
 
 
     <div class="tab-pane fade  tab-source-code" id="source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">export interface ICommand {
-    /**
-     * The command identifier or action name.
-     * 
-     * This is a string that uniquely identifies the type of command or action
-     * to be performed. Command names should be descriptive and consistent
-     * across the application.
-     * 
-     * Common command names:
-     * - &quot;refresh&quot; - Reload content or data
-     * - &quot;restart&quot; - Restart the application or component
-     * - &quot;updateConfig&quot; - Apply new configuration settings
-     * - &quot;setVolume&quot; - Adjust audio volume
-     * - &quot;loadContent&quot; - Load specific content by ID
-     * - &quot;sync&quot; - Synchronize with other devices
-     */
-    name: string;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">export interface IConfig {
 
     /**
-     * Optional command argument or payload data.
+     * Dictionary of preference key-value pairs containing configuration settings.
      * 
-     * This string contains any additional data required by the command.
-     * For complex data structures, this is typically a JSON-encoded string
-     * that can be parsed by the command handler.
+     * This object contains all the preference values that have been configured
+     * for the gadget. The keys correspond to preference names defined in the
+     * gadget&#x27;s configuration schema, and values can be of any type.
      * 
      * &#x60;&#x60;&#x60;typescript
-     * // Simple string argument
-     * { name: &quot;setVolume&quot;, arg: &quot;75&quot; }
-     * 
-     * // JSON payload for complex data
-     * { 
-     *   name: &quot;loadContent&quot;, 
-     *   arg: JSON.stringify({ 
-     *     contentId: &quot;abc123&quot;, 
-     *     transition: &quot;fade&quot;,
-     *     duration: 5000 
-     *   })
-     * }
-     * 
-     * // Empty argument for parameterless commands
-     * { name: &quot;refresh&quot;, arg: &quot;&quot; }
+     * const config: IConfig &#x3D; {
+     *   prefs: {
+     *     &#x27;title&#x27;: &#x27;My Gadget Title&#x27;,
+     *     &#x27;backgroundColor&#x27;: &#x27;#ff0000&#x27;,
+     *     &#x27;refreshInterval&#x27;: 30,
+     *     &#x27;showBorder&#x27;: true,
+     *     &#x27;apiEndpoint&#x27;: &#x27;https://api.example.com/data&#x27;
+     *   },
+     *   type: ConfigType.ApplyConfig,
+     *   isOpener: false
+     * };
      * &#x60;&#x60;&#x60;
      */
-    arg: string;
+    prefs: IDictionary&lt;any&gt;;
+
+    /**
+     * The type of configuration operation being performed.
+     * 
+     * Indicates whether this is a request to open configuration UI
+     * or an instruction to apply new configuration values.
+     * 
+     * @see ConfigType enum for available values
+     */
+    type: ConfigType;
+
+    /**
+     * Indicates if this configuration event originated from a popup window opener.
+     * 
+     * When true, this suggests the configuration change originated from a popup
+     * configuration window and may need to be propagated to the parent window.
+     * This is used internally for handling window communication during config operations.
+     * 
+     * &#x60;&#x60;&#x60;typescript
+     * if (config.isOpener) {
+     *   // Propagate config changes from popup to parent window
+     *   window.parent.postMessage(configData, &#x27;*&#x27;);
+     * }
+     * &#x60;&#x60;&#x60;
+     */
+    isOpener: boolean;
+}
+
+/**
+ * Generic dictionary interface for key-value pairs.
+ * 
+ * This interface provides a flexible way to represent objects with
+ * string keys and values of any type. It&#x27;s commonly used for configuration
+ * preferences, command arguments, and other dynamic data structures.
+ * 
+ * @template T - The type of values stored in the dictionary
+ * 
+ * &#x60;&#x60;&#x60;typescript
+ * // String dictionary
+ * const stringPrefs: IDictionary&lt;string&gt; &#x3D; {
+ *   &#x27;title&#x27;: &#x27;My Title&#x27;,
+ *   &#x27;description&#x27;: &#x27;My Description&#x27;
+ * };
+ * 
+ * // Mixed type dictionary
+ * const mixedPrefs: IDictionary&lt;any&gt; &#x3D; {
+ *   &#x27;title&#x27;: &#x27;My Title&#x27;,
+ *   &#x27;count&#x27;: 42,
+ *   &#x27;enabled&#x27;: true
+ * };
+ * &#x60;&#x60;&#x60;
+ * 
+ * @export
+ * @interface IDictionary
+ */
+export interface IDictionary&lt;T&gt; {
+    [Key: string]: T;
+}
+
+/**
+ * Enumeration of configuration operation types.
+ * 
+ * Defines the different types of configuration-related operations
+ * that can be performed between gadgets and the player environment.
+ * 
+ * @export
+ * @enum ConfigType
+ * @since 1.0.0
+ */
+export enum ConfigType {
+    /**
+     * Request to open the configuration interface.
+     * 
+     * This type indicates that the configuration UI should be displayed,
+     * typically in response to a user action or system event.
+     * 
+     * &#x60;&#x60;&#x60;typescript
+     * // Trigger config UI opening
+     * const openConfigEvent: IConfig &#x3D; {
+     *   prefs: {},
+     *   type: ConfigType.OpenConfig,
+     *   isOpener: false
+     * };
+     * &#x60;&#x60;&#x60;
+     */
+    OpenConfig &#x3D; &#x27;openConfig&#x27;,
+
+    /**
+     * Instruction to apply new configuration values.
+     * 
+     * This type indicates that the provided preferences should be
+     * applied to the gadget&#x27;s configuration, typically after the
+     * user has made changes in the configuration UI.
+     * 
+     * &#x60;&#x60;&#x60;typescript
+     * // Apply new configuration
+     * const applyConfigEvent: IConfig &#x3D; {
+     *   prefs: {
+     *     &#x27;title&#x27;: &#x27;Updated Title&#x27;,
+     *     &#x27;interval&#x27;: 60
+     *   },
+     *   type: ConfigType.ApplyConfig,
+     *   isOpener: true
+     * };
+     * &#x60;&#x60;&#x60;
+     */
+    ApplyConfig &#x3D; &#x27;applyConfig&#x27;
 }
 </code></pre>
     </div>
@@ -387,7 +503,7 @@ across the application.</p>
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
-            var COMPODOC_CURRENT_PAGE_URL = 'ICommand.html';
+            var COMPODOC_CURRENT_PAGE_URL = 'IConfig.html';
             var MAX_SEARCH_RESULTS = 15;
        </script>
 

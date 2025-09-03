@@ -126,6 +126,54 @@
         </p>
 
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Interface representing comprehensive geographical and address information for a device location.</p>
+<p>This interface defines the complete location data structure used throughout
+the Revel Digital system for device positioning, content localization,
+and geographic analytics. Location information enables:</p>
+<ul>
+<li><strong>Geographic Content Targeting</strong>: Deliver region-specific content</li>
+<li><strong>Localization</strong>: Adjust language, currency, and cultural content</li>
+<li><strong>Analytics Segmentation</strong>: Group and analyze by geographic regions</li>
+<li><strong>Weather Integration</strong>: Display local weather conditions</li>
+<li><strong>Distance Calculations</strong>: Proximity-based features and routing</li>
+<li><strong>Compliance</strong>: Regional regulatory and legal requirements</li>
+</ul>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">// Access device location information
+const device = await this.client.getDevice();
+
+if (device?.location) {
+  const location = device.location;
+
+  // Display local information
+  console.log(`Device located at: ${location.address}`);
+  console.log(`${location.city}, ${location.state} ${location.postalCode}`);
+  console.log(`${location.country}`);
+
+  // Use coordinates for mapping
+  this.showOnMap(location.latitude, location.longitude);
+
+  // Load region-specific content
+  if (location.country === &#39;US&#39;) {
+    this.loadUSContent();
+  } else if (location.country === &#39;CA&#39;) {
+    this.loadCanadianContent();
+  }
+
+  // City-specific customization
+  switch (location.city) {
+    case &#39;New York&#39;:
+      this.enableSubwayAlerts();
+      break;
+    case &#39;London&#39;:
+      this.showTubeStatus();
+      break;
+  }
+}</code></pre></div>
+            </p>
 
 
         <section data-compodoc="block-index">
@@ -226,8 +274,20 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>Address</p>
-</div>
+                                    <div class="io-description"><p>Full street address of the device location.</p>
+<p>Complete physical address including street number, street name,
+and any additional address components. Used for precise location
+identification and delivery purposes.</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">// Typical address formats:
+// &quot;123 Main Street, Suite 456&quot;
+// &quot;1600 Pennsylvania Avenue NW&quot;
+// &quot;10 Downing Street&quot;
+// &quot;1-1-1 Chiyoda&quot;
+
+if (location.address) {
+  console.log(`Full address: ${location.address}`);
+  this.displayAddressOnMap(location.address);
+}</code></pre></div></div>
                                 </td>
                             </tr>
                         </tbody>
@@ -265,7 +325,11 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>City</p>
+                                    <div class="io-description"><p>City name where the device is located.</p>
+<p>The municipal or city-level administrative division.
+Used for city-specific content, local services, and
+urban area customizations.</p>
+<p>&quot;New York&quot;, &quot;London&quot;, &quot;Tokyo&quot;, &quot;Sydney&quot;</p>
 </div>
                                 </td>
                             </tr>
@@ -304,8 +368,22 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>Country</p>
-</div>
+                                    <div class="io-description"><p>Country name or country code.</p>
+<p>The nation-state where the device is located. May be provided
+as full country name or standardized country code (ISO 3166).
+Used for country-specific content, legal compliance, and
+international customizations.</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">// Country name formats:
+// &quot;United States&quot;, &quot;Canada&quot;, &quot;United Kingdom&quot;, &quot;Japan&quot;
+// Or country codes:
+// &quot;US&quot;, &quot;CA&quot;, &quot;GB&quot;, &quot;JP&quot;
+
+// Handle different formats
+const countryCode = location.country.length === 2
+  ? location.country
+  : this.getCountryCode(location.country);
+
+this.loadCountrySpecificContent(countryCode);</code></pre></div></div>
                                 </td>
                             </tr>
                         </tbody>
@@ -343,8 +421,19 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>Latitude</p>
-</div>
+                                    <div class="io-description"><p>Geographic latitude coordinate in decimal degrees.</p>
+<p>Represents the north-south position on Earth&#39;s surface.
+Positive values indicate northern hemisphere, negative values
+indicate southern hemisphere.</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">// Examples of latitude values:
+// 40.7128 (New York City)
+// 51.5074 (London)
+// -33.8688 (Sydney)
+// 35.6762 (Tokyo)
+
+const lat = location.latitude;
+const hemisphere = lat &gt;= 0 ? &#39;Northern&#39; : &#39;Southern&#39;;
+console.log(`Location is in the ${hemisphere} hemisphere`);</code></pre></div></div>
                                 </td>
                             </tr>
                         </tbody>
@@ -382,8 +471,25 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>Longitude</p>
-</div>
+                                    <div class="io-description"><p>Geographic longitude coordinate in decimal degrees.</p>
+<p>Represents the east-west position on Earth&#39;s surface.
+Positive values indicate eastern hemisphere, negative values
+indicate western hemisphere.</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">// Examples of longitude values:
+// -74.0060 (New York City)
+// -0.1278 (London)
+// 151.2093 (Sydney)
+// 139.6503 (Tokyo)
+
+const lng = location.longitude;
+const hemisphere = lng &gt;= 0 ? &#39;Eastern&#39; : &#39;Western&#39;;
+console.log(`Location is in the ${hemisphere} hemisphere`);
+
+// Calculate distance between two points
+const distance = this.calculateDistance(
+  location.latitude, location.longitude,
+  otherLat, otherLng
+);</code></pre></div></div>
                                 </td>
                             </tr>
                         </tbody>
@@ -421,8 +527,23 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>Postal code</p>
-</div>
+                                    <div class="io-description"><p>Postal or ZIP code for the location.</p>
+<p>The postal delivery code used by the local postal service.
+Format varies by country (ZIP codes in US, postal codes in Canada/UK, etc.).
+Used for local delivery, regional targeting, and demographic analysis.</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">// Postal code formats by country:
+// US: &quot;90210&quot;, &quot;10001-1234&quot;
+// Canada: &quot;K1A 0A6&quot;, &quot;M5V 3L9&quot;
+// UK: &quot;SW1A 1AA&quot;, &quot;M1 1AA&quot;
+// Germany: &quot;10115&quot;, &quot;80331&quot;
+
+// Use for regional content targeting
+if (location.postalCode.startsWith(&#39;90&#39;)) {
+  this.loadLosAngelesContent();
+}
+
+// Validate postal code format
+const isValidUS = /^\d{5}(-\d{4})?$/.test(location.postalCode);</code></pre></div></div>
                                 </td>
                             </tr>
                         </tbody>
@@ -460,7 +581,10 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>State</p>
+                                    <div class="io-description"><p>State, province, or regional administrative division.</p>
+<p>The sub-national administrative unit such as state (US),
+province (Canada), or region (EU). Format varies by country.</p>
+<p>&quot;California&quot;, &quot;Ontario&quot;, &quot;Bavaria&quot;, &quot;New South Wales&quot;</p>
 </div>
                                 </td>
                             </tr>
@@ -473,65 +597,142 @@
     <div class="tab-pane fade  tab-source-code" id="source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">export interface ILocation {
     /**
-     * Latitude
+     * Geographic latitude coordinate in decimal degrees.
      * 
-     * @type {number}
+     * Represents the north-south position on Earth&#x27;s surface.
+     * Positive values indicate northern hemisphere, negative values
+     * indicate southern hemisphere.
      * 
-     * @memberof ILocation
+     * &#x60;&#x60;&#x60;typescript
+     * // Examples of latitude values:
+     * // 40.7128 (New York City)
+     * // 51.5074 (London)
+     * // -33.8688 (Sydney)
+     * // 35.6762 (Tokyo)
+     * 
+     * const lat &#x3D; location.latitude;
+     * const hemisphere &#x3D; lat &gt;&#x3D; 0 ? &#x27;Northern&#x27; : &#x27;Southern&#x27;;
+     * console.log(&#x60;Location is in the ${hemisphere} hemisphere&#x60;);
+     * &#x60;&#x60;&#x60;
      */
     latitude: number;
 
     /**
-     * Longitude
+     * Geographic longitude coordinate in decimal degrees.
      * 
-     * @type {number}
+     * Represents the east-west position on Earth&#x27;s surface.
+     * Positive values indicate eastern hemisphere, negative values
+     * indicate western hemisphere.
      * 
-     * @memberof ILocation
+     * &#x60;&#x60;&#x60;typescript
+     * // Examples of longitude values:
+     * // -74.0060 (New York City)
+     * // -0.1278 (London)  
+     * // 151.2093 (Sydney)
+     * // 139.6503 (Tokyo)
+     * 
+     * const lng &#x3D; location.longitude;
+     * const hemisphere &#x3D; lng &gt;&#x3D; 0 ? &#x27;Eastern&#x27; : &#x27;Western&#x27;;
+     * console.log(&#x60;Location is in the ${hemisphere} hemisphere&#x60;);
+     * 
+     * // Calculate distance between two points
+     * const distance &#x3D; this.calculateDistance(
+     *   location.latitude, location.longitude,
+     *   otherLat, otherLng
+     * );
+     * &#x60;&#x60;&#x60;
      */
     longitude: number;
 
     /**
-     * City
+     * City name where the device is located.
      * 
-     * @type {string}
+     * The municipal or city-level administrative division.
+     * Used for city-specific content, local services, and
+     * urban area customizations.
      * 
-     * @memberof ILocation
+     * &quot;New York&quot;, &quot;London&quot;, &quot;Tokyo&quot;, &quot;Sydney&quot;
      */
     city: string;
 
     /**
-     * State
+     * State, province, or regional administrative division.
      * 
-     * @type {string}
+     * The sub-national administrative unit such as state (US),
+     * province (Canada), or region (EU). Format varies by country.
      * 
-     * @memberof ILocation
+     * &quot;California&quot;, &quot;Ontario&quot;, &quot;Bavaria&quot;, &quot;New South Wales&quot;
      */
     state: string;
 
     /**
-     * Address
+     * Full street address of the device location.
      * 
-     * @type {string}
+     * Complete physical address including street number, street name,
+     * and any additional address components. Used for precise location
+     * identification and delivery purposes.
      * 
-     * @memberof ILocation
+     * &#x60;&#x60;&#x60;typescript
+     * // Typical address formats:
+     * // &quot;123 Main Street, Suite 456&quot;
+     * // &quot;1600 Pennsylvania Avenue NW&quot;
+     * // &quot;10 Downing Street&quot;
+     * // &quot;1-1-1 Chiyoda&quot;
+     * 
+     * if (location.address) {
+     *   console.log(&#x60;Full address: ${location.address}&#x60;);
+     *   this.displayAddressOnMap(location.address);
+     * }
+     * &#x60;&#x60;&#x60;
      */
     address: string;
 
     /**
-     * Country
+     * Country name or country code.
      * 
-     * @type {string}
+     * The nation-state where the device is located. May be provided
+     * as full country name or standardized country code (ISO 3166).
+     * Used for country-specific content, legal compliance, and
+     * international customizations.
      * 
-     * @memberof ILocation
+     * &#x60;&#x60;&#x60;typescript
+     * // Country name formats:
+     * // &quot;United States&quot;, &quot;Canada&quot;, &quot;United Kingdom&quot;, &quot;Japan&quot;
+     * // Or country codes:
+     * // &quot;US&quot;, &quot;CA&quot;, &quot;GB&quot;, &quot;JP&quot;
+     * 
+     * // Handle different formats
+     * const countryCode &#x3D; location.country.length &#x3D;&#x3D;&#x3D; 2 
+     *   ? location.country 
+     *   : this.getCountryCode(location.country);
+     *   
+     * this.loadCountrySpecificContent(countryCode);
+     * &#x60;&#x60;&#x60;
      */
     country: string;
 
     /**
-     * Postal code
+     * Postal or ZIP code for the location.
      * 
-     * @type {string}
+     * The postal delivery code used by the local postal service.
+     * Format varies by country (ZIP codes in US, postal codes in Canada/UK, etc.).
+     * Used for local delivery, regional targeting, and demographic analysis.
      * 
-     * @memberof ILocation
+     * &#x60;&#x60;&#x60;typescript
+     * // Postal code formats by country:
+     * // US: &quot;90210&quot;, &quot;10001-1234&quot;
+     * // Canada: &quot;K1A 0A6&quot;, &quot;M5V 3L9&quot;  
+     * // UK: &quot;SW1A 1AA&quot;, &quot;M1 1AA&quot;
+     * // Germany: &quot;10115&quot;, &quot;80331&quot;
+     * 
+     * // Use for regional content targeting
+     * if (location.postalCode.startsWith(&#x27;90&#x27;)) {
+     *   this.loadLosAngelesContent();
+     * }
+     * 
+     * // Validate postal code format
+     * const isValidUS &#x3D; /^\d{5}(-\d{4})?$/.test(location.postalCode);
+     * &#x60;&#x60;&#x60;
      */
     postalCode: string;
 }

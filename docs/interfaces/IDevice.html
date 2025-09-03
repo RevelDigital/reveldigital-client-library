@@ -126,6 +126,43 @@
         </p>
 
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Interface representing a Revel Digital player device with comprehensive details.</p>
+<p>This interface defines the complete information available about a device
+running the Revel Digital player software. It includes identification,
+configuration, hardware details, and location information as configured
+in the Revel Digital CMS.</p>
+<p>Device information is used for:</p>
+<ul>
+<li>Content customization based on device capabilities</li>
+<li>Location-based content delivery</li>
+<li>Analytics and reporting segmentation</li>
+<li>Remote device management and targeting</li>
+<li>Timezone and localization operations</li>
+</ul>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">// Get and use device information
+const device = await this.client.getDevice();
+
+if (device) {
+  // Customize content based on device type
+  if (device.deviceType === &#39;android&#39;) {
+    this.enableTouchInteractions();
+  }
+
+  // Use location for content filtering
+  if (device.location?.country === &#39;US&#39;) {
+    this.loadUSContent();
+  }
+
+  // Check device tags for special configurations
+  if (device.tags.includes(&#39;kiosk&#39;)) {
+    this.enableKioskMode();
+  }
+}</code></pre></div>
+            </p>
 
 
         <section data-compodoc="block-index">
@@ -235,7 +272,10 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>Device type</p>
+                                    <div class="io-description"><p>The type/platform of the device hardware.</p>
+<p>Indicates the operating system or platform type of the device,
+which can be used to enable platform-specific features or content.</p>
+<p>&quot;windows&quot;, &quot;android&quot;, &quot;linux&quot;, &quot;chromeos&quot;</p>
 </div>
                                 </td>
                             </tr>
@@ -274,7 +314,9 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>Entered service date</p>
+                                    <div class="io-description"><p>The date when this device was first registered and entered service.</p>
+<p>This timestamp indicates when the device was initially set up
+and began operating within the Revel Digital system.</p>
 </div>
                                 </td>
                             </tr>
@@ -318,7 +360,10 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>Language code</p>
+                                    <div class="io-description"><p>The language/locale code configured for this device.</p>
+<p>Used for internationalization and localization of content.
+May be undefined if not specifically configured.</p>
+<p>&quot;en-US&quot;, &quot;fr-FR&quot;, &quot;de-DE&quot;, &quot;ja-JP&quot;</p>
 </div>
                                 </td>
                             </tr>
@@ -362,8 +407,19 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>Device location</p>
-</div>
+                                    <div class="io-description"><p>Geographic location information for this device.</p>
+<p>Contains detailed location data including coordinates, address,
+and administrative divisions. This information can be used for
+location-based content delivery, analytics, and regional customization.
+May be undefined if location information is not configured.</p>
+<p>See ILocation interface for detailed location properties</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">if (device.location) {
+  const { city, state, country } = device.location;
+  console.log(`Device located in ${city}, ${state}, ${country}`);
+
+  // Use for weather, news, or regional content
+  this.loadLocalContent(device.location);
+}</code></pre></div></div>
                                 </td>
                             </tr>
                         </tbody>
@@ -401,7 +457,10 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>Device name</p>
+                                    <div class="io-description"><p>The human-readable name assigned to this device.</p>
+<p>This is the display name configured in the Revel Digital CMS
+for easy identification and management of the device.</p>
+<p>&quot;Lobby Display&quot;, &quot;Conference Room Screen&quot;, &quot;Kiosk #1&quot;</p>
 </div>
                                 </td>
                             </tr>
@@ -440,7 +499,11 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>Device key</p>
+                                    <div class="io-description"><p>The unique registration key identifying this device.</p>
+<p>This is the primary unique identifier for the device within
+the Revel Digital system. It&#39;s used for device authentication,
+remote command targeting, and system operations.</p>
+<p>&quot;ABCD-1234-EFGH-5678&quot;</p>
 </div>
                                 </td>
                             </tr>
@@ -479,8 +542,20 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>Device properties</p>
-</div>
+                                    <div class="io-description"><p>Array of descriptive tags associated with this device.</p>
+<p>Tags provide a flexible way to categorize and group devices
+for management, content targeting, and operational purposes.
+Tags are typically derived from the device description field
+in the CMS (split by newlines).</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">// Common tag examples
+tags: [&quot;kiosk&quot;, &quot;lobby&quot;, &quot;interactive&quot;]
+tags: [&quot;conference-room&quot;, &quot;building-a&quot;, &quot;floor-2&quot;]
+tags: [&quot;retail&quot;, &quot;storefront&quot;, &quot;promotional&quot;]
+
+// Check for specific capabilities
+if (device.tags.includes(&#39;touch-enabled&#39;)) {
+  this.enableTouchFeatures();
+}</code></pre></div></div>
                                 </td>
                             </tr>
                         </tbody>
@@ -523,7 +598,10 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>Time zone</p>
+                                    <div class="io-description"><p>The timezone identifier assigned to this device.</p>
+<p>Defines the local timezone for time-sensitive operations
+and content scheduling. May be undefined if not configured.</p>
+<p>&quot;America/New_York&quot;, &quot;Europe/London&quot;, &quot;Asia/Tokyo&quot;</p>
 </div>
                                 </td>
                             </tr>
@@ -536,61 +614,149 @@
     <div class="tab-pane fade  tab-source-code" id="source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ILocation } from &quot;./location.interface&quot;;
 
+/**
+ * Interface representing a Revel Digital player device with comprehensive details.
+ * 
+ * This interface defines the complete information available about a device
+ * running the Revel Digital player software. It includes identification,
+ * configuration, hardware details, and location information as configured
+ * in the Revel Digital CMS.
+ * 
+ * Device information is used for:
+ * - Content customization based on device capabilities
+ * - Location-based content delivery
+ * - Analytics and reporting segmentation
+ * - Remote device management and targeting
+ * - Timezone and localization operations
+ * 
+ * &#x60;&#x60;&#x60;typescript
+ * // Get and use device information
+ * const device &#x3D; await this.client.getDevice();
+ * 
+ * if (device) {
+ *   // Customize content based on device type
+ *   if (device.deviceType &#x3D;&#x3D;&#x3D; &#x27;android&#x27;) {
+ *     this.enableTouchInteractions();
+ *   }
+ *   
+ *   // Use location for content filtering
+ *   if (device.location?.country &#x3D;&#x3D;&#x3D; &#x27;US&#x27;) {
+ *     this.loadUSContent();
+ *   }
+ *   
+ *   // Check device tags for special configurations
+ *   if (device.tags.includes(&#x27;kiosk&#x27;)) {
+ *     this.enableKioskMode();
+ *   }
+ * }
+ * &#x60;&#x60;&#x60;
+ * 
+ * @export
+ * @interface IDevice
+ * @since 1.0.0
+ */
 export interface IDevice {
 
     /**
-     * Device name
+     * The human-readable name assigned to this device.
      * 
-     * @type {string}
+     * This is the display name configured in the Revel Digital CMS
+     * for easy identification and management of the device.
+     * 
+     * &quot;Lobby Display&quot;, &quot;Conference Room Screen&quot;, &quot;Kiosk #1&quot;
      */
     name: string;
 
     /**
-     * Device key
+     * The unique registration key identifying this device.
      * 
-     * @type {string}
+     * This is the primary unique identifier for the device within
+     * the Revel Digital system. It&#x27;s used for device authentication,
+     * remote command targeting, and system operations.
+     * 
+     * &quot;ABCD-1234-EFGH-5678&quot;
      */
     registrationKey: string;
 
     /**
-     * Device type
+     * The type/platform of the device hardware.
      * 
-     * @type {string}
+     * Indicates the operating system or platform type of the device,
+     * which can be used to enable platform-specific features or content.
+     * 
+     * &quot;windows&quot;, &quot;android&quot;, &quot;linux&quot;, &quot;chromeos&quot;
      */
     deviceType: string;
 
     /**
-     * Entered service date
+     * The date when this device was first registered and entered service.
      * 
-     * @type {Date}
+     * This timestamp indicates when the device was initially set up
+     * and began operating within the Revel Digital system.
      */
     enteredService: Date;
 
     /**
-     * Language code
+     * The language/locale code configured for this device.
      * 
-     * @type {string}
+     * Used for internationalization and localization of content.
+     * May be undefined if not specifically configured.
+     * 
+     * &quot;en-US&quot;, &quot;fr-FR&quot;, &quot;de-DE&quot;, &quot;ja-JP&quot;
      */
     langCode?: string;
 
     /**
-     * Time zone
+     * The timezone identifier assigned to this device.
      * 
-     * @type {string}
+     * Defines the local timezone for time-sensitive operations
+     * and content scheduling. May be undefined if not configured.
+     * 
+     * &quot;America/New_York&quot;, &quot;Europe/London&quot;, &quot;Asia/Tokyo&quot;
      */
     timeZone?: string;
 
     /**
-     * Device properties
+     * Array of descriptive tags associated with this device.
      * 
-     * @type {Array&lt;string&gt;}
+     * Tags provide a flexible way to categorize and group devices
+     * for management, content targeting, and operational purposes.
+     * Tags are typically derived from the device description field
+     * in the CMS (split by newlines).
+     * 
+     * &#x60;&#x60;&#x60;typescript
+     * // Common tag examples
+     * tags: [&quot;kiosk&quot;, &quot;lobby&quot;, &quot;interactive&quot;]
+     * tags: [&quot;conference-room&quot;, &quot;building-a&quot;, &quot;floor-2&quot;]
+     * tags: [&quot;retail&quot;, &quot;storefront&quot;, &quot;promotional&quot;]
+     * 
+     * // Check for specific capabilities
+     * if (device.tags.includes(&#x27;touch-enabled&#x27;)) {
+     *   this.enableTouchFeatures();
+     * }
+     * &#x60;&#x60;&#x60;
      */
     tags: Array&lt;string&gt;;
 
     /**
-     * Device location
+     * Geographic location information for this device.
      * 
-     * @type {ILocation}
+     * Contains detailed location data including coordinates, address,
+     * and administrative divisions. This information can be used for
+     * location-based content delivery, analytics, and regional customization.
+     * May be undefined if location information is not configured.
+     * 
+     * @see ILocation interface for detailed location properties
+     * 
+     * &#x60;&#x60;&#x60;typescript
+     * if (device.location) {
+     *   const { city, state, country } &#x3D; device.location;
+     *   console.log(&#x60;Device located in ${city}, ${state}, ${country}&#x60;);
+     *   
+     *   // Use for weather, news, or regional content
+     *   this.loadLocalContent(device.location);
+     * }
+     * &#x60;&#x60;&#x60;
      */
     location?: ILocation;
 }

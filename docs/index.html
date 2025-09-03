@@ -190,6 +190,8 @@ locales:
 #   datatype: string, enum, hidden, bool, style, list
 #   default_value: Default value
 #   required: Make this prefence mandatory, must have a value
+#   multiple: Allows for multiple selection of list items (enum pref type only)
+#   multiline: Enables multiline text (string pref type only)
 #   depends: The visibility of this preference depends on other preferences. This requires the name
 #     of the dependent preference along with a list of values. Condition types can include
 #     any_of, all_of, none_of. Nested depends conditions are also supported.
@@ -200,6 +202,7 @@ prefs:
     datatype: string
     default_value: test string
     required: true
+    multiline: false
 
   - name: myBoolPref
     display_name: Sample boolean preference

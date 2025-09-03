@@ -126,6 +126,66 @@
         </p>
 
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Interface representing flexible properties for analytics events.</p>
+<p>This interface defines a flexible structure for attaching custom properties
+and metadata to analytics events. It allows gadgets to provide rich contextual
+information alongside event tracking for detailed analytics and reporting.</p>
+<p>Event properties are used to:</p>
+<ul>
+<li>Provide context and metadata for analytics events</li>
+<li>Enable detailed filtering and segmentation in reports</li>
+<li>Track custom business metrics and KPIs</li>
+<li>Debug and troubleshoot gadget behavior</li>
+<li>Correlate events across user sessions and devices</li>
+</ul>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">// Simple properties
+const simpleProps: IEventProperties = {
+  action: &#39;button_click&#39;,
+  buttonId: &#39;submit&#39;
+};
+
+// Rich event data
+const detailedProps: IEventProperties = {
+  // User interaction details
+  action: &#39;content_interaction&#39;,
+  interactionType: &#39;swipe&#39;,
+  direction: &#39;left&#39;,
+
+  // Performance metrics
+  loadTime: 1250,
+  renderTime: 85,
+
+  // Business context
+  contentId: &#39;promo-2023-12&#39;,
+  contentType: &#39;advertisement&#39;,
+  campaign: &#39;holiday-sales&#39;,
+
+  // Technical details
+  deviceInfo: {
+    screenWidth: 1920,
+    screenHeight: 1080,
+    userAgent: &#39;RevelDigital/1.0&#39;
+  },
+
+  // Timestamps and session data
+  timestamp: new Date().toISOString(),
+  sessionId: &#39;sess-abc123&#39;,
+  userId: &#39;user-456&#39;,
+
+  // Custom business metrics
+  conversionValue: 29.99,
+  category: &#39;electronics&#39;,
+  tags: [&#39;featured&#39;, &#39;sale&#39;, &#39;popular&#39;]
+};
+
+// Track events with properties
+this.client.track(&#39;user_interaction&#39;, simpleProps);
+this.client.track(&#39;content_viewed&#39;, detailedProps);</code></pre></div>
+            </p>
 
 
 
@@ -142,13 +202,76 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="1" class="link-to-prism">projects/reveldigital/player-client/src/lib/interfaces/event-properties.interface.ts:1</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="65" class="link-to-prism">projects/reveldigital/player-client/src/lib/interfaces/event-properties.interface.ts:65</a></div>
                             </td>
                         </tr>
                 <tr>
                     <td class="col-md-4">
-                        <div class="io-description"><p>Event properties</p>
-</div>
+                        <div class="io-description"><p>Flexible key-value pairs for event metadata and context.</p>
+<p>This index signature allows any string key to be associated with
+any value type, providing maximum flexibility for event properties.</p>
+<h2>Common Property Categories:</h2>
+<p><strong>User Interaction Properties:</strong></p>
+<ul>
+<li><code>action</code>: Type of action performed (click, swipe, scroll, etc.)</li>
+<li><code>element</code>: UI element identifier</li>
+<li><code>coordinates</code>: Mouse/touch coordinates</li>
+<li><code>duration</code>: Time spent on action</li>
+</ul>
+<p><strong>Content Properties:</strong></p>
+<ul>
+<li><code>contentId</code>: Unique content identifier</li>
+<li><code>contentType</code>: Type of content (video, image, text, etc.)</li>
+<li><code>contentTitle</code>: Human-readable content title</li>
+<li><code>contentUrl</code>: Source URL if applicable</li>
+</ul>
+<p><strong>Performance Properties:</strong></p>
+<ul>
+<li><code>loadTime</code>: Time to load content (milliseconds)</li>
+<li><code>renderTime</code>: Time to render content (milliseconds)</li>
+<li><code>errorCount</code>: Number of errors encountered</li>
+<li><code>retryCount</code>: Number of retry attempts</li>
+</ul>
+<p><strong>Session Properties:</strong></p>
+<ul>
+<li><code>sessionId</code>: Current user session identifier</li>
+<li><code>userId</code>: User identifier if available</li>
+<li><code>deviceId</code>: Device identifier</li>
+<li><code>timestamp</code>: Event timestamp</li>
+</ul>
+<p><strong>Business Properties:</strong></p>
+<ul>
+<li><code>campaign</code>: Marketing campaign identifier</li>
+<li><code>category</code>: Business category or classification</li>
+<li><code>value</code>: Monetary or business value</li>
+<li><code>conversion</code>: Conversion tracking information</li>
+</ul>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-typescript">// User interaction tracking
+{
+  action: &#39;video_play&#39;,
+  videoId: &#39;vid-123&#39;,
+  videoTitle: &#39;Product Demo&#39;,
+  playPosition: 0,
+  quality: &#39;HD&#39;
+}
+
+// Performance monitoring
+{
+  operation: &#39;api_call&#39;,
+  endpoint: &#39;/api/content&#39;,
+  responseTime: 245,
+  statusCode: 200,
+  cacheHit: true
+}
+
+// Business metrics
+{
+  event: &#39;conversion&#39;,
+  conversionType: &#39;signup&#39;,
+  value: 0,
+  source: &#39;qr_code&#39;,
+  campaign: &#39;spring2023&#39;
+}</code></pre></div></div>
                     </td>
                 </tr>
             </tbody>
@@ -160,13 +283,72 @@
 
     <div class="tab-pane fade  tab-source-code" id="source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">export interface IEventProperties {
-
     /**
-     * Event properties
+     * Flexible key-value pairs for event metadata and context.
      * 
-     * @type {any}
+     * This index signature allows any string key to be associated with
+     * any value type, providing maximum flexibility for event properties.
      * 
-     * @memberof IEventProperties
+     * ## Common Property Categories:
+     * 
+     * **User Interaction Properties:**
+     * - &#x60;action&#x60;: Type of action performed (click, swipe, scroll, etc.)
+     * - &#x60;element&#x60;: UI element identifier
+     * - &#x60;coordinates&#x60;: Mouse/touch coordinates
+     * - &#x60;duration&#x60;: Time spent on action
+     * 
+     * **Content Properties:**
+     * - &#x60;contentId&#x60;: Unique content identifier  
+     * - &#x60;contentType&#x60;: Type of content (video, image, text, etc.)
+     * - &#x60;contentTitle&#x60;: Human-readable content title
+     * - &#x60;contentUrl&#x60;: Source URL if applicable
+     * 
+     * **Performance Properties:**
+     * - &#x60;loadTime&#x60;: Time to load content (milliseconds)
+     * - &#x60;renderTime&#x60;: Time to render content (milliseconds)
+     * - &#x60;errorCount&#x60;: Number of errors encountered
+     * - &#x60;retryCount&#x60;: Number of retry attempts
+     * 
+     * **Session Properties:**
+     * - &#x60;sessionId&#x60;: Current user session identifier
+     * - &#x60;userId&#x60;: User identifier if available
+     * - &#x60;deviceId&#x60;: Device identifier
+     * - &#x60;timestamp&#x60;: Event timestamp
+     * 
+     * **Business Properties:**
+     * - &#x60;campaign&#x60;: Marketing campaign identifier
+     * - &#x60;category&#x60;: Business category or classification
+     * - &#x60;value&#x60;: Monetary or business value
+     * - &#x60;conversion&#x60;: Conversion tracking information
+     * 
+     * &#x60;&#x60;&#x60;typescript
+     * // User interaction tracking
+     * {
+     *   action: &#x27;video_play&#x27;,
+     *   videoId: &#x27;vid-123&#x27;,
+     *   videoTitle: &#x27;Product Demo&#x27;,
+     *   playPosition: 0,
+     *   quality: &#x27;HD&#x27;
+     * }
+     * 
+     * // Performance monitoring
+     * {
+     *   operation: &#x27;api_call&#x27;,
+     *   endpoint: &#x27;/api/content&#x27;,
+     *   responseTime: 245,
+     *   statusCode: 200,
+     *   cacheHit: true
+     * }
+     * 
+     * // Business metrics
+     * {
+     *   event: &#x27;conversion&#x27;,
+     *   conversionType: &#x27;signup&#x27;,
+     *   value: 0,
+     *   source: &#x27;qr_code&#x27;,
+     *   campaign: &#x27;spring2023&#x27;
+     * }
+     * &#x60;&#x60;&#x60;
      */
     [key: string]: any;
 }
