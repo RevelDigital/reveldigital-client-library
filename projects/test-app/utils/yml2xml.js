@@ -7,9 +7,9 @@ const pjson = require('../../../package.json');
 
 try {
   const doc = yaml.load(fs.readFileSync(process.argv[2], 'utf8'));
-  const html = fs.readFileSync('./dist/test-app/index.html');
+  const html = fs.readFileSync(process.argv[3] + `/${pjson.name}/index.html`);
 
-  fs.writeFileSync(`./dist/test-app/test-app.xml`, processYML(doc, html));
+  fs.writeFileSync(`${process.argv[3]}/${pjson.name}/${pjson.name}.xml`, processYML(doc, html));
 } catch (e) {
   console.log(e);
 }
@@ -64,6 +64,7 @@ function processYML(json, html) {
           });
         }
       }
+
       if (val.depends) {
         appendDepends(val.depends, userPref);
       }
@@ -107,6 +108,7 @@ function processYML(json, html) {
 
   return root.end({ prettyPrint: true });
 }
+
 
 function appendDepends(depends, el) {
 
