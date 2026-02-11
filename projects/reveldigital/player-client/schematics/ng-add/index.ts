@@ -10,7 +10,6 @@ import {
   chain,
   mergeWith,
   SchematicsException,
-  externalSchematic
 } from '@angular-devkit/schematics';
 import {
   NodeDependency,
@@ -105,9 +104,9 @@ export function dependencies(options: any): Rule {
  * Conditionally adds GitHub Pages deployment schematic.
  */
 function callDeploySchematic(project: any, useGithubPages: boolean): Rule {
-  return (_tree: Tree, _context: SchematicContext) => {
+  return (_tree: Tree, context: SchematicContext) => {
     if (useGithubPages) {
-      return externalSchematic('angular-cli-ghpages', 'ng-add', { project: project });
+      context.addTask(new RunSchematicTask('angular-cli-ghpages', 'ng-add', { project: project }));
     }
     return _tree;
   };
