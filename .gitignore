@@ -49,3 +49,17 @@ Thumbs.db
 yarn.lock
 
 /.vscode
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# NPM auth tokens
+.npmrc
+
+# Semantic release temp files
+.semantic-release-temp
+
+# Claude Code
+.claude/

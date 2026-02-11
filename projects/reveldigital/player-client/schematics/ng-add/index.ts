@@ -18,7 +18,7 @@ import {
   addPackageJsonDependency,
 } from '@schematics/angular/utility/dependencies';
 import { virtualFs, workspaces } from '@angular-devkit/core';
-import { MergeStrategy } from '@angular-devkit/schematics/src/tree/interface';
+import { MergeStrategy } from '@angular-devkit/schematics';
 import { insertImport, addSymbolToNgModuleMetadata } from '@schematics/angular/utility/ast-utils';
 import { getAppModulePath } from '@schematics/angular/utility/ng-ast-utils';
 import { BrowserBuilderOptions } from '@schematics/angular/utility/workspace-models';
@@ -68,7 +68,7 @@ export function ngAdd(options: MyServiceSchema): Rule {
       throw new SchematicsException('Target build not found');
     }
     const buildOptions = (buildTarget.options || {}) as unknown as BrowserBuilderOptions;
-    const { main } = buildOptions;
+    const main = (buildOptions as any).browser || buildOptions.main;
 
     // Schedule package installation
     context.addTask(new NodePackageInstallTask());
@@ -165,7 +165,7 @@ function addPackageJsonDependencies(): Rule {
       {
         type: NodeDependencyType.Dev,
         name: 'angular-cli-ghpages',
-        version: '1.0.7',
+        version: '^2.0.0',
       },
       {
         type: NodeDependencyType.Dev,
@@ -220,7 +220,7 @@ function updateAppModule(mainPath: string): Rule {
 
       const moduleSource = getTsSourceFile(host, modulePath);
       const metadataChanges = addSymbolToNgModuleMetadata(
-        moduleSource,
+        moduleSource as any,
         modulePath,
         'imports',
         'PlayerClientModule',
@@ -245,7 +245,7 @@ function updateAppModule(mainPath: string): Rule {
  */
 function ensureImport(host: Tree, filePath: string, symbolName: string, moduleName: string): void {
   const moduleSource = getTsSourceFile(host, filePath);
-  const change = insertImport(moduleSource, filePath, symbolName, moduleName);
+  const change = insertImport(moduleSource as any, filePath, symbolName, moduleName);
 
   if (change) {
     const recorder = host.beginUpdate(filePath);
@@ -435,7 +435,7 @@ function loadPackageJson(tree: Tree): any {
   if (pkg === null) {
     throw new Error('could not read package.json');
   }
-  const contentAsString = pkg.toString('UTF-8');
+  const contentAsString = pkg.toString('utf-8');
   return JSON.parse(contentAsString);
 }
 
