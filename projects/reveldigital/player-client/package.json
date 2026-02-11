@@ -1,7 +1,7 @@
 {
   "name": "@reveldigital/player-client",
   "version": "2.0.0",
-  "description": "Helper library for interfacing Angular apps with the Revel Digital player",
+  "description": "Helper library for interfacing Angular apps with the Revel Digital gadget framework.",
   "scripts": {
     "build": "tsc -p tsconfig.schematics.json",
     "postbuild": "copyfiles schematics/*/schema.json schematics/*/assets/** schematics/*/utils/** schematics/*/templates/** schematics/collection.json ../../../dist/reveldigital/player-client/"
