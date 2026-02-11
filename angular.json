@@ -24,20 +24,17 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "projects/reveldigital/player-client/src/test.ts",
+            "polyfills": ["zone.js", "zone.js/testing"],
             "tsConfig": "projects/reveldigital/player-client/tsconfig.spec.json",
             "karmaConfig": "projects/reveldigital/player-client/karma.conf.js"
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "projects/reveldigital/player-client/tsconfig.lib.json",
-              "projects/reveldigital/player-client/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
+            "lintFilePatterns": [
+              "projects/reveldigital/player-client/**/*.ts",
+              "projects/reveldigital/player-client/**/*.html"
             ]
           }
         }
@@ -56,7 +53,7 @@
             "outputPath": "dist/test-app",
             "index": "projects/test-app/src/index.html",
             "main": "projects/test-app/src/main.ts",
-            "polyfills": "projects/test-app/src/polyfills.ts",
+            "polyfills": ["zone.js"],
             "tsConfig": "projects/test-app/tsconfig.app.json",
             "assets": [
               "projects/test-app/src/favicon.ico",
@@ -65,13 +62,7 @@
             "styles": [
               "projects/test-app/src/styles.css"
             ],
-            "scripts": [],
-            "vendorChunk": true,
-            "extractLicenses": false,
-            "buildOptimizer": false,
-            "sourceMap": true,
-            "optimization": false,
-            "namedChunks": true
+            "scripts": []
           },
           "configurations": {
             "production": {
@@ -84,10 +75,7 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "namedChunks": false,
               "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
               "budgets": [
                 {
                   "type": "initial",
@@ -100,31 +88,40 @@
                   "maximumError": "10kb"
                 }
               ]
+            },
+            "development": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "vendorChunk": true,
+              "namedChunks": true,
+              "buildOptimizer": false
             }
-          }
+          },
+          "defaultConfiguration": "production"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
-          "options": {
-            "browserTarget": "test-app:build"
-          },
           "configurations": {
             "production": {
-              "browserTarget": "test-app:build:production"
+              "buildTarget": "test-app:build:production"
+            },
+            "development": {
+              "buildTarget": "test-app:build:development"
             }
-          }
+          },
+          "defaultConfiguration": "development"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "test-app:build"
+            "buildTarget": "test-app:build"
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "projects/test-app/src/test.ts",
-            "polyfills": "projects/test-app/src/polyfills.ts",
+            "polyfills": ["zone.js", "zone.js/testing"],
             "tsConfig": "projects/test-app/tsconfig.spec.json",
             "karmaConfig": "projects/test-app/karma.conf.js",
             "assets": [
@@ -137,76 +134,19 @@
             "scripts": []
           }
         },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "projects/test-app/tsconfig.app.json",
-              "projects/test-app/tsconfig.spec.json",
-              "projects/test-app/e2e/tsconfig.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
-        },
-        "e2e": {
-          "builder": "@angular-devkit/build-angular:protractor",
-          "options": {
-            "protractorConfig": "projects/test-app/e2e/protractor.conf.js",
-            "devServerTarget": "test-app:serve"
-          },
-          "configurations": {
-            "production": {
-              "devServerTarget": "test-app:serve:production"
-            }
-          }
-        },
         "deploy": {
           "builder": "angular-cli-ghpages:deploy"
-        }
-      }
-    },
-    "test-lib": {
-      "projectType": "library",
-      "root": "projects/test-lib",
-      "sourceRoot": "projects/test-lib/src",
-      "prefix": "lib",
-      "architect": {
-        "build": {
-          "builder": "@angular-devkit/build-angular:ng-packagr",
-          "options": {
-            "tsConfig": "projects/test-lib/tsconfig.lib.json",
-            "project": "projects/test-lib/ng-package.json"
-          },
-          "configurations": {
-            "production": {
-              "tsConfig": "projects/test-lib/tsconfig.lib.prod.json"
-            }
-          }
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "projects/test-lib/src/test.ts",
-            "tsConfig": "projects/test-lib/tsconfig.spec.json",
-            "karmaConfig": "projects/test-lib/karma.conf.js"
-          }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "projects/test-lib/tsconfig.lib.json",
-              "projects/test-lib/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
+            "lintFilePatterns": [
+              "projects/test-app/**/*.ts",
+              "projects/test-app/**/*.html"
             ]
           }
         }
       }
     }
-  },
-  "defaultProject": "@reveldigital/player-client"
+  }
 }

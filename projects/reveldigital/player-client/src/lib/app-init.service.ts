@@ -66,31 +66,34 @@ export class AppInitService {
 
         this.http.get('assets/gadget.yaml', {
           responseType: 'text'
-        }).subscribe(data => {
-          const doc: any = yaml.load(data);
-          let params: any = {}
-          for (const val of doc.prefs) {
-            params[val.name] = val.default_value
+        }).subscribe({
+          next: (data) => {
+            const doc: any = yaml.load(data);
+            let params: any = {}
+            for (const val of doc.prefs) {
+              params[val.name] = val.default_value
+            }
+
+            this._router.navigate([], {
+              relativeTo: this._route,
+              queryParams: params,
+            });
+
+            console.log(
+              `%cUser prefs loaded successfully`,
+              'background-color:blue; color:yellow;'
+            );
+          },
+          error: (err) => {
+            console.log(
+              `%cUnable to load user preferences YAML definition file: ${err}`,
+              'background-color:blue; color:yellow;'
+            );
+            console.log(
+              `%cPlease see our developer documentation for help with your app configuration: https://developer.reveldigital.com`,
+              'background-color:red; color:yellow;'
+            )
           }
-
-          this._router.navigate([], {
-            relativeTo: this._route,
-            queryParams: params,
-          });
-
-          console.log(
-            `%cUser prefs loaded successfully`,
-            'background-color:blue; color:yellow;'
-          );
-        }, (err) => {
-          console.log(
-            `%cUnable to load user preferences YAML definition file: ${err}`,
-            'background-color:blue; color:yellow;'
-          );
-          console.log(
-            `%cPlease see our developer documentation for help with your app configuration: https://developer.reveldigital.com`,
-            'background-color:red; color:yellow;'
-          )
         })
       }
       resolve();

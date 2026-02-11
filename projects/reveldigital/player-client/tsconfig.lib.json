@@ -4,20 +4,16 @@
   "compilerOptions": {
     "outDir": "../../../out-tsc/lib",
     "declarationMap": true,
-    "target": "es2015",
+    "target": "ES2022",
     "declaration": true,
     "inlineSources": true,
     "types": [],
     "lib": [
       "dom",
-      "es2019"
+      "ES2022"
     ]
   },
   "angularCompilerOptions": {
-    "skipTemplateCodegen": true,
-    "strictMetadataEmit": true,
-    "enableResourceInlining": true,
-    "enableIvy": true,
     "compilationMode": "partial"
   },
   "exclude": [

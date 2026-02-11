@@ -2,7 +2,7 @@
     "compilerOptions": {
       "baseUrl": ".",
       "lib": [
-        "es2019",
+        "ES2022",
         "dom"
       ],
       "declaration": true,
@@ -20,7 +20,7 @@
       "skipLibCheck": true,
       "sourceMap": true,
       "strictNullChecks": false,
-      "target": "es6",
+      "target": "ES2022",
       "types": [
         "jasmine",
         "node"
