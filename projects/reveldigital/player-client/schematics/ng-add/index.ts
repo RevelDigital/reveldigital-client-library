@@ -94,7 +94,7 @@ export function ngAdd(options: MyServiceSchema): Rule {
 export function dependencies(options: any): Rule {
   return (_tree: Tree, context: SchematicContext) => {
     const installTaskId = context.addTask(new NodePackageInstallTask({
-      packageName: 'angular-cli-ghpages'
+      packageName: 'angular-cli-ghpages@~2.0.1'
     }));
 
     context.addTask(new RunSchematicTask('after-dependencies', options), [installTaskId]);
@@ -165,7 +165,7 @@ function addPackageJsonDependencies(): Rule {
       {
         type: NodeDependencyType.Dev,
         name: 'angular-cli-ghpages',
-        version: '^2.0.0',
+        version: '~2.0.1',
       },
       {
         type: NodeDependencyType.Dev,
