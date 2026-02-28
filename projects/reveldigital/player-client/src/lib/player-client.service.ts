@@ -8,7 +8,7 @@ import { IDictionary } from './interfaces/config.interface';
 import { IDataTableOptions } from './interfaces/datatable.interface';
 import { IDevice } from './interfaces/device.interface';
 import { IEventProperties } from './interfaces/event-properties.interface';
-import { DataTableRef } from './datatable-ref';
+import { DataTableRef, DataTablePrefRef } from './datatable-ref';
 import { version } from './version';
 
 //import { version } from './version.js';
@@ -991,6 +991,36 @@ export class PlayerClientService implements OnDestroy {
    */
   public createDataTable(tableId: string, options?: IDataTableOptions): DataTableRef {
     return new DataTableRef(tableId, options);
+  }
+
+  /**
+   * Creates a typed data table wrapper from a gadget preference value.
+   *
+   * The preference JSON string (as serialized by the template editor's datatable
+   * option) is parsed and used to auto-configure filter, sort, and logic settings.
+   * The returned {@link DataTablePrefRef} provides a `getFilteredRows()` convenience
+   * method that applies these settings automatically.
+   *
+   * @param prefValue - The raw gadget preference string (JSON)
+   * @param options - Optional configuration overrides
+   * @returns A {@link DataTablePrefRef} instance
+   * @throws Error if the global datatable library is not loaded
+   *
+   * ```typescript
+   * const cfg = this.client.createDataTableFromPref(prefs.getString('rdDataTable'));
+   *
+   * // Fetch rows with auto-wired filter + sort
+   * const result = await cfg.getFilteredRows();
+   *
+   * // Access the underlying DataTableRef for events, schema, etc.
+   * cfg.dataTable.rowUpdated$.subscribe(change => console.log(change));
+   *
+   * // Cleanup when done
+   * cfg.dispose();
+   * ```
+   */
+  public createDataTableFromPref(prefValue: string, options?: IDataTableOptions): DataTablePrefRef {
+    return new DataTablePrefRef(prefValue, options);
   }
 
   // ---

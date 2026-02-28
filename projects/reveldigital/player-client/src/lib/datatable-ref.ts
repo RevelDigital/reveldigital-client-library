@@ -3,6 +3,7 @@ import {
   IDataTableChangeEvent,
   IDataTableColumn,
   IDataTableOptions,
+  IDataTablePref,
   IDataTableQueryParams,
   IDataTableResult,
   IDataTableSchema
@@ -41,11 +42,11 @@ export class DataTableRef {
   private _instance: any;
 
   /** @ignore */
-  private _onRowUpdated = (change: IDataTableChangeEvent) => this.rowUpdated$.next(change);
+  private _onRowUpdated!: (change: IDataTableChangeEvent) => void;
   /** @ignore */
-  private _onRowCreated = (change: IDataTableChangeEvent) => this.rowCreated$.next(change);
+  private _onRowCreated!: (change: IDataTableChangeEvent) => void;
   /** @ignore */
-  private _onRowDeleted = (change: IDataTableChangeEvent) => this.rowDeleted$.next(change);
+  private _onRowDeleted!: (change: IDataTableChangeEvent) => void;
 
   /**
    * Creates a new DataTableRef.
@@ -66,10 +67,7 @@ export class DataTableRef {
     }
 
     this._instance = lib.create(tableId, options);
-
-    this._instance.on('rowUpdated', this._onRowUpdated);
-    this._instance.on('rowCreated', this._onRowCreated);
-    this._instance.on('rowDeleted', this._onRowDeleted);
+    this._wireEvents();
   }
 
   /**
@@ -150,5 +148,108 @@ export class DataTableRef {
     this.rowUpdated$.complete();
     this.rowCreated$.complete();
     this.rowDeleted$.complete();
+  }
+
+  /** @ignore */
+  static _fromInstance(instance: any): DataTableRef {
+    const ref = Object.create(DataTableRef.prototype) as DataTableRef;
+    ref.rowUpdated$ = new Subject<IDataTableChangeEvent>();
+    ref.rowCreated$ = new Subject<IDataTableChangeEvent>();
+    ref.rowDeleted$ = new Subject<IDataTableChangeEvent>();
+    ref._instance = instance;
+    ref._wireEvents();
+    return ref;
+  }
+
+  /** @ignore */
+  private _wireEvents(): void {
+    this._onRowUpdated = (change: IDataTableChangeEvent) => this.rowUpdated$.next(change);
+    this._onRowCreated = (change: IDataTableChangeEvent) => this.rowCreated$.next(change);
+    this._onRowDeleted = (change: IDataTableChangeEvent) => this.rowDeleted$.next(change);
+
+    this._instance.on('rowUpdated', this._onRowUpdated);
+    this._instance.on('rowCreated', this._onRowCreated);
+    this._instance.on('rowDeleted', this._onRowDeleted);
+  }
+}
+
+
+/**
+ * Wrapper around a data table created from a gadget preference value.
+ *
+ * Automatically configures filter and sort settings from the preference,
+ * and provides a `getFilteredRows()` convenience method that applies them.
+ *
+ * ```typescript
+ * const cfg = this.client.createDataTableFromPref(prefs.getString('rdDataTable'));
+ *
+ * // Fetch rows with auto-wired filter + sort from the preference
+ * const result = await cfg.getFilteredRows();
+ *
+ * // Access the underlying DataTableRef for schema, events, etc.
+ * cfg.dataTable.rowUpdated$.subscribe(change => console.log(change));
+ *
+ * // Cleanup
+ * cfg.dispose();
+ * ```
+ */
+export class DataTablePrefRef {
+
+  /** The underlying DataTableRef with full access to schema, events, polling, etc. */
+  public readonly dataTable: DataTableRef;
+
+  /** The parsed preference object. */
+  public readonly pref: IDataTablePref;
+
+  /** @ignore */
+  private _config: any;
+
+  /**
+   * Creates a new DataTablePrefRef from a gadget preference JSON string.
+   *
+   * @param prefValue - The raw gadget preference string (JSON)
+   * @param options - Optional configuration overrides
+   * @throws Error if the global datatable library is not loaded
+   */
+  constructor(prefValue: string, options?: IDataTableOptions) {
+
+    const lib = (window as any).gadgets?.['reveldigital.datatable'];
+
+    if (!lib || typeof lib.createFromPref !== 'function') {
+      throw new Error(
+        'RevelDigital DataTable library is not available. ' +
+        'Ensure the datatable feature is enabled for this gadget.'
+      );
+    }
+
+    this._config = lib.createFromPref(prefValue, options);
+    this.pref = this._config.pref;
+    this.dataTable = DataTableRef._fromInstance(this._config.dt);
+  }
+
+  /**
+   * Fetches rows with the filter and sort settings from the preference automatically applied.
+   * Additional query parameters can override or supplement the preference settings.
+   *
+   * @param params - Optional additional query parameters
+   * @returns Promise resolving to the result set
+   *
+   * ```typescript
+   * // Use preference defaults
+   * const result = await cfg.getFilteredRows();
+   *
+   * // Override page size
+   * const page = await cfg.getFilteredRows({ pageSize: 10 });
+   * ```
+   */
+  public getFilteredRows(params?: IDataTableQueryParams): Promise<IDataTableResult> {
+    return this._config.getFilteredRows(params);
+  }
+
+  /**
+   * Releases all resources held by the underlying DataTableRef.
+   */
+  public dispose(): void {
+    this.dataTable.dispose();
   }
 }

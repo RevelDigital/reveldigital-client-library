@@ -39,9 +39,19 @@ export type DataTableFilterValue = string | number | boolean | IDataTableFilterO
 
 /**
  * Filter map keyed by column key.
+ *
+ * Supports logical combinations:
+ * - **AND** (default): multiple properties in a single object
+ *   `{ status: 'active', price: { op: 'lte', value: 25 } }`
+ * - **OR**: wrap each condition in a `$or` array
+ *   `{ $or: [{ status: 'active' }, { status: 'pending' }] }`
+ * - **Mixed**: AND conditions alongside an OR group
+ *   `{ $or: [{ status: 'active' }, { status: 'pending' }], price: { op: 'gt', value: 0 } }`
  */
 export interface IDataTableFilter {
-  [columnKey: string]: DataTableFilterValue;
+  /** OR group: rows matching any condition in the array. */
+  $or?: Array<{ [columnKey: string]: DataTableFilterValue }>;
+  [columnKey: string]: DataTableFilterValue | Array<{ [columnKey: string]: DataTableFilterValue }> | undefined;
 }
 
 /**
@@ -159,4 +169,40 @@ export interface IDataTableChangeEvent {
   data?: any;
   /** The type of change. */
   action: 'update' | 'create' | 'delete' | 'poll';
+}
+
+/**
+ * A single filter rule within a datatable preference.
+ */
+export interface IDataTablePrefFilterRule {
+  /** Column key to filter on. */
+  columnKey: string;
+  /** Filter operator (defaults to 'eq'). */
+  operator?: DataTableFilterOp;
+  /** Value to compare against. */
+  value?: any;
+}
+
+/**
+ * Parsed datatable gadget preference as serialized by the template editor.
+ */
+export interface IDataTablePref {
+  /** The data table ID. */
+  tableId?: string;
+  /** Primary column key. */
+  columnKey?: string;
+  /** Filter rules (new multi-filter format). */
+  filters?: IDataTablePrefFilterRule[];
+  /** Logical combination for filters. */
+  filterLogic?: 'and' | 'or';
+  /** Column key to sort by. */
+  sortColumnKey?: string;
+  /** Sort direction. */
+  sortDirection?: 'asc' | 'desc';
+  /** @deprecated Legacy single-filter column key. Use `filters` instead. */
+  filterColumnKey?: string;
+  /** @deprecated Legacy single-filter operator. Use `filters` instead. */
+  filterOperator?: DataTableFilterOp;
+  /** @deprecated Legacy single-filter value. Use `filters` instead. */
+  filterValue?: any;
 }
