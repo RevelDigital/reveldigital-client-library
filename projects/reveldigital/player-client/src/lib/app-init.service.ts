@@ -22,7 +22,7 @@ export class AppInitService {
 
   init(): Promise<any> {
 
-    return new Promise<void>(async (resolve) => {
+    return new Promise<void>((resolve) => {
 
       this.loadFonts();
 
@@ -55,7 +55,7 @@ export class AppInitService {
             getParameterByName(name: string, search = window.location.href): string {
 
               name = name.replace(/[\[\]]/g, '\\$&');
-              let regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+              const regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
                 results = regex.exec(search);
               if (!results) return '';
               if (!results[2]) return '';
@@ -69,7 +69,7 @@ export class AppInitService {
         }).subscribe({
           next: (data) => {
             const doc: any = yaml.load(data);
-            let params: any = {}
+            const params: any = {}
             for (const val of doc.prefs) {
               params[val.name] = val.default_value
             }
@@ -103,9 +103,9 @@ export class AppInitService {
 
   private getFamilyName(css) {
 
-    let FONT_FAMILY_REGEX = /font-family:\s*(?:[&#39;&#34;])*['"]*(.+?)['"]*(?:[&#39;&#34;])*\s*;/i;
+    const FONT_FAMILY_REGEX = /font-family:\s*(?:[&#39;&#34;])*['"]*(.+?)['"]*(?:[&#39;&#34;])*\s*;/i;
     if (FONT_FAMILY_REGEX.test(css)) {
-      var matches = css.match(FONT_FAMILY_REGEX);
+      const matches = css.match(FONT_FAMILY_REGEX);
       return matches[1].split(',')[0];
     } else {
       return '';
@@ -120,7 +120,7 @@ export class AppInitService {
     const parameters = new URLSearchParams(window.location.search);
     parameters.forEach((val, key) => {
       try {
-        let fontFamily = this.getFamilyName(val);
+        const fontFamily = this.getFamilyName(val);
         if (fontFamily !== '') {
           WebFont.load({
             google: {

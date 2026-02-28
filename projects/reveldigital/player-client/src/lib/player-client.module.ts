@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
 import { APP_BASE_HREF } from '@angular/common';
 import { NgSafeStylePipeModule } from './safe-style.pipe';
 
-declare var gadgets: any;
+declare const gadgets: any;
 
 
 @NgModule({

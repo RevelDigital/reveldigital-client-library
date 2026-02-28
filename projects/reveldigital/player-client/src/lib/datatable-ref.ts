@@ -1,0 +1,154 @@
+import { Subject } from 'rxjs';
+import {
+  IDataTableChangeEvent,
+  IDataTableColumn,
+  IDataTableOptions,
+  IDataTableQueryParams,
+  IDataTableResult,
+  IDataTableSchema
+} from './interfaces/datatable.interface';
+
+/**
+ * Angular-friendly wrapper around the global `gadgets.reveldigital.datatable` library.
+ *
+ * Provides typed Promise-based methods and RxJS Observables for real-time events.
+ *
+ * ```typescript
+ * const dt = this.client.createDataTable('tbl_menu_items');
+ *
+ * // Fetch rows
+ * const result = await dt.getRows({ sort: 'price', sortDir: 'asc' });
+ *
+ * // Real-time updates
+ * dt.rowUpdated$.subscribe(change => console.log('Updated:', change));
+ *
+ * // Cleanup
+ * dt.dispose();
+ * ```
+ */
+export class DataTableRef {
+
+  /** Emits when an existing row is modified. */
+  public rowUpdated$ = new Subject<IDataTableChangeEvent>();
+
+  /** Emits when a new row is added. */
+  public rowCreated$ = new Subject<IDataTableChangeEvent>();
+
+  /** Emits when a row is removed. */
+  public rowDeleted$ = new Subject<IDataTableChangeEvent>();
+
+  /** @ignore */
+  private _instance: any;
+
+  /** @ignore */
+  private _onRowUpdated = (change: IDataTableChangeEvent) => this.rowUpdated$.next(change);
+  /** @ignore */
+  private _onRowCreated = (change: IDataTableChangeEvent) => this.rowCreated$.next(change);
+  /** @ignore */
+  private _onRowDeleted = (change: IDataTableChangeEvent) => this.rowDeleted$.next(change);
+
+  /**
+   * Creates a new DataTableRef.
+   *
+   * @param tableId - The data table ID (e.g. 'tbl_menu_items')
+   * @param options - Optional configuration overrides
+   * @throws Error if the global datatable library is not loaded
+   */
+  constructor(tableId: string, options?: IDataTableOptions) {
+
+    const lib = (window as any).gadgets?.['reveldigital.datatable'];
+
+    if (!lib || typeof lib.create !== 'function') {
+      throw new Error(
+        'RevelDigital DataTable library is not available. ' +
+        'Ensure the datatable feature is enabled for this gadget.'
+      );
+    }
+
+    this._instance = lib.create(tableId, options);
+
+    this._instance.on('rowUpdated', this._onRowUpdated);
+    this._instance.on('rowCreated', this._onRowCreated);
+    this._instance.on('rowDeleted', this._onRowDeleted);
+  }
+
+  /**
+   * Fetches rows from the data table.
+   *
+   * @param params - Optional query parameters (filter, sort, pagination)
+   * @returns Promise resolving to the result set
+   *
+   * ```typescript
+   * const result = await dt.getRows({
+   *   filter: { category: 'Entree', price: { op: 'lte', value: 25 } },
+   *   sort: 'itemName',
+   *   sortDir: 'asc',
+   *   pageSize: 20
+   * });
+   * ```
+   */
+  public getRows(params?: IDataTableQueryParams): Promise<IDataTableResult> {
+    return this._instance.getRows(params);
+  }
+
+  /**
+   * Fetches the table schema (column definitions and metadata).
+   *
+   * @returns Promise resolving to the table schema
+   */
+  public getSchema(): Promise<IDataTableSchema> {
+    return this._instance.getSchema();
+  }
+
+  /**
+   * Gets visible (non-hidden) columns from the table schema.
+   *
+   * @returns Promise resolving to an array of visible column definitions
+   */
+  public getVisibleColumns(): Promise<IDataTableColumn[]> {
+    return this._instance.getVisibleColumns();
+  }
+
+  /**
+   * Fetches rows with hidden column data stripped.
+   *
+   * @param params - Optional query parameters (same as getRows)
+   * @returns Promise resolving to the result set with hidden fields removed
+   */
+  public getVisibleRows(params?: IDataTableQueryParams): Promise<IDataTableResult> {
+    return this._instance.getVisibleRows(params);
+  }
+
+  /**
+   * Starts polling for changes at the given interval.
+   * Emits on `rowUpdated$` when new data is detected.
+   *
+   * @param intervalMs - Polling interval in milliseconds (default 30000)
+   */
+  public startPolling(intervalMs?: number): void {
+    this._instance.startPolling(intervalMs);
+  }
+
+  /**
+   * Stops polling for changes.
+   */
+  public stopPolling(): void {
+    this._instance.stopPolling();
+  }
+
+  /**
+   * Releases all resources: stops polling, closes the real-time connection,
+   * removes event listeners, and completes all RxJS observables.
+   */
+  public dispose(): void {
+    this._instance.off('rowUpdated', this._onRowUpdated);
+    this._instance.off('rowCreated', this._onRowCreated);
+    this._instance.off('rowDeleted', this._onRowDeleted);
+
+    this._instance.dispose();
+
+    this.rowUpdated$.complete();
+    this.rowCreated$.complete();
+    this.rowDeleted$.complete();
+  }
+}

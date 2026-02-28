@@ -5,8 +5,10 @@ import { filter, map, share, tap } from 'rxjs/operators';
 import { IClient } from './interfaces/client.interface';
 import { ICommand } from './interfaces/command.interface';
 import { IDictionary } from './interfaces/config.interface';
+import { IDataTableOptions } from './interfaces/datatable.interface';
 import { IDevice } from './interfaces/device.interface';
 import { IEventProperties } from './interfaces/event-properties.interface';
+import { DataTableRef } from './datatable-ref';
 import { version } from './version';
 
 //import { version } from './version.js';
@@ -18,7 +20,7 @@ import { version } from './version';
 
 /** @ignore */
 declare global {
-  var Client: IClient;
+  let Client: IClient;
 }
 
 /**
@@ -225,22 +227,21 @@ export class PlayerClientService implements OnDestroy {
   /** @ignore */
   constructor(zone: NgZone) {
 
-    let self = this;
     (window as any).RevelDigital = {
       Controller: {
-        onCommand: function (name: string, arg: string) {
+        onCommand: (name: string, arg: string) => {
           zone.run(() => {
-            self.onCommand$.next({ name: name, arg: arg });
+            this.onCommand$.next({ name: name, arg: arg });
           });
         },
-        onStart: function () {
+        onStart: () => {
           zone.run(() => {
-            self.onStart$.next(null);
+            this.onStart$.next(null);
           });
         },
-        onStop: function () {
+        onStop: () => {
           zone.run(() => {
-            self.onStop$.next(null);
+            this.onStop$.next(null);
           });
         }
       }
@@ -787,7 +788,7 @@ export class PlayerClientService implements OnDestroy {
 
     const client = await this.getClient();
 
-    let obj: any = JSON.parse(<string>await client.getDevice());
+    const obj: any = JSON.parse(<string>await client.getDevice());
 
     const device: IDevice[] = [obj].map((device: any) => {
 
@@ -957,6 +958,41 @@ export class PlayerClientService implements OnDestroy {
     }
   }
 
+  /**
+   * Creates a typed wrapper for a Revel Digital data table.
+   *
+   * The data table feature must be enabled for the gadget. The returned
+   * {@link DataTableRef} provides typed Promise-based methods and RxJS
+   * Observables for real-time row change events.
+   *
+   * @param tableId - The data table ID (e.g. 'tbl_menu_items')
+   * @param options - Optional configuration overrides
+   * @returns A {@link DataTableRef} instance
+   * @throws Error if the global datatable library is not loaded
+   *
+   * ```typescript
+   * const dt = this.client.createDataTable('tbl_menu_items');
+   *
+   * // Fetch rows with filtering and sorting
+   * const result = await dt.getRows({
+   *   filter: { category: 'Entree', price: { op: 'lte', value: 25 } },
+   *   sort: 'price',
+   *   sortDir: 'asc'
+   * });
+   *
+   * // Subscribe to real-time updates
+   * dt.rowUpdated$.subscribe(change => console.log('Row updated:', change));
+   * dt.rowCreated$.subscribe(change => console.log('Row created:', change));
+   * dt.rowDeleted$.subscribe(change => console.log('Row deleted:', change));
+   *
+   * // Cleanup when done
+   * dt.dispose();
+   * ```
+   */
+  public createDataTable(tableId: string, options?: IDataTableOptions): DataTableRef {
+    return new DataTableRef(tableId, options);
+  }
+
   // ---
   // PRIVATE METHODS.
   // ---
@@ -968,9 +1004,9 @@ export class PlayerClientService implements OnDestroy {
       return (this.clientPromise);
     }
 
-    if (window.Client) {
+    if ((window as any).Client) {
 
-      return (this.clientPromise = Promise.resolve(window.Client));
+      return (this.clientPromise = Promise.resolve((window as any).Client));
     }
 
     // A "complete" status indicates that the "load" event has been fired on the
@@ -1000,7 +1036,7 @@ export class PlayerClientService implements OnDestroy {
             // it's not - there's no further loading to do. If it's not
             // present on the global scope, we're going to fall-back to using
             // a mock API.
-            resolve(window.Client || new NoopClient());
+            resolve((window as any).Client || new NoopClient());
           }
         );
 
@@ -1142,7 +1178,7 @@ class NoopClient implements IClient {
 
   public applyConfig(prefs: IDictionary<any>): void {
 
-    let evt = { type: 'applyConfig', prefs: prefs, isOpener: window.opener !== null };
+    const evt = { type: 'applyConfig', prefs: prefs, isOpener: window.opener !== null };
 
     if (window.opener) {
       window.opener.postMessage(
