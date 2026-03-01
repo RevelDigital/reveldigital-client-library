@@ -1,3 +1,4 @@
+import { NgZone } from '@angular/core';
 import { Subject } from 'rxjs';
 import {
   IDataTableChangeEvent,
@@ -13,6 +14,7 @@ import {
  * Angular-friendly wrapper around the global `gadgets.reveldigital.datatable` library.
  *
  * Provides typed Promise-based methods and RxJS Observables for real-time events.
+ * All event emissions run inside Angular's zone to ensure change detection triggers.
  *
  * ```typescript
  * const dt = this.client.createDataTable('tbl_menu_items');
@@ -42,6 +44,9 @@ export class DataTableRef {
   private _instance: any;
 
   /** @ignore */
+  private _zone: NgZone;
+
+  /** @ignore */
   private _onRowUpdated!: (change: IDataTableChangeEvent) => void;
   /** @ignore */
   private _onRowCreated!: (change: IDataTableChangeEvent) => void;
@@ -52,10 +57,13 @@ export class DataTableRef {
    * Creates a new DataTableRef.
    *
    * @param tableId - The data table ID (e.g. 'tbl_menu_items')
+   * @param zone - Angular NgZone for ensuring change detection on callbacks
    * @param options - Optional configuration overrides
    * @throws Error if the global datatable library is not loaded
    */
-  constructor(tableId: string, options?: IDataTableOptions) {
+  constructor(tableId: string, zone: NgZone, options?: IDataTableOptions) {
+
+    this._zone = zone;
 
     const lib = (window as any).gadgets?.['reveldigital.datatable'];
 
@@ -151,21 +159,28 @@ export class DataTableRef {
   }
 
   /** @ignore */
-  static _fromInstance(instance: any): DataTableRef {
+  static _fromInstance(instance: any, zone: NgZone): DataTableRef {
     const ref = Object.create(DataTableRef.prototype) as DataTableRef;
     ref.rowUpdated$ = new Subject<IDataTableChangeEvent>();
     ref.rowCreated$ = new Subject<IDataTableChangeEvent>();
     ref.rowDeleted$ = new Subject<IDataTableChangeEvent>();
     ref._instance = instance;
+    ref._zone = zone;
     ref._wireEvents();
     return ref;
   }
 
   /** @ignore */
   private _wireEvents(): void {
-    this._onRowUpdated = (change: IDataTableChangeEvent) => this.rowUpdated$.next(change);
-    this._onRowCreated = (change: IDataTableChangeEvent) => this.rowCreated$.next(change);
-    this._onRowDeleted = (change: IDataTableChangeEvent) => this.rowDeleted$.next(change);
+    this._onRowUpdated = (change: IDataTableChangeEvent) => {
+      this._zone.run(() => this.rowUpdated$.next(change));
+    };
+    this._onRowCreated = (change: IDataTableChangeEvent) => {
+      this._zone.run(() => this.rowCreated$.next(change));
+    };
+    this._onRowDeleted = (change: IDataTableChangeEvent) => {
+      this._zone.run(() => this.rowDeleted$.next(change));
+    };
 
     this._instance.on('rowUpdated', this._onRowUpdated);
     this._instance.on('rowCreated', this._onRowCreated);
@@ -208,10 +223,11 @@ export class DataTablePrefRef {
    * Creates a new DataTablePrefRef from a gadget preference JSON string.
    *
    * @param prefValue - The raw gadget preference string (JSON)
+   * @param zone - Angular NgZone for ensuring change detection on callbacks
    * @param options - Optional configuration overrides
    * @throws Error if the global datatable library is not loaded
    */
-  constructor(prefValue: string, options?: IDataTableOptions) {
+  constructor(prefValue: string, zone: NgZone, options?: IDataTableOptions) {
 
     const lib = (window as any).gadgets?.['reveldigital.datatable'];
 
@@ -224,7 +240,7 @@ export class DataTablePrefRef {
 
     this._config = lib.createFromPref(prefValue, options);
     this.pref = this._config.pref;
-    this.dataTable = DataTableRef._fromInstance(this._config.dt);
+    this.dataTable = DataTableRef._fromInstance(this._config.dt, zone);
   }
 
   /**

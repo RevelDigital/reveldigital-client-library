@@ -64,6 +64,8 @@ declare global {
 export class PlayerClientService implements OnDestroy {
 
   /** @ignore */
+  private zone: NgZone;
+  /** @ignore */
   private clientPromise: Promise<IClient> | null;
 
   /**
@@ -226,6 +228,8 @@ export class PlayerClientService implements OnDestroy {
 
   /** @ignore */
   constructor(zone: NgZone) {
+
+    this.zone = zone;
 
     (window as any).RevelDigital = {
       Controller: {
@@ -990,7 +994,7 @@ export class PlayerClientService implements OnDestroy {
    * ```
    */
   public createDataTable(tableId: string, options?: IDataTableOptions): DataTableRef {
-    return new DataTableRef(tableId, options);
+    return new DataTableRef(tableId, this.zone, options);
   }
 
   /**
@@ -1020,7 +1024,7 @@ export class PlayerClientService implements OnDestroy {
    * ```
    */
   public createDataTableFromPref(prefValue: string, options?: IDataTableOptions): DataTablePrefRef {
-    return new DataTablePrefRef(prefValue, options);
+    return new DataTablePrefRef(prefValue, this.zone, options);
   }
 
   // ---
