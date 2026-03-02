@@ -19,7 +19,10 @@ export type DataTableFilterOp =
   | 'positive'
   | 'negative'
   | 'inRange'
-  | 'outOfRange';
+  | 'outOfRange'
+  | 'beforeNow'
+  | 'afterNow'
+  | 'isToday';
 
 /**
  * Operator-based filter expression for a single column.

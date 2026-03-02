@@ -1,15 +1,24 @@
 const yaml = require('js-yaml');
 const HTMLParser = require('node-html-parser');
 const fs = require('fs');
+const path = require('path');
 const { create } = require('xmlbuilder2');
 const pjson = require('../package.json');
 
 
 try {
   const doc = yaml.load(fs.readFileSync(process.argv[2], 'utf8'));
-  const html = fs.readFileSync(process.argv[3] + `/${pjson.name}/index.html`);
+  const distBase = process.argv[3];
 
-  fs.writeFileSync(`${process.argv[3]}/${pjson.name}/${pjson.name}.xml`, processYML(doc, html));
+  // Angular 17+ application builder outputs to dist/<name>/browser/
+  // Older builders output directly to dist/<name>/
+  const browserDir = path.join(distBase, pjson.name, 'browser');
+  const legacyDir = path.join(distBase, pjson.name);
+  const outputDir = fs.existsSync(path.join(browserDir, 'index.html')) ? browserDir : legacyDir;
+
+  const html = fs.readFileSync(path.join(outputDir, 'index.html'));
+
+  fs.writeFileSync(path.join(outputDir, `${pjson.name}.xml`), processYML(doc, html));
 } catch (e) {
   console.log(e);
 }
