@@ -31,7 +31,8 @@
     "js-yaml": "^4.1.0"
   },
   "dependencies": {
-    "tslib": "^2.4.1"
+    "tslib": "^2.4.1",
+    "html-entities": "^2.4.0"
   },
   "devDependencies": {
     "copyfiles": "file:../../../node_modules/copyfiles",

@@ -1,4 +1,5 @@
 import { NgZone } from '@angular/core';
+import { decode } from 'html-entities';
 import { Subject } from 'rxjs';
 import {
   IDataTableChangeEvent,
@@ -238,7 +239,10 @@ export class DataTablePrefRef {
       );
     }
 
-    this._config = lib.createFromPref(prefValue, options);
+    // gadgets.Prefs.getString() returns HTML-encoded values, decode before parsing
+    const decoded = decode(prefValue);
+
+    this._config = lib.createFromPref(decoded, options);
     this.pref = this._config.pref;
     this.dataTable = DataTableRef._fromInstance(this._config.dt, zone);
   }
@@ -268,4 +272,5 @@ export class DataTablePrefRef {
   public dispose(): void {
     this.dataTable.dispose();
   }
+
 }
