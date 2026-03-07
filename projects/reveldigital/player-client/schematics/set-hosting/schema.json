@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "$id": "RevelDigitalSchematicsSetHosting",
+  "title": "Revel Digital set hosting provider",
+  "type": "object",
+  "additionalProperties": false,
+  "description": "Switch between CloudFlare CDN and GitHub Pages hosting.",
+  "properties": {
+    "provider": {
+      "type": "string",
+      "enum": ["cloudflare", "github"],
+      "x-prompt": {
+        "message": "Select hosting provider:",
+        "type": "list",
+        "items": [
+          { "value": "cloudflare", "label": "CloudFlare CDN (reveldigitalgadgets.io)" },
+          { "value": "github", "label": "GitHub Pages" }
+        ]
+      }
+    }
+  },
+  "required": [
+    "provider"
+  ]
+}

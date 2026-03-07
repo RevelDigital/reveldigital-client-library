@@ -3,4 +3,6 @@ export interface Schema {
   project?: string;
 
   useGithubPages?: boolean;
+
+  useCloudFlare?: boolean;
 }

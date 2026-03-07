@@ -11,6 +11,11 @@
       "factory": "./ng-add/index#ngAdd",
       "schema": "./ng-add/schema.json",
       "private": true
+    },
+    "set-hosting": {
+      "description": "Switch between CloudFlare CDN and GitHub Pages hosting.",
+      "factory": "./set-hosting/index#setHosting",
+      "schema": "./set-hosting/schema.json"
     }
   }
 }
