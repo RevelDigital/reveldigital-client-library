@@ -25,7 +25,7 @@ gitRemoteOriginUrl().then(name => {
     let basePath;
 
     if (hosting === 'cloudflare') {
-        basePath = `https://${CLOUDFLARE_HOST}/${repoName}/`;
+        basePath = `https://${repoName}.${CLOUDFLARE_HOST}/`;
     } else {
         basePath = `https://${vals[3]}.github.io/${repoName}/`;
     }
@@ -36,6 +36,18 @@ gitRemoteOriginUrl().then(name => {
     // Update angular.json baseHref/deployUrl with full path to our app
     ajson.projects[pjson.name].architect.build.configurations.production.baseHref = basePath;
     ajson.projects[pjson.name].architect.build.configurations.production.deployUrl = basePath;
+
+    // Configure CNAME for CloudFlare custom domain
+    if (hosting === 'cloudflare') {
+        if (!ajson.projects[pjson.name].architect.deploy.options) {
+            ajson.projects[pjson.name].architect.deploy.options = {};
+        }
+        ajson.projects[pjson.name].architect.deploy.options.cname = `${repoName}.${CLOUDFLARE_HOST}`;
+    } else {
+        if (ajson.projects[pjson.name].architect.deploy.options) {
+            delete ajson.projects[pjson.name].architect.deploy.options.cname;
+        }
+    }
 
     fs.writeFile('./angular.json', JSON.stringify(ajson, null, 4), function writeJSON(err) {
         if (err) return console.log(err);
