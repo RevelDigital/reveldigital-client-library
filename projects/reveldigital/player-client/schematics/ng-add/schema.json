@@ -16,6 +16,10 @@
     "useGithubPages": {
         "type": "boolean",
         "x-prompt": "Publishing this gadget to GitHub pages?"
+    },
+    "useCloudFlare": {
+        "type": "boolean",
+        "x-prompt": "Use CloudFlare CDN hosting? (reveldigitalgadgets.io)"
     }
   },
   "required": [

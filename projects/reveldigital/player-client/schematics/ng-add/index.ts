@@ -82,7 +82,7 @@ export function ngAdd(options: MyServiceSchema): Rule {
       addPackageJsonDependencies(),
       installPackageJsonDependencies(),
       updateAppModule(main),
-      callDeploySchematic(options.project, options.useGithubPages)
+      callDeploySchematic(options.project, options.useGithubPages || options.useCloudFlare)
     ]);
   };
 }
@@ -407,6 +407,7 @@ function updateScripts(path: string, config: any, tree: Tree, _options: any, _co
   config.scripts['build:gadget'] = 'npm run change-path && ng build && node utils/yml2xml.js src/assets/gadget.yaml dist';
   config.scripts['deploy:gadget'] = 'npm run build:gadget && ng deploy --no-build';
   config.scripts['change-path'] = 'node utils/changeBasePath.js';
+  config.scripts['set-hosting'] = 'ng generate @reveldigital/player-client:set-hosting';
 }
 
 /**
@@ -415,7 +416,18 @@ function updateScripts(path: string, config: any, tree: Tree, _options: any, _co
 function updatePackageJson(path: string, tree: Tree, options: any, context: SchematicContext): void {
   const config = loadPackageJson(tree);
   updateScripts(path, config, tree, options, context);
+  updateHostingConfig(config, options);
   savePackageJson(config, tree);
+}
+
+/**
+ * Stores the hosting preference in package.json under the "reveldigital" key.
+ */
+function updateHostingConfig(config: any, options: any): void {
+  if (!config.reveldigital) {
+    config.reveldigital = {};
+  }
+  config.reveldigital.hosting = options.useCloudFlare ? 'cloudflare' : 'github';
 }
 
 /**
