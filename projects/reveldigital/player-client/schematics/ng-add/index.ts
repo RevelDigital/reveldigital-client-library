@@ -82,6 +82,7 @@ export function ngAdd(options: MyServiceSchema): Rule {
       addPackageJsonDependencies(),
       installPackageJsonDependencies(),
       updateAppModule(main),
+      addDeployWorkflow(options.useGithubPages),
       callDeploySchematic(options.project, options.useGithubPages || options.useCloudFlare)
     ]);
   };
@@ -97,6 +98,30 @@ export function dependencies(options: any): Rule {
     }));
 
     context.addTask(new RunSchematicTask('after-dependencies', options), [installTaskId]);
+  };
+}
+
+/**
+ * Adds GitHub Actions workflow for Pages deployment when enabled.
+ */
+function addDeployWorkflow(useGithubPages: boolean): Rule {
+  return (tree: Tree, context: SchematicContext) => {
+    if (!useGithubPages) {
+      return tree;
+    }
+
+    const workflowDir = '.github/workflows';
+    const workflowPath = `${workflowDir}/deploy-to-pages.yml`;
+
+    if (tree.exists(workflowPath)) {
+      context.logger.log('info', '🔍 Existing deploy workflow detected. Skipping.');
+      return tree;
+    }
+
+    const files = apply(url('workflows'), [
+      move(workflowDir),
+    ]);
+    return chain([mergeWith(files, MergeStrategy.Overwrite)])(tree, context);
   };
 }
 
