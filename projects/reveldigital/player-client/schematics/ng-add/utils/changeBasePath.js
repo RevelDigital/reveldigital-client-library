@@ -37,16 +37,20 @@ gitRemoteOriginUrl().then(name => {
     ajson.projects[pjson.name].architect.build.configurations.production.baseHref = basePath;
     ajson.projects[pjson.name].architect.build.configurations.production.deployUrl = basePath;
 
+    // Ensure deploy options exist
+    if (!ajson.projects[pjson.name].architect.deploy.options) {
+        ajson.projects[pjson.name].architect.deploy.options = {};
+    }
+
+    // Set the deploy output directory so angular-cli-ghpages v2.x finds the build output.
+    // The actual output dir (with or without /browser/) is resolved after build by yml2xml.js.
+    ajson.projects[pjson.name].architect.deploy.options.dir = `dist/${pjson.name}`;
+
     // Configure CNAME for CloudFlare custom domain
     if (hosting === 'cloudflare') {
-        if (!ajson.projects[pjson.name].architect.deploy.options) {
-            ajson.projects[pjson.name].architect.deploy.options = {};
-        }
         ajson.projects[pjson.name].architect.deploy.options.cname = `${repoName}.${CLOUDFLARE_HOST}`;
     } else {
-        if (ajson.projects[pjson.name].architect.deploy.options) {
-            delete ajson.projects[pjson.name].architect.deploy.options.cname;
-        }
+        delete ajson.projects[pjson.name].architect.deploy.options.cname;
     }
 
     fs.writeFile('./angular.json', JSON.stringify(ajson, null, 4), function writeJSON(err) {

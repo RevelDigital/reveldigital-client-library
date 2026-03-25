@@ -9,6 +9,7 @@ import {
   template,
   chain,
   mergeWith,
+  filter,
   SchematicsException,
 } from '@angular-devkit/schematics';
 import {
@@ -76,12 +77,13 @@ export function ngAdd(options: MyServiceSchema): Rule {
     updatePackageJson(project.root || '', tree, options, context);
 
     return chain([
-      addFiles('assets', project.sourceRoot),
+      addAssets(project.sourceRoot),
       addFiles('utils', project.root),
       replaceHTML(project.sourceRoot),
       addPackageJsonDependencies(),
       installPackageJsonDependencies(),
       updateAppModule(main),
+      normalizeBuildOutputPath(options.project),
       addDeployWorkflow(options.useGithubPages),
       callDeploySchematic(options.project, options.useGithubPages || options.useCloudFlare)
     ]);
@@ -98,6 +100,40 @@ export function dependencies(options: any): Rule {
     }));
 
     context.addTask(new RunSchematicTask('after-dependencies', options), [installTaskId]);
+  };
+}
+
+/**
+ * Ensures build output goes to dist/<project>/ directly, without a /browser/ subdirectory.
+ * Angular 17+ application builder defaults to outputting into a /browser/ subfolder.
+ * Setting outputPath.browser to "" disables this behavior.
+ */
+function normalizeBuildOutputPath(projectName: string): Rule {
+  return (_tree: Tree, context: SchematicContext) => {
+    return async () => {
+      const host = createHost(_tree);
+      const { workspace } = await workspaces.readWorkspace('/', host);
+      const project = workspace.projects.get(projectName);
+
+      if (!project) {
+        return;
+      }
+
+      const buildTarget = project.targets.get('build');
+      if (!buildTarget || !buildTarget.options) {
+        return;
+      }
+
+      const outputPath = buildTarget.options['outputPath'];
+
+      if (typeof outputPath === 'object' && outputPath !== null) {
+        // Angular 17+ object form: { base: "dist/app", browser: "" }
+        (outputPath as Record<string, string>)['browser'] = '';
+        context.logger.log('info', '✅️ Configured outputPath.browser to avoid /browser/ subdirectory');
+      }
+
+      await workspaces.writeWorkspace(workspace, host);
+    };
   };
 }
 
@@ -145,6 +181,29 @@ function replaceHTML(srcRoot: string): Rule {
     const files = apply(url('templates'), [
       template({}),
       move(`${srcRoot}`),
+    ]);
+    return chain([mergeWith(files, MergeStrategy.Overwrite)])(tree, context);
+  };
+}
+
+/**
+ * Adds asset files to the project, skipping gadget.yaml if it already exists.
+ */
+function addAssets(srcRoot: string): Rule {
+  return (tree: Tree, context: SchematicContext) => {
+    context.logger.log('info', `✅️ Adding assets`);
+
+    const gadgetYamlPath = `${srcRoot}/assets/gadget.yaml`;
+    const gadgetYamlExists = tree.exists(gadgetYamlPath);
+
+    if (gadgetYamlExists) {
+      context.logger.log('info', `⚠️ Existing gadget.yaml detected at ${gadgetYamlPath}. Skipping to preserve your changes.`);
+    }
+
+    const files = apply(url('assets'), [
+      ...(gadgetYamlExists ? [filter((path: string) => !path.endsWith('gadget.yaml'))] : []),
+      template({}),
+      move(`${srcRoot}/assets`),
     ]);
     return chain([mergeWith(files, MergeStrategy.Overwrite)])(tree, context);
   };
@@ -430,7 +489,8 @@ function updateScripts(path: string, config: any, tree: Tree, _options: any, _co
   }
 
   config.scripts['build:gadget'] = 'npm run change-path && ng build && node utils/yml2xml.js src/assets/gadget.yaml dist';
-  config.scripts['deploy:gadget'] = 'npm run build:gadget && ng deploy --no-build';
+  config.scripts['build:gadget:production'] = 'npm run change-path && ng build --configuration production && node utils/yml2xml.js src/assets/gadget.yaml dist';
+  config.scripts['deploy:gadget'] = 'npm run build:gadget:production && ng deploy --no-build';
   config.scripts['change-path'] = 'node utils/changeBasePath.js';
   config.scripts['set-hosting'] = 'ng generate @reveldigital/player-client:set-hosting';
 }
