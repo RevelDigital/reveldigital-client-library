@@ -6,9 +6,11 @@ import { IClient } from './interfaces/client.interface';
 import { ICommand } from './interfaces/command.interface';
 import { IDictionary } from './interfaces/config.interface';
 import { IDataTableOptions } from './interfaces/datatable.interface';
+import { IPowerBIOptions } from './interfaces/powerbi.interface';
 import { IDevice } from './interfaces/device.interface';
 import { IEventProperties } from './interfaces/event-properties.interface';
 import { DataTableRef, DataTablePrefRef } from './datatable-ref';
+import { PowerBIRef, PowerBIPrefRef } from './powerbi-ref';
 import { version } from './version';
 
 //import { version } from './version.js';
@@ -1025,6 +1027,64 @@ export class PlayerClientService implements OnDestroy {
    */
   public createDataTableFromPref(prefValue: string, options?: IDataTableOptions): DataTablePrefRef {
     return new DataTablePrefRef(prefValue, this.zone, options);
+  }
+
+  // ---
+  // POWER BI.
+  // ---
+
+  /**
+   * Creates a typed Power BI embed wrapper for embedding reports and dashboards.
+   *
+   * @param options - Power BI embed configuration (workspace, report/dashboard, container, etc.)
+   * @returns A {@link PowerBIRef} instance
+   * @throws Error if the global Power BI library is not loaded
+   *
+   * ```typescript
+   * const pbi = this.client.createPowerBI({
+   *   workspaceId: '...',
+   *   reportId: '...',
+   *   container: document.getElementById('pbi-container')
+   * });
+   *
+   * // Embed the report
+   * await pbi.embed();
+   *
+   * // Refresh the token
+   * await pbi.refresh();
+   *
+   * // Cleanup when done
+   * pbi.dispose();
+   * ```
+   */
+  public createPowerBI(options: IPowerBIOptions): PowerBIRef {
+    return new PowerBIRef(options, this.zone);
+  }
+
+  /**
+   * Creates a typed Power BI embed wrapper from a gadget preference value.
+   *
+   * @param prefValue - The raw gadget preference string (JSON) from the template editor
+   * @param container - DOM element to embed into
+   * @param extraOptions - Additional options to merge with the preference
+   * @returns A {@link PowerBIPrefRef} instance
+   * @throws Error if the global Power BI library is not loaded
+   *
+   * ```typescript
+   * const pbi = this.client.createPowerBIFromPref(
+   *   prefs.getString('rdPowerBI'),
+   *   document.getElementById('pbi-container')
+   * );
+   *
+   * // Embed with preference settings
+   * await pbi.embed();
+   *
+   * // Cleanup when done
+   * pbi.dispose();
+   * ```
+   */
+  public createPowerBIFromPref(prefValue: string, container: HTMLElement, extraOptions?: Partial<IPowerBIOptions>): PowerBIPrefRef {
+    return new PowerBIPrefRef(prefValue, container, this.zone, extraOptions);
   }
 
   // ---

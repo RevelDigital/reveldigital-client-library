@@ -7,3 +7,5 @@ export * from './lib/player-client.module';
 export * from './lib/safe-style.pipe';
 export * from './lib/datatable-ref';
 export * from './lib/interfaces/datatable.interface';
+export * from './lib/powerbi-ref';
+export * from './lib/interfaces/powerbi.interface';
